@@ -1,29 +1,15 @@
 import { Link } from 'react-router-dom'
 
-import { ChevronLeft, Facebook, Instagram, Youtube, Twitter } from 'lucide-react'
+import { Facebook, Instagram, Youtube, Twitter } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import Breadcrumb from '@/components/shared/Breadcrumb'
 
 const Contact = () => {
   return (
     <div className='min-h-screen bg-background'>
-      {/* Breadcrumb */}
-      <div className='border-b mb-4'>
-        <div className='container mx-auto px-4 py-4 flex justify-between items-center'>
-          <div className='flex items-center gap-2 text-sm text-muted-foreground'>
-            <Link to='/' className='hover:text-foreground'>
-              Home
-            </Link>
-            <span>/</span>
-            <span>Contact Us</span>
-          </div>
-          <Link to='/' className='text-sm text-muted-foreground hover:text-foreground flex items-center gap-1'>
-            <ChevronLeft className='h-4 w-4' />
-            Return to previous page
-          </Link>
-        </div>
-      </div>
+      <Breadcrumb text='contact us' />
 
       {/* Map */}
       <div className='container mx-auto px-4 h-[300px]'>
