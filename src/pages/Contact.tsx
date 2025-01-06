@@ -39,10 +39,10 @@ const Contact = () => {
       </div>
 
       {/* Contact Content */}
-      <div className='container mx-auto px-4 py-16'>
+      <div className='container mx-auto px-4 lg:px-32 py-16'>
         <div className='grid md:grid-cols-2 gap-12'>
           {/* Information */}
-          <div>
+          <div className='max-lg:text-center'>
             <h2 className='text-xl font-medium mb-8'>Information</h2>
             <div className='space-y-6'>
               <div>
@@ -67,7 +67,8 @@ const Contact = () => {
                 <h3 className='text-sm font-medium mb-2'>We're Open</h3>
                 <p className='text-sm text-muted-foreground'>Every day 11am to 7pm</p>
               </div>
-              <div className='flex gap-4 pt-4'>
+
+              <div className='flex gap-4 pt-4 max-lg:items-center max-lg:justify-center'>
                 <Link to='#' className='text-muted-foreground hover:text-foreground'>
                   <Facebook className='h-4 w-4' />
                 </Link>

@@ -1,7 +1,19 @@
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 import MainLayout from './components/layout/MainLayout'
-import { About, Account, Cart, Compare, Contact, Home, Login, Shop, SignUp, WishList } from './pages'
+import {
+  About,
+  Account,
+  Cart,
+  Contact,
+  ForgotPassword,
+  Home,
+  Login,
+  Shop,
+  SignUp,
+  SingleProduct,
+  WishList
+} from './pages'
 
 const router = createBrowserRouter([
   {
@@ -29,10 +41,6 @@ const router = createBrowserRouter([
         element: <Cart />
       },
       {
-        path: '/compare',
-        element: <Compare />
-      },
-      {
         path: '/wishlist',
         element: <WishList />
       },
@@ -47,6 +55,18 @@ const router = createBrowserRouter([
       {
         path: '/sign-up',
         element: <SignUp />
+      },
+      {
+        path: '/product',
+        element: <Navigate to='/shop' />
+      },
+      {
+        path: '/product/:productId',
+        element: <SingleProduct />
+      },
+      {
+        path: '/forgot-password',
+        element: <ForgotPassword />
       }
     ]
   },

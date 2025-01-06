@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 import { useSidebar } from '../ui/sidebar'
-import { Heart, ShoppingCart, Menu, RefreshCw } from 'lucide-react'
+import { Heart, ShoppingCart, Menu, User2 } from 'lucide-react'
 
 const Header = () => {
   const { toggleSidebar } = useSidebar()
@@ -41,10 +41,6 @@ const Header = () => {
       </div>
 
       <nav className='hidden lg:flex items-center gap-6'>
-        <Link to='#' className='relative group text-sm'>
-          Elements
-          <span className='absolute bottom-0 left-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full'></span>
-        </Link>
         <Link to='/shop' className='relative group text-sm'>
           Our Shop
           <span className='absolute bottom-0 left-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full'></span>
@@ -75,23 +71,23 @@ const Header = () => {
           Search
           <span className='absolute bottom-0 left-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full'></span>
         </Link>
-        <Link to='#' className='relative group text-sm'>
-          Sign In
-          <span className='absolute bottom-0 left-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full'></span>
-        </Link>
       </nav>
 
       <div className='flex items-center gap-4'>
-        <Heart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50 hidden lg:block' />
+        <Link to='/account'>
+          <User2 className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50 hidden lg:block' />
+        </Link>
 
-        <RefreshCw className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50 hidden lg:block' />
+        <Link to='/wishlist'>
+          <Heart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50 hidden lg:block' />
+        </Link>
 
-        <div className='relative'>
+        <Link to='/cart' className='relative'>
           <ShoppingCart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
           <span className='absolute -top-2 -right-2 h-4 w-4 text-[10px] font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center'>
             0
           </span>
-        </div>
+        </Link>
       </div>
     </header>
   )

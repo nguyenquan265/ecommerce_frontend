@@ -43,7 +43,7 @@ const Cart = () => {
   }
 
   return (
-    <div className='min-h-screen bg-background lg:hidden'>
+    <div className='min-h-screen bg-background'>
       <div className='bg-zinc-50 py-6'>
         <h1 className='container mx-auto px-4 text-center text-2xl font-medium flex items-center justify-center gap-2'>
           <ShoppingCart className='w-5 h-5' />

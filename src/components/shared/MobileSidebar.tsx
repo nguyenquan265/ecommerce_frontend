@@ -4,11 +4,10 @@ import { cn } from '@/lib/utils'
 
 import { Sidebar, SidebarContent, SidebarHeader, useSidebar } from '../ui/sidebar'
 import { Input } from '../ui/input'
-import { Heart, RefreshCw, Search, ShoppingCart, User2, X } from 'lucide-react'
+import { Heart, Search, ShoppingCart, User2, X } from 'lucide-react'
 
 const navigateItems = [
   { href: '/', label: 'Home' },
-  { href: '/elements', label: 'Elements' },
   { href: '/shop', label: 'Shop' },
   { href: '/about', label: 'About us' },
   { href: '/contact', label: 'Contact us' }
@@ -17,8 +16,7 @@ const navigateItems = [
 const userItems = [
   { href: '/account', label: 'Account', icon: User2 },
   { href: '/cart', label: 'Cart $0.00', icon: ShoppingCart },
-  { href: '/wishlist', label: 'Wishlist', icon: Heart },
-  { href: '/compare', label: 'Compare', icon: RefreshCw }
+  { href: '/wishlist', label: 'Wishlist', icon: Heart }
 ]
 
 const MobileSidebar = () => {

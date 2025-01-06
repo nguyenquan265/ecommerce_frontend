@@ -21,7 +21,7 @@ const Login = () => {
   }
 
   return (
-    <div className='min-h-screen bg-background lg:hidden'>
+    <div className='min-h-screen bg-background'>
       <div className='bg-zinc-50 py-6'>
         <h1 className='container mx-auto px-4 text-center text-2xl font-medium flex items-center justify-center gap-2'>
           <User2 className='w-5 h-5' />
@@ -37,11 +37,11 @@ const Login = () => {
             <form onSubmit={handleSubmit} className='space-y-4'>
               <div className='space-y-2'>
                 <label htmlFor='email' className='block text-sm'>
-                  Username or email address <span className='text-red-500'>*</span>
+                  Email<span className='text-red-500'>*</span>
                 </label>
                 <Input
                   id='email'
-                  type='text'
+                  type='email'
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
