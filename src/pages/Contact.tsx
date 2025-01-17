@@ -14,7 +14,7 @@ const Contact = () => {
       {/* Map */}
       <div className='container mx-auto px-4 h-[300px]'>
         <iframe
-          src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.6042401462377!2d-119.787398384689!3d36.737589979962736'
+          src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.8581690910487!2d106.6842704741396!3d10.82216415835026!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBDw7RuZyBuZ2hp4buHcCBUUC5IQ00!5e0!3m2!1svi!2s!4v1736995736644!5m2!1svi!2s'
           width='100%'
           height='100%'
           style={{ border: 0 }}

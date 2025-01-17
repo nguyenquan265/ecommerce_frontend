@@ -2,34 +2,9 @@ import { useState, useEffect } from 'react'
 
 import { Button } from '@/components/ui/button'
 import ProductCard from './ProductCard'
+import SkeletonProductCard from '../skeletons/SkeletonProductCard'
 
-interface Product {
-  id: number
-  name: string
-  price: number
-  image: string
-}
-
-const products: Product[] = [
-  {
-    id: 1,
-    name: 'Black Hoodie',
-    price: 49.99,
-    image: '/placeholder.svg?height=400&width=300'
-  },
-  {
-    id: 2,
-    name: 'Grey Sweatshirt',
-    price: 39.99,
-    image: '/placeholder.svg?height=400&width=300'
-  },
-  {
-    id: 3,
-    name: 'Black Beanie',
-    price: 19.99,
-    image: '/placeholder.svg?height=400&width=300'
-  }
-]
+import { useGetAllProducts } from '@/apis/productApi'
 
 const BestProducts = () => {
   const [timeLeft, setTimeLeft] = useState({
@@ -37,6 +12,13 @@ const BestProducts = () => {
     hours: 22,
     minutes: 45,
     seconds: 17
+  })
+  const { products, isLoading } = useGetAllProducts({
+    page: 1,
+    limit: 12,
+    searchString: '',
+    selectedCategoryId: 'all',
+    sortBy: 'desc'
   })
 
   useEffect(() => {
@@ -73,9 +55,10 @@ const BestProducts = () => {
         <div className='md:col-span-2 lg:col-span-3 xl:col-span-4'>
           <div className='relative h-[400px] group overflow-hidden'>
             <img
-              src='/placeholder.svg?height=800&width=1600'
+              src='https://res.cloudinary.com/dxx85izni/image/upload/v1736993845/jgld4xcwovvph1ozwvcb.png'
               alt='The Classics'
-              className='object-cover transition-transform duration-700 group-hover:scale-105'
+              className='object-cover h-full w-full transition-transform duration-700 group-hover:scale-105'
+              loading='lazy'
             />
             <div className='absolute inset-0 bg-black/20' />
             <div className='absolute inset-0 flex flex-col items-center justify-center text-white'>
@@ -93,12 +76,10 @@ const BestProducts = () => {
                   </div>
                 ))}
               </div>
-              <h2 className='text-4xl font-medium mb-6'>The Classics Make A Comeback</h2>
-              <Button
-                variant='secondary'
-                size='lg'
-                className='bg-zinc-800 text-white hover:bg-white hover:text-zinc-800 rounded-none'
-              >
+
+              <h2 className='text-4xl font-medium text-center mb-6'>The Classics Make A Comeback</h2>
+
+              <Button size='lg' className='bg-zinc-800 hover:bg-zinc-900'>
                 Buy now
               </Button>
             </div>
@@ -107,9 +88,9 @@ const BestProducts = () => {
 
         {/* Product Grid */}
         <div className='mt-8 w-full grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} viewMode='grid' />
-          ))}
+          {isLoading && [...Array(12)].map((_, index) => <SkeletonProductCard key={index} viewMode='grid' />)}
+
+          {products?.map((product) => <ProductCard key={product._id} product={product} viewMode='grid' />)}
         </div>
       </div>
     </div>

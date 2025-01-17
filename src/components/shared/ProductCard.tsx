@@ -3,12 +3,8 @@ import { Link } from 'react-router-dom'
 import { Button } from '../ui/button'
 import { Eye, Heart } from 'lucide-react'
 
-interface Product {
-  id: number
-  name: string
-  price: number
-  image: string
-}
+import { Product } from '@/types'
+import { currencyFormatter, cn } from '@/lib/utils'
 
 interface ProductCardProps {
   product: Product
@@ -17,37 +13,67 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
   return (
-    <div className={`group ${viewMode === 'list' ? 'flex gap-6 p-4 bg-white' : ''}`}>
+    <div
+      className={cn(viewMode === 'list' && 'flex max-sm:gap-4 gap-16 md:gap-36 lg:gap-52 justify-center p-4 bg-white')}
+    >
       <div
-        className={`relative aspect-square bg-zinc-100 mb-0 ${
-          viewMode === 'list' ? 'w-[200px] flex-shrink-0' : 'w-full mb-4'
-        }`}
+        className={cn(
+          'relative aspect-square bg-zinc-100 mb-0 group',
+          viewMode === 'list' ? 'max-sm:w-[150px] w-[200px] flex-shrink-0' : 'w-full mb-4'
+        )}
       >
-        <Link to={`/product/${product.id}`} className='block w-full h-full'>
-          <img src={product.image} alt={product.name} className='object-cover' />
+        <Link
+          to={`/product/${product._id}`}
+          className={cn('block w-full h-full', viewMode === 'list' && 'max-sm:w-[150px]')}
+        >
+          {/* Main Image */}
+          <img
+            src={product.mainImage}
+            alt={product.title}
+            className='absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-300 opacity-100 group-hover:opacity-0'
+            loading='lazy'
+          />
+
+          {/* Secondary Image */}
+          <img
+            src={product.subImages[0].url}
+            alt={product.title}
+            className='absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-300 opacity-0 group-hover:opacity-100'
+            loading='lazy'
+          />
         </Link>
 
+        {/* lg button */}
         <div
-          className={`absolute top-[50%] transform -translate-y-[50%] right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity ${
-            viewMode === 'list' ? 'hidden' : ''
-          }`}
+          className={cn(
+            'absolute top-[50%] transform -translate-y-[50%] translate-x-[100%] right-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-in-out'
+          )}
         >
-          <Button size='icon' className='bg-white hover:bg-zinc-100 transition-colors'>
+          <Button
+            size='icon'
+            className='bg-white hover:bg-zinc-100 transition-colors shadow-lg hover:shadow-xl'
+            aria-label='Add to Wishlist'
+          >
             <Heart className='h-4 w-4 text-zinc-800' />
           </Button>
-          <Button size='icon' className='bg-white hover:bg-zinc-100 transition-colors'>
+          <Button size='icon' className='bg-white hover:bg-zinc-100 transition-colors shadow-lg hover:shadow-xl'>
             <Eye className='h-4 w-4 text-zinc-800' />
           </Button>
         </div>
       </div>
 
-      <div className={viewMode === 'list' ? 'flex-1 flex flex-col justify-between pl-6' : ''}>
+      {/* Product detail */}
+      <div className={cn('overflow-hidden', viewMode === 'list' && 'flex flex-col justify-between')}>
         <div>
-          <h3 className='font-medium group-hover:text-primary truncate'>{product.name}</h3>
+          <h3 className='font-medium group-hover:text-primary truncate'>{product.title}</h3>
 
-          <p className='text-sm mb-4'>${product.price.toFixed(2)}</p>
+          <p className='text-sm mb-4'>
+            {product.priceDiscount
+              ? currencyFormatter(product.price - (product.price * product.priceDiscount) / 100)
+              : currencyFormatter(product.price)}
+          </p>
 
-          <div className={`flex gap-2 mb-4 ${viewMode === 'grid' ? 'hidden' : ''}`}>
+          <div className={cn('flex gap-2 mb-4', viewMode === 'grid' && 'hidden')}>
             <Button size='icon' variant='outline'>
               <Heart className='h-4 w-4' />
             </Button>
@@ -57,7 +83,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
           </div>
         </div>
 
-        <Button className={`w-full ${viewMode === 'list' ? 'max-w-[200px]' : ''} bg-zinc-800 hover:bg-zinc-900`}>
+        <Button className={cn('h-9 w-full bg-zinc-800 hover:bg-zinc-900', viewMode === 'list' && 'max-w-[200px]')}>
           ADD TO CART
         </Button>
       </div>

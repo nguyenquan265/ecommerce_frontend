@@ -2,12 +2,9 @@ import { Link } from 'react-router-dom'
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Elements', href: '/elements' },
   { name: 'Shop', href: '/shop' },
-  { name: 'Blog', href: '/blog' },
   { name: 'About Us', href: '/about' },
-  { name: 'Contact Us', href: '/contact' },
-  { name: 'Compare', href: '/compare' }
+  { name: 'Contact Us', href: '/contact' }
 ]
 
 const paymentMethods = [

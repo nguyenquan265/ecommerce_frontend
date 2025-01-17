@@ -5,28 +5,43 @@ import { ChevronLeft } from 'lucide-react'
 
 const features = [
   {
-    image: '/placeholder.svg?height=400&width=400',
+    image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-min.jpg',
     description:
       'At urna cras augue nisi neque lauinis in aliquam. Odio pellentesque sed ultricies dolor amet nunc habitusse grave conec. Eur feugiat egestas eget.'
   },
   {
-    image: '/placeholder.svg?height=400&width=400',
+    image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-copy-2-min.jpg',
     description:
       'Arcu volutpat sollicitudin sapien sit justo tellus eu fames senect. Faucibus et eu nulla adipiscing. Ipsum a morbi urtor ullamcorper sit semper.'
   },
   {
-    image: '/placeholder.svg?height=400&width=400',
+    image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-copy-min.jpg',
     description:
       'Nibh luctus eu dignissim sit. Lorem netue ultrices neque elementum. Et convallis consectetur lacus luctus iaculis quisque sed.'
   }
 ]
 
 const brands = [
-  { name: 'Brand 1', logo: '/placeholder.svg?height=50&width=120' },
-  { name: 'Brand 2', logo: '/placeholder.svg?height=50&width=120' },
-  { name: 'Brand 3', logo: '/placeholder.svg?height=50&width=120' },
-  { name: 'Brand 4', logo: '/placeholder.svg?height=50&width=120' },
-  { name: 'Brand 5', logo: '/placeholder.svg?height=50&width=120' }
+  {
+    name: 'Brand 1',
+    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2024/04/brand-01-min.png'
+  },
+  {
+    name: 'Brand 2',
+    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/brand-03-min.png'
+  },
+  {
+    name: 'Brand 3',
+    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/brand-04-min.png'
+  },
+  {
+    name: 'Brand 4',
+    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/brand-05-min.png'
+  },
+  {
+    name: 'Brand 5',
+    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/brand-02-min.png'
+  }
 ]
 
 const faqs = [
