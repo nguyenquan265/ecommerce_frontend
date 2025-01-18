@@ -8,6 +8,11 @@ body {
   font-family: 'Roboto Mono', monospace;
 }
 
+html body[data-scroll-locked] {
+  overflow: visible !important;
+  margin-right: 0 !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

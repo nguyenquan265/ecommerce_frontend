@@ -100,16 +100,21 @@ const Header = () => {
 
       {/* Account, Wishlist, Cart */}
       <div className='flex items-center gap-4'>
-        <Link to='/account'>
-          <User2 className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50 hidden lg:block' />
+        <Link to='/account' className='hidden lg:block'>
+          <User2 className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
         </Link>
 
-        <Link to='/wishlist'>
-          <Heart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50 hidden lg:block' />
+        <Link to='/wishlist' className='relative group hidden lg:block'>
+          <Heart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
+
+          <span className='absolute -top-2 -right-2 h-4 w-4 text-[10px] font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center'>
+            0
+          </span>
         </Link>
 
-        <Link to='/cart' className='relative'>
+        <Link to='/cart' className='relative group hidden lg:block'>
           <ShoppingCart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
+
           <span className='absolute -top-2 -right-2 h-4 w-4 text-[10px] font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center'>
             0
           </span>
