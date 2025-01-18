@@ -17,7 +17,7 @@ const BestProducts = () => {
     page: 1,
     limit: 12,
     searchString: '',
-    selectedCategoryId: 'all',
+    categorySlug: 'all',
     sortBy: 'desc'
   })
 

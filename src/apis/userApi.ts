@@ -1,5 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import authorizedAxios from '@/axios/authorizedAxios'
+import { LoginFormValues } from '@/pages/Login'
 
 export const useGetCurrentUser = () => {
   const createGetUserRequest = async (): Promise<any> => {
@@ -18,7 +19,7 @@ export const useGetCurrentUser = () => {
 }
 
 export const useLogin = () => {
-  const createLoginRequest = async (data: { email: string; password: string }) => {
+  const createLoginRequest = async (data: LoginFormValues) => {
     const res = await authorizedAxios.post('/auth/login', data)
 
     localStorage.setItem('accessToken', res.data.accessToken)
