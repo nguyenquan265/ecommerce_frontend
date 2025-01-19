@@ -1,6 +1,7 @@
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import authorizedAxios from '@/axios/authorizedAxios'
 import { LoginFormValues } from '@/pages/Login'
+import { SignUpFormValues } from '@/pages/SignUp'
 
 export const useGetCurrentUser = () => {
   const createGetUserRequest = async (): Promise<any> => {
@@ -11,14 +12,15 @@ export const useGetCurrentUser = () => {
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: createGetUserRequest,
-    staleTime: 0
+    queryFn: createGetUserRequest
   })
 
   return { user, isLoading }
 }
 
 export const useLogin = () => {
+  const queryClient = useQueryClient()
+
   const createLoginRequest = async (data: LoginFormValues) => {
     const res = await authorizedAxios.post('/auth/login', data)
 
@@ -30,13 +32,18 @@ export const useLogin = () => {
   }
 
   const { mutateAsync: login, isPending } = useMutation({
-    mutationFn: createLoginRequest
+    mutationFn: createLoginRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+    }
   })
 
   return { login, isPending }
 }
 
 export const useGoogleLogin = () => {
+  const queryClient = useQueryClient()
+
   const createGoogleLoginRequest = async (data: { name: string; email: string; photoUrl: string }) => {
     const res = await authorizedAxios.post('/auth/google-login', data)
 
@@ -48,14 +55,19 @@ export const useGoogleLogin = () => {
   }
 
   const { mutateAsync: googleLogin, isPending } = useMutation({
-    mutationFn: createGoogleLoginRequest
+    mutationFn: createGoogleLoginRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+    }
   })
 
   return { googleLogin, isPending }
 }
 
 export const useSignUp = () => {
-  const createSignUpRequest = async (data: { name: string; email: string; password: string }) => {
+  const queryClient = useQueryClient()
+
+  const createSignUpRequest = async (data: SignUpFormValues) => {
     const res = await authorizedAxios.post('/auth/sign-up', data)
 
     localStorage.setItem('accessToken', res.data.accessToken)
@@ -66,7 +78,10 @@ export const useSignUp = () => {
   }
 
   const { mutateAsync: signUp, isPending } = useMutation({
-    mutationFn: createSignUpRequest
+    mutationFn: createSignUpRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+    }
   })
 
   return { signUp, isPending }

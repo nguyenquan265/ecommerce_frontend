@@ -9,6 +9,7 @@ import { User2, Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import GoogleLogin from '@/components/shared/GoogleLogin'
 
 import { useLogin } from '@/apis/userApi'
 
@@ -118,6 +119,8 @@ const Login = () => {
                 <Button type='submit' disabled={isPending} className='w-full bg-zinc-800 hover:bg-zinc-900'>
                   LOG IN
                 </Button>
+
+                <GoogleLogin isParentLoading={isPending} />
 
                 <div className='text-center'>
                   <Link to='/forgot-password' className='text-sm text-zinc-600 hover:underline'>

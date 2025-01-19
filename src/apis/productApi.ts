@@ -26,8 +26,7 @@ export const useGetAllProducts = (params: {
 
   const { data, isLoading } = useQuery({
     queryKey: ['products', params],
-    queryFn: createGetProductsRequest,
-    staleTime: 1000 * 60 * 5
+    queryFn: createGetProductsRequest
   })
 
   return { products: data?.products, pagination: data?.pagination, isLoading }
@@ -43,8 +42,7 @@ export const useGetProduct = (productId: string = '') => {
   const { data: product, isLoading } = useQuery({
     queryKey: ['product', { productId }],
     queryFn: createGetProductRequest,
-    enabled: productId === 'new' ? false : !!productId,
-    staleTime: 1000 * 60 * 5
+    enabled: productId === 'new' ? false : !!productId
   })
 
   return { product, isLoading }

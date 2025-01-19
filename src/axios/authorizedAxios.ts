@@ -40,7 +40,7 @@ authorizedAxios.interceptors.response.use(
     if (error.response.status === 401 && error.response.data.message === 'Unauthorized! (token invalid)') {
       useLogout()
 
-      window.location.href = '/login'
+      // window.location.href = '/login'
     }
 
     if (

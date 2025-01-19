@@ -1,9 +1,13 @@
 import { Link, useLocation } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
-import { useSidebar } from '../ui/sidebar'
 import { Heart, ShoppingCart, Menu, User2 } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+
 import { cn } from '@/lib/utils'
+
+import { useSidebar } from '../ui/sidebar'
+import { useGetCurrentUser } from '@/apis/userApi'
 
 const socialLinks = [
   {
@@ -33,7 +37,7 @@ const socialLinks = [
 ]
 
 const SocialLinks = () => (
-  <div className='hidden lg:flex items-center gap-4'>
+  <div className='hidden lg:flex items-center justify-center gap-4'>
     {socialLinks.map((link, index) => (
       <Link
         key={index}
@@ -64,7 +68,10 @@ const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) =>
 }
 
 const Header = () => {
+  const { user, isLoading } = useGetCurrentUser()
   const { toggleSidebar } = useSidebar()
+
+  if (isLoading) return null
 
   return (
     <header className='py-4 px-12 flex items-center justify-between bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50'>
@@ -100,9 +107,16 @@ const Header = () => {
 
       {/* Account, Wishlist, Cart */}
       <div className='flex items-center gap-4'>
-        <Link to='/account' className='hidden lg:block'>
-          <User2 className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
-        </Link>
+        {user ? (
+          <Avatar className='h-7 w-7'>
+            <AvatarImage src={user.photoUrl} referrerPolicy='no-referrer' />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        ) : (
+          <Link to='/account' className='hidden lg:block'>
+            <User2 className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
+          </Link>
+        )}
 
         <Link to='/wishlist' className='relative group hidden lg:block'>
           <Heart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />

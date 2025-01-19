@@ -14,14 +14,25 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
   return (
     <div
-      className={cn(viewMode === 'list' && 'flex max-sm:gap-4 gap-16 md:gap-36 lg:gap-52 justify-center p-4 bg-white')}
+      className={cn(
+        viewMode === 'list' && 'flex max-sm:gap-4 gap-16 md:gap-36 lg:gap-52 justify-center p-4 bg-white over'
+      )}
     >
       <div
         className={cn(
-          'relative aspect-square bg-zinc-100 mb-0 group',
+          'relative aspect-square bg-zinc-100 mb-0 group overflow-hidden',
           viewMode === 'list' ? 'max-sm:w-[150px] w-[200px] flex-shrink-0' : 'w-full mb-4'
         )}
       >
+        {/* Discount Label */}
+        {product.priceDiscount && (
+          <div className='absolute -right-[50px] top-[10px] z-10 rotate-45'>
+            <div className='bg-red-600 text-white text-sm font-bold py-1 w-[140px] flex items-center justify-center text-center shadow-md'>
+              -{product.priceDiscount}%
+            </div>
+          </div>
+        )}
+
         <Link
           to={`/product/${product._id}`}
           className={cn('block w-full h-full', viewMode === 'list' && 'max-sm:w-[150px]')}
@@ -67,11 +78,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
         <div>
           <h3 className='font-medium group-hover:text-primary truncate'>{product.title}</h3>
 
-          <p className='text-sm mb-4'>
-            {product.priceDiscount
-              ? currencyFormatter(product.price - (product.price * product.priceDiscount) / 100)
-              : currencyFormatter(product.price)}
-          </p>
+          <div className='flex items-center gap-2 mb-4'>
+            <p className='text-sm font-medium text-red-600'>
+              {product.priceDiscount
+                ? currencyFormatter(product.price - (product.price * product.priceDiscount) / 100)
+                : currencyFormatter(product.price)}
+            </p>
+
+            {product.priceDiscount ? (
+              <p className='text-sm text-gray-500 line-through'>{currencyFormatter(product.price)}</p>
+            ) : (
+              ''
+            )}
+          </div>
 
           <div className={cn('flex gap-2 mb-4', viewMode === 'grid' && 'hidden')}>
             <Button size='icon' variant='outline'>
