@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import z from 'zod'
@@ -36,6 +36,14 @@ const Login = () => {
       password: ''
     }
   })
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('userInfo') || '{}')
+
+    if (user && Object.keys(user).length > 0) {
+      navigate('/')
+    }
+  }, [navigate])
 
   const onSubmit = async (values: LoginFormValues) => {
     await login(values)
