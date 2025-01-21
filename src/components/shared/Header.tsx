@@ -107,13 +107,15 @@ const Header = () => {
 
       {/* Account, Wishlist, Cart */}
       <div className='flex items-center gap-4'>
-        {user ? (
-          <Avatar className='h-7 w-7'>
-            <AvatarImage src={user.photoUrl} referrerPolicy='no-referrer' />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+        {user && Object.keys(user).length > 0 ? (
+          <Link to='/account'>
+            <Avatar className='h-7 w-7'>
+              <AvatarImage src={user.photoUrl} referrerPolicy='no-referrer' />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </Link>
         ) : (
-          <Link to='/account' className='hidden lg:block'>
+          <Link to='/login' className='hidden lg:block'>
             <User2 className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
           </Link>
         )}
