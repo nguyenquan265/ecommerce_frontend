@@ -15,7 +15,7 @@ import {
   WishList
 } from './pages'
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
