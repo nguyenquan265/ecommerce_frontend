@@ -6,10 +6,16 @@ export type User = {
   email: string
   phoneNumber?: string
   photoUrl?: string
-  rule: number
-  address?: string
+  shippingAddress?: {
+    address: string
+    city: string
+    district: string
+    ward: string
+    cityName: string
+    districtName: string
+    wardName: string
+  }
   isGoogleAccount: boolean
-  isActive: boolean
   createdAt: string
   updatedAt: string
 }
