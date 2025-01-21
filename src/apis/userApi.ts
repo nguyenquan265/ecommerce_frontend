@@ -2,9 +2,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import authorizedAxios from '@/axios/authorizedAxios'
 import { LoginFormValues } from '@/pages/Login'
 import { SignUpFormValues } from '@/pages/SignUp'
+import { User } from '@/types'
 
 export const useGetCurrentUser = () => {
-  const createGetUserRequest = async (): Promise<any> => {
+  const createGetUserRequest = async (): Promise<User> => {
     const res = await authorizedAxios.get('/auth/check-auth')
 
     return res.data.user
