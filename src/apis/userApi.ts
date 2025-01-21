@@ -8,6 +8,8 @@ export const useGetCurrentUser = () => {
   const createGetUserRequest = async (): Promise<User> => {
     const res = await authorizedAxios.get('/auth/check-auth')
 
+    localStorage.setItem('userInfo', JSON.stringify(res.data.user))
+
     return res.data.user
   }
 
