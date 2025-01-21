@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { useLogout, useRefreshToken } from '@/apis/userApi'
+import { useRefreshToken } from '@/apis/userApi'
+import { toast } from 'sonner'
+import { navigateTo } from '@/lib/navigationHelper'
 
 const API_BASE_URL = import.meta.env.VITE_SERVER_URL
 
@@ -37,15 +39,18 @@ authorizedAxios.interceptors.response.use(
   (error) => {
     const originalRequest = error.config
 
-    if (error.response.status === 401 && error.response.data.message === 'Unauthorized! (token invalid)') {
-      useLogout()
-
-      window.location.href = '/login'
+    if (
+      error.response.status === 401 &&
+      (error.response.data.message === 'Unauthorized! (Access token invalid)' ||
+        error.response.data.message === 'Unauthorized! (Access token not found)')
+    ) {
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshToken')
     }
 
     if (
       error.response.status === 401 &&
-      error.response.data.message === 'Unauthorized! (token expired)' &&
+      error.response.data.message === 'Unauthorized! (Access token expired)' &&
       originalRequest
     ) {
       if (!refreshTokenPromise) {
@@ -59,8 +64,11 @@ authorizedAxios.interceptors.response.use(
             authorizedAxios.defaults.headers.Authorization = `Bearer ${accessToken}`
           })
           .catch((_error: any) => {
-            useLogout()
-            window.location.href = '/login'
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+
+            navigateTo('/login')
+            toast.error('Your session has expired. Please login again.')
 
             return Promise.reject(_error)
           })
@@ -76,6 +84,8 @@ authorizedAxios.interceptors.response.use(
 
     if (error.response.status !== 401) {
       console.log('Super Error: ', error)
+
+      toast.error('An error occurred. Please try again later.')
     }
 
     return Promise.reject(error)
