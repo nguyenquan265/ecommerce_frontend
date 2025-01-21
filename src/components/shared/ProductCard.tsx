@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { Button } from '../ui/button'
 import { Eye, Heart } from 'lucide-react'
@@ -6,12 +6,33 @@ import { Eye, Heart } from 'lucide-react'
 import { Product } from '@/types'
 import { currencyFormatter, cn } from '@/lib/utils'
 
+import { useUserContext } from '@/contexts/UserContext'
+
 interface ProductCardProps {
   product: Product
   viewMode: 'grid' | 'list'
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
+  const { currentUser } = useUserContext()
+  const navigate = useNavigate()
+
+  const handleAddWishlist = () => {
+    if (currentUser) {
+      // Add to wishlist
+    } else {
+      navigate('/login')
+    }
+  }
+
+  const handleAddCart = () => {
+    if (currentUser) {
+      // Add to cart
+    } else {
+      navigate('/login')
+    }
+  }
+
   return (
     <div
       className={cn(
@@ -62,11 +83,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
         >
           <Button
             size='icon'
+            onClick={handleAddWishlist}
             className='bg-white hover:bg-zinc-100 transition-colors shadow-lg hover:shadow-xl'
             aria-label='Add to Wishlist'
           >
             <Heart className='h-4 w-4 text-zinc-800' />
           </Button>
+
           <Button size='icon' className='bg-white hover:bg-zinc-100 transition-colors shadow-lg hover:shadow-xl'>
             <Eye className='h-4 w-4 text-zinc-800' />
           </Button>
@@ -93,16 +116,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
           </div>
 
           <div className={cn('flex gap-2 mb-4', viewMode === 'grid' && 'hidden')}>
-            <Button size='icon' variant='outline'>
+            <Button size='icon' onClick={handleAddWishlist} variant='outline'>
               <Heart className='h-4 w-4' />
             </Button>
+
             <Button size='icon' variant='outline'>
               <Eye className='h-4 w-4' />
             </Button>
           </div>
         </div>
 
-        <Button className={cn('h-9 w-full bg-zinc-800 hover:bg-zinc-900', viewMode === 'list' && 'max-w-[200px]')}>
+        <Button
+          onClick={handleAddCart}
+          className={cn('h-9 w-full bg-zinc-800 hover:bg-zinc-900', viewMode === 'list' && 'max-w-[200px]')}
+        >
           ADD TO CART
         </Button>
       </div>

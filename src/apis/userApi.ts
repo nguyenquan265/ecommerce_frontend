@@ -8,8 +8,6 @@ export const useGetCurrentUser = () => {
   const createGetUserRequest = async (): Promise<User> => {
     const res = await authorizedAxios.get('/auth/check-auth')
 
-    localStorage.setItem('userInfo', JSON.stringify(res.data.user))
-
     return res.data.user
   }
 
@@ -29,7 +27,6 @@ export const useLogin = () => {
 
     localStorage.setItem('accessToken', res.data.accessToken)
     localStorage.setItem('refreshToken', res.data.refreshToken)
-    localStorage.setItem('userInfo', JSON.stringify(res.data.user))
 
     return res.data
   }
@@ -52,7 +49,6 @@ export const useGoogleLogin = () => {
 
     localStorage.setItem('accessToken', res.data.accessToken)
     localStorage.setItem('refreshToken', res.data.refreshToken)
-    localStorage.setItem('userInfo', JSON.stringify(res.data.user))
 
     return res.data
   }
@@ -75,7 +71,6 @@ export const useSignUp = () => {
 
     localStorage.setItem('accessToken', res.data.accessToken)
     localStorage.setItem('refreshToken', res.data.refreshToken)
-    localStorage.setItem('userInfo', JSON.stringify(res.data.user))
 
     return res.data
   }
@@ -91,9 +86,20 @@ export const useSignUp = () => {
 }
 
 export const useLogout = () => {
-  localStorage.removeItem('accessToken')
-  localStorage.removeItem('refreshToken')
-  localStorage.removeItem('userInfo')
+  const queryClient = useQueryClient()
+
+  const createLogoutRequest = async () => {
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+
+    queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+  }
+
+  const { mutateAsync: logout } = useMutation({
+    mutationFn: createLogoutRequest
+  })
+
+  return { logout }
 }
 
 export const useRefreshToken = async (refreshToken: string) => {

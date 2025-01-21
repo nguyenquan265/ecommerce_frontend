@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 import { User, Lock, ShoppingBag, LogOut } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -8,27 +8,28 @@ import AddressForm from '@/components/forms/AddressForm'
 import ChangePasswordForm from '@/components/forms/ChangePasswordForm'
 import Breadcrumb from '@/components/shared/Breadcrumb'
 
-import { useGetCurrentUser, useLogout } from '@/apis/userApi'
+import { useLogout } from '@/apis/userApi'
 import { signOut } from 'firebase/auth'
 import { auth } from '@/firebase/firebase'
+import { useUserContext } from '@/contexts/UserContext'
 
 const Account = () => {
-  const { user, isLoading } = useGetCurrentUser()
+  const { currentUser, setCurrentUser } = useUserContext()
+  const { logout } = useLogout()
+  const navigate = useNavigate()
 
-  if (isLoading) {
-    return null
-  }
-
-  if (!user) {
+  if (!currentUser) {
     return <Navigate to='/login' />
   }
 
   const handleLogout = async () => {
     await signOut(auth)
 
-    useLogout()
+    await logout()
 
-    window.location.href = '/login'
+    setCurrentUser(undefined)
+
+    navigate('/login')
   }
 
   return (
@@ -43,13 +44,13 @@ const Account = () => {
               <div className='flex items-center gap-3 mb-6 pb-4 border-b'>
                 <div className='relative w-10 h-10'>
                   <img
-                    src={user.photoUrl || '/placeholder.svg'}
+                    src={currentUser.photoUrl || '/placeholder.svg'}
                     alt='Avatar'
                     className='rounded-full object-cover w-full h-full'
                   />
                 </div>
                 <div>
-                  <h2 className='font-medium text-sm'>{user.name}</h2>
+                  <h2 className='font-medium text-sm'>{currentUser.name}</h2>
                   <p className='text-xs text-muted-foreground'>Chỉnh sửa thông tin</p>
                 </div>
               </div>
@@ -81,7 +82,6 @@ const Account = () => {
               <Button
                 variant='ghost'
                 onClick={handleLogout}
-                disabled={isLoading}
                 className='w-full justify-start text-left mt-4 hover:bg-destructive/10 hover:text-destructive'
               >
                 <LogOut size={16} className='mr-2' />
@@ -93,12 +93,12 @@ const Account = () => {
             <div className='bg-white rounded-lg shadow-sm'>
               <TabsContent value='account' className='m-0'>
                 <div className='p-6'>
-                  <AddressForm user={user} />
+                  <AddressForm user={currentUser} />
                 </div>
               </TabsContent>
               <TabsContent value='password' className='m-0'>
                 <div className='p-6'>
-                  <ChangePasswordForm user={user} />
+                  <ChangePasswordForm user={currentUser} />
                 </div>
               </TabsContent>
               <TabsContent value='orders' className='m-0'>

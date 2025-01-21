@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 
 import z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import GoogleLogin from '@/components/shared/GoogleLogin'
 
 import { useLogin } from '@/apis/userApi'
+import { useUserContext } from '@/contexts/UserContext'
 
 const formSchema = z.object({
   email: z.string().email({
@@ -25,6 +26,7 @@ const formSchema = z.object({
 export type LoginFormValues = z.infer<typeof formSchema>
 
 const Login = () => {
+  const { currentUser } = useUserContext()
   const [showPassword, setShowPassword] = useState(false)
   const { login, isPending } = useLogin()
   const navigate = useNavigate()
@@ -37,13 +39,9 @@ const Login = () => {
     }
   })
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('userInfo') || '{}')
-
-    if (user && Object.keys(user).length > 0) {
-      navigate('/')
-    }
-  }, [navigate])
+  if (currentUser) {
+    return <Navigate to='/' />
+  }
 
   const onSubmit = async (values: LoginFormValues) => {
     await login(values)

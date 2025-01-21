@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 
 import z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import GoogleLogin from '@/components/shared/GoogleLogin'
 
 import { useSignUp } from '@/apis/userApi'
+import { useUserContext } from '@/contexts/UserContext'
 
 const formSchema = z.object({
   name: z.string().min(3, {
@@ -28,6 +29,7 @@ const formSchema = z.object({
 export type SignUpFormValues = z.infer<typeof formSchema>
 
 const SignUp = () => {
+  const { currentUser } = useUserContext()
   const [showPassword, setShowPassword] = useState(false)
   const { signUp, isPending } = useSignUp()
   const navigate = useNavigate()
@@ -41,13 +43,9 @@ const SignUp = () => {
     }
   })
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('userInfo') || '{}')
-
-    if (user && Object.keys(user).length > 0) {
-      navigate('/')
-    }
-  }, [navigate])
+  if (currentUser) {
+    return <Navigate to='/' />
+  }
 
   const onSubmit = async (values: SignUpFormValues) => {
     await signUp(values)
@@ -56,6 +54,7 @@ const SignUp = () => {
 
     navigate('/')
   }
+
   return (
     <div className='bg-background'>
       <div className='bg-zinc-50 py-6'>

@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { cn } from '@/lib/utils'
 
 import { useSidebar } from '../ui/sidebar'
-import { useGetCurrentUser } from '@/apis/userApi'
+import { useUserContext } from '@/contexts/UserContext'
 
 const socialLinks = [
   {
@@ -68,10 +68,8 @@ const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) =>
 }
 
 const Header = () => {
-  const { user, isLoading } = useGetCurrentUser()
+  const { currentUser } = useUserContext()
   const { toggleSidebar } = useSidebar()
-
-  if (isLoading) return null
 
   return (
     <header className='py-4 px-12 flex items-center justify-between bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50'>
@@ -107,10 +105,10 @@ const Header = () => {
 
       {/* Account, Wishlist, Cart */}
       <div className='flex items-center gap-4'>
-        {user && Object.keys(user).length > 0 ? (
+        {currentUser ? (
           <Link to='/account'>
             <Avatar className='h-7 w-7'>
-              <AvatarImage src={user.photoUrl} referrerPolicy='no-referrer' />
+              <AvatarImage src={currentUser.photoUrl} referrerPolicy='no-referrer' />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </Link>
