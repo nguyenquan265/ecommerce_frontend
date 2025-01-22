@@ -13,6 +13,24 @@ html body[data-scroll-locked] {
   margin-right: 0 !important;
 }
 
+.product-information h2 {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.product-information ul {
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.product-information ul li {
+  margin-bottom: 0.5rem;
+}
+
+.product-information ul li span {
+  font-weight: bold;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

@@ -158,15 +158,18 @@ const SingleProduct = () => {
               <Accordion type='single' collapsible className='w-full'>
                 {/* Description */}
                 <AccordionItem value='info' className='border-t border-b'>
-                  <AccordionTrigger className='text-sm font-normal'>ADDITIONAL INFORMATION</AccordionTrigger>
+                  <AccordionTrigger className='text-sm font-normal'>THÔNG TIN SẢN PHẨM</AccordionTrigger>
                   <AccordionContent>
-                    <div className='mb-6' dangerouslySetInnerHTML={{ __html: product?.description ?? '' }} />
+                    <div
+                      className='mb-4 product-information'
+                      dangerouslySetInnerHTML={{ __html: product?.description ?? '' }}
+                    />
                   </AccordionContent>
                 </AccordionItem>
 
                 {/* Review */}
                 <AccordionItem value='reviews' className='border-b'>
-                  <AccordionTrigger className='text-sm font-normal'>REVIEWS (0)</AccordionTrigger>
+                  <AccordionTrigger className='text-sm font-normal'>ĐÁNH GIÁ (0)</AccordionTrigger>
                   <AccordionContent>
                     <div className='space-y-6'>
                       <p className='text-sm text-muted-foreground'>There are no reviews yet.</p>
