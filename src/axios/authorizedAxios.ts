@@ -85,7 +85,11 @@ authorizedAxios.interceptors.response.use(
     if (error.response.status !== 401) {
       console.log('Super Error: ', error)
 
-      toast.error('An error occurred. Please try again later.')
+      if (error.response.data.message) {
+        toast.error(error.response.data.message)
+      } else {
+        toast.error('An error occurred. Please reload page and try again later.')
+      }
     }
 
     return Promise.reject(error)

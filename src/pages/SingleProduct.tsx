@@ -1,134 +1,111 @@
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-import { Heart, RotateCcw, Star } from 'lucide-react'
+import { Heart, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import Breadcrumb from '@/components/shared/Breadcrumb'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
+import Breadcrumb from '@/components/shared/Breadcrumb'
 import ProductCard from '@/components/shared/ProductCard'
+import FancyBox from '@/components/shared/FancyBox'
 
-interface Product {
-  id: number
-  name: string
-  price: number
-  image: string
-}
+import { currencyFormatter } from '@/lib/utils'
 
-const relatedProducts: Product[] = [
-  {
-    id: 1,
-    name: '10K Yellow Gold',
-    price: 99.99,
-    image: '/placeholder.svg?height=400&width=300'
-  },
-  {
-    id: 2,
-    name: 'Amet faucibus nunc',
-    price: 51.99,
-    image: '/placeholder.svg?height=400&width=300'
-  },
-  {
-    id: 3,
-    name: 'Consectetur nibh at',
-    price: 119.99,
-    image: '/placeholder.svg?height=400&width=300'
-  },
-  {
-    id: 4,
-    name: 'Dignissim molestie pellentesque',
-    price: 89.99,
-    image: '/placeholder.svg?height=400&width=300'
-  }
-]
-
-const productImages = [
-  '/placeholder.svg?height=600&width=500',
-  '/placeholder.svg?height=600&width=500',
-  '/placeholder.svg?height=600&width=500',
-  '/placeholder.svg?height=600&width=500'
-]
+import { useGetAllProducts, useGetProduct } from '@/apis/productApi'
 
 const SingleProduct = () => {
-  const [selectedSize, setSelectedSize] = useState<string>('')
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const { productId } = useParams()
+  const { product, isLoading: isProductLoading } = useGetProduct(productId)
+  const { products: relatedProducts, isLoading: isRelatedProductsLoading } = useGetAllProducts({
+    page: 1,
+    limit: 4,
+    categorySlug: product?.category.slug,
+    searchString: '',
+    sortBy: 'desc'
+  })
   const [quantity, setQuantity] = useState(1)
   const [rating, setRating] = useState(0)
   const [saveDetails, setSaveDetails] = useState(false)
 
+  if (isProductLoading || isRelatedProductsLoading) {
+    return null
+  }
+
+  if (!product) {
+    return <div>Product not found</div>
+  }
+
   const handleSubmitReview = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // Handle review submission
   }
 
   return (
     <div className='min-h-screen bg-background'>
-      {/* Breadcrumb */}
       <Breadcrumb text='product' />
 
       <div className='container mx-auto px-4 py-8'>
         <div className='grid md:grid-cols-2 gap-8'>
           {/* Product Images */}
-          <div className='space-y-4'>
-            <div className='relative aspect-[3/4] bg-zinc-100'>
-              <img src={productImages[currentImageIndex]} alt='Product image' className='object-cover' />
+          <FancyBox>
+            <div className='space-y-4'>
+              {/* Main Image */}
+              <div className='bg-zinc-100 overflow-hidden rounded-lg'>
+                <a data-fancybox='gallery' href={product?.mainImage}>
+                  <img src={product?.mainImage} alt='Product image' className='w-full h-auto object-cover' />
+                </a>
+              </div>
+
+              {/* Thumbnails */}
+              <div className='flex gap-2'>
+                {product?.subImages.map((image, index) => (
+                  <a
+                    key={index}
+                    data-fancybox='gallery'
+                    href={image.url}
+                    className='group relative overflow-hidden rounded-lg w-1/4 max-w-[100px] aspect-square'
+                  >
+                    <img
+                      src={image.url}
+                      alt={`Product thumbnail ${index + 1}`}
+                      className='w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105'
+                    />
+                    <div className='absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-opacity'></div>
+                  </a>
+                ))}
+              </div>
             </div>
-            <div className='grid grid-cols-4 gap-4'>
-              {productImages.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentImageIndex(index)}
-                  className={`relative aspect-square bg-zinc-100 ${
-                    currentImageIndex === index ? 'ring-2 ring-primary' : ''
-                  }`}
-                >
-                  <img src={image} alt={`Product thumbnail ${index + 1}`} className='object-cover' />
-                </button>
-              ))}
-            </div>
-          </div>
+          </FancyBox>
 
           {/* Product Details */}
           <div>
-            <h1 className='text-2xl font-medium mb-2'>10K Yellow Gold</h1>
-            <p className='text-xl mb-4'>${'99.99'}</p>
+            <h1 className='text-2xl font-medium mb-2'>{product?.title}</h1>
+            <div className='flex items-center gap-2 mb-4'>
+              <p className='text-xl font-medium text-red-600'>
+                {product?.priceDiscount
+                  ? currencyFormatter(product.price - (product.price * product.priceDiscount) / 100)
+                  : currencyFormatter(product ? product.price : 0)}
+              </p>
 
-            <p className='text-muted-foreground mb-6'>
-              Amet, elit tellus, nisi odio velit ut. Euismod sit arcu, quisque arcu purus orci leo.
-            </p>
+              {product?.priceDiscount ? (
+                <p className='text-xl text-gray-500 line-through'>{currencyFormatter(product.price)}</p>
+              ) : (
+                ''
+              )}
+            </div>
+
+            {/* Size - Category */}
+            <div className='space-y-2 text-sm mb-6'>
+              <p>
+                <span className='text-muted-foreground'>Size:</span> {product?.size}
+              </p>
+              <p>
+                <span className='text-muted-foreground'>Category:</span> {product?.category.name}
+              </p>
+            </div>
 
             <div className='space-y-6'>
-              <div>
-                <p className='mb-2'>Size {selectedSize}</p>
-                <div className='flex gap-2'>
-                  <button
-                    className={`w-8 h-8 border ${selectedSize === 'L' ? 'border-black' : 'border-zinc-200'}`}
-                    onClick={() => setSelectedSize('L')}
-                  >
-                    L
-                  </button>
-                  <button
-                    className={`w-8 h-8 border ${selectedSize === 'M' ? 'border-black' : 'border-zinc-200'}`}
-                    onClick={() => setSelectedSize('M')}
-                  >
-                    M
-                  </button>
-                  <button
-                    className={`w-8 h-8 border ${selectedSize === 'S' ? 'border-black' : 'border-zinc-200'}`}
-                    onClick={() => setSelectedSize('S')}
-                  >
-                    S
-                  </button>
-                </div>
-                <button
-                  className='text-sm text-muted-foreground hover:text-foreground mt-2'
-                  onClick={() => setSelectedSize('')}
-                >
-                  Clear
-                </button>
-              </div>
-
               <div className='flex gap-4'>
                 <div className='flex items-center border'>
                   <button
@@ -152,15 +129,14 @@ const SingleProduct = () => {
 
               <button className='w-full bg-zinc-800 hover:bg-zinc-900 text-white py-3'>BUY NOW</button>
 
+              {/* Add Wishlist */}
               <div className='flex gap-2'>
                 <button className='p-2 border hover:border-zinc-400'>
                   <Heart className='h-4 w-4' />
                 </button>
-                <button className='p-2 border hover:border-zinc-400'>
-                  <RotateCcw className='h-4 w-4' />
-                </button>
               </div>
 
+              {/* Checkout Icon */}
               <div className='space-y-4 pt-4'>
                 <p className='text-center text-sm'>GUARANTEED SAFE CHECKOUT</p>
                 <div className='flex justify-center gap-2'>
@@ -179,32 +155,16 @@ const SingleProduct = () => {
                 <p className='text-center text-sm text-muted-foreground'>Your Payment is 100% Secure</p>
               </div>
 
-              <div className='space-y-2 text-sm pt-4'>
-                <p>
-                  <span className='text-muted-foreground'>Brand:</span> Brand 01
-                </p>
-                <p>
-                  <span className='text-muted-foreground'>SKU:</span> 12345
-                </p>
-                <p>
-                  <span className='text-muted-foreground'>Category:</span> Men
-                </p>
-              </div>
-
               <Accordion type='single' collapsible className='w-full'>
+                {/* Description */}
                 <AccordionItem value='info' className='border-t border-b'>
                   <AccordionTrigger className='text-sm font-normal'>ADDITIONAL INFORMATION</AccordionTrigger>
                   <AccordionContent>
-                    <div className='grid grid-cols-2 gap-y-2 text-sm'>
-                      <div className='text-muted-foreground'>Size</div>
-                      <div>L, M, S</div>
-                      <div className='text-muted-foreground'>Material</div>
-                      <div>Fleece</div>
-                      <div className='text-muted-foreground'>Color</div>
-                      <div>Black, Blue</div>
-                    </div>
+                    <div className='mb-6' dangerouslySetInnerHTML={{ __html: product?.description ?? '' }} />
                   </AccordionContent>
                 </AccordionItem>
+
+                {/* Review */}
                 <AccordionItem value='reviews' className='border-b'>
                   <AccordionTrigger className='text-sm font-normal'>REVIEWS (0)</AccordionTrigger>
                   <AccordionContent>
@@ -284,9 +244,7 @@ const SingleProduct = () => {
           <h2 className='text-2xl font-medium mb-8 text-center'>Related Products</h2>
 
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8'>
-            {relatedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} viewMode='grid' />
-            ))}
+            {relatedProducts?.map((product) => <ProductCard key={product._id} product={product} viewMode='grid' />)}
           </div>
         </div>
       </div>
