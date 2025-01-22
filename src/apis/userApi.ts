@@ -1,8 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import authorizedAxios from '@/axios/authorizedAxios'
+
+import { User } from '@/types'
 import { LoginFormValues } from '@/pages/Login'
 import { SignUpFormValues } from '@/pages/SignUp'
-import { User } from '@/types'
 
 export const useGetCurrentUser = () => {
   const createGetUserRequest = async (): Promise<User> => {
@@ -91,12 +92,13 @@ export const useLogout = () => {
   const createLogoutRequest = async () => {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
-
-    queryClient.invalidateQueries({ queryKey: ['currentUser'] })
   }
 
   const { mutateAsync: logout } = useMutation({
-    mutationFn: createLogoutRequest
+    mutationFn: createLogoutRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+    }
   })
 
   return { logout }
