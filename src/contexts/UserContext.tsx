@@ -1,21 +1,34 @@
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, ReactNode } from 'react'
 import { User } from '@/types'
+import { useGetCurrentUser } from '@/apis/userApi'
 
 type UserContextType = {
   currentUser?: User
-  setCurrentUser: (user?: User) => void
+  isUserloading: boolean
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined)
+const UserContext = createContext<UserContextType>({
+  currentUser: undefined,
+  isUserloading: true
+})
 
 interface UserProviderProps {
   children: ReactNode
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<User | undefined>(undefined)
+  const { user, isLoading } = useGetCurrentUser()
 
-  return <UserContext.Provider value={{ currentUser, setCurrentUser }}>{children}</UserContext.Provider>
+  return (
+    <UserContext.Provider
+      value={{
+        currentUser: user,
+        isUserloading: isLoading
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  )
 }
 
 export const useUserContext = () => {
