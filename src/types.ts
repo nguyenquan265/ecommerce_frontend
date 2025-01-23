@@ -1,18 +1,16 @@
 export type User = {
   _id: string
   name: string
-  firstName?: string
-  lastName?: string
   email: string
   phoneNumber?: string
   photoUrl?: string
   shippingAddress?: {
     address: string
-    city: string
+    province: string
+    provinceName: string
     district: string
-    ward: string
-    cityName: string
     districtName: string
+    ward: string
     wardName: string
   }
   isGoogleAccount: boolean

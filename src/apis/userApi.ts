@@ -4,6 +4,7 @@ import authorizedAxios from '@/axios/authorizedAxios'
 import { User } from '@/types'
 import { LoginFormValues } from '@/pages/Login'
 import { SignUpFormValues } from '@/pages/SignUp'
+import { UserProfileFormValues } from '@/components/forms/UserProfileForm'
 
 export const useGetCurrentUser = () => {
   const createGetUserRequest = async (): Promise<User> => {
@@ -108,4 +109,23 @@ export const useRefreshToken = async (refreshToken: string) => {
   return await authorizedAxios.patch('/auth/refresh-token', {
     refreshToken
   })
+}
+
+export const useUpdateUserProfile = () => {
+  const queryClient = useQueryClient()
+
+  const createUpdateUserProfileRequest = async (data: UserProfileFormValues): Promise<User> => {
+    const res = await authorizedAxios.patch('/auth/me/update-profile', data)
+
+    return res.data.user
+  }
+
+  const { mutateAsync: updateUserProfile, isPending } = useMutation({
+    mutationFn: createUpdateUserProfileRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+    }
+  })
+
+  return { updateUserProfile, isPending }
 }
