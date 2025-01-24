@@ -4,12 +4,12 @@ import { useGetCurrentUser } from '@/apis/userApi'
 
 type UserContextType = {
   currentUser?: User
-  isUserloading: boolean
+  isUserLoading: boolean
 }
 
 const UserContext = createContext<UserContextType>({
   currentUser: undefined,
-  isUserloading: true
+  isUserLoading: true
 })
 
 interface UserProviderProps {
@@ -23,7 +23,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     <UserContext.Provider
       value={{
         currentUser: user,
-        isUserloading: isLoading
+        isUserLoading: isLoading
       }}
     >
       {children}
