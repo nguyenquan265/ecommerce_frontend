@@ -6,6 +6,8 @@ import { Sidebar, SidebarContent, SidebarHeader, useSidebar } from '../ui/sideba
 import { Input } from '../ui/input'
 import { Heart, Search, ShoppingCart, User2, X } from 'lucide-react'
 
+import { useUserContext } from '@/contexts/UserContext'
+
 const navigateItems = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop' },
@@ -13,13 +15,8 @@ const navigateItems = [
   { href: '/contact', label: 'Contact us' }
 ]
 
-const userItems = [
-  { href: '/account', label: 'Account', icon: User2 },
-  { href: '/cart', label: 'Cart $0.00', icon: ShoppingCart },
-  { href: '/wishlist', label: 'Wishlist', icon: Heart }
-]
-
 const MobileSidebar = () => {
+  const { currentUser } = useUserContext()
   const { toggleSidebar } = useSidebar()
 
   const location = useLocation()
@@ -65,19 +62,51 @@ const MobileSidebar = () => {
         </div>
 
         <div className='flex flex-col'>
-          {userItems.map((item) => (
+          {currentUser ? (
             <Link
-              key={item.href}
-              to={item.href}
+              to='/account'
               className={cn(
                 'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
-                pathname === item.href ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
+                pathname === '/account' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
               )}
             >
-              <item.icon className='h-4 w-4' />
-              {item.label}
+              <User2 className='h-4 w-4' />
+              Account
             </Link>
-          ))}
+          ) : (
+            <Link
+              to='/login'
+              className={cn(
+                'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
+                pathname === '/login' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
+              )}
+            >
+              <User2 className='h-4 w-4' />
+              Login
+            </Link>
+          )}
+
+          <Link
+            to='/cart'
+            className={cn(
+              'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
+              pathname === '/cart' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
+            )}
+          >
+            <ShoppingCart className='h-4 w-4' />
+            Cart $0.00
+          </Link>
+
+          <Link
+            to='/wishlist'
+            className={cn(
+              'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
+              pathname === '/wishlist' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
+            )}
+          >
+            <Heart className='h-4 w-4' />
+            Wishlist
+          </Link>
         </div>
       </SidebarContent>
     </Sidebar>
