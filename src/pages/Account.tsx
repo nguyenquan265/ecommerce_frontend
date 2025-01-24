@@ -1,12 +1,13 @@
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 import { User, Lock, ShoppingBag, LogOut } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 
-import AddressForm from '@/components/forms/AddressForm'
+import UserProfileForm from '@/components/forms/UserProfileForm'
 import ChangePasswordForm from '@/components/forms/ChangePasswordForm'
 import Breadcrumb from '@/components/shared/Breadcrumb'
+import AccountSkeleton from '@/components/skeletons/AccountSkeleton'
 
 import { useLogout } from '@/apis/userApi'
 import { signOut } from 'firebase/auth'
@@ -14,9 +15,12 @@ import { auth } from '@/firebase/firebase'
 import { useUserContext } from '@/contexts/UserContext'
 
 const Account = () => {
-  const { currentUser, setCurrentUser } = useUserContext()
+  const { currentUser, isUserLoading } = useUserContext()
   const { logout } = useLogout()
-  const navigate = useNavigate()
+
+  if (isUserLoading) {
+    return <AccountSkeleton />
+  }
 
   if (!currentUser) {
     return <Navigate to='/login' />
@@ -27,9 +31,7 @@ const Account = () => {
 
     await logout()
 
-    setCurrentUser(undefined)
-
-    navigate('/login')
+    window.location.href = '/login'
   }
 
   return (
@@ -41,20 +43,22 @@ const Account = () => {
           <div className='grid grid-cols-1 md:grid-cols-[240px_1fr] gap-8'>
             {/* Sidebar */}
             <div className='bg-white rounded-lg shadow-sm p-4'>
+              {/* Main user detail */}
               <div className='flex items-center gap-3 mb-6 pb-4 border-b'>
                 <div className='relative w-10 h-10'>
                   <img
-                    src={currentUser.photoUrl || '/placeholder.svg'}
+                    src={currentUser?.photoUrl || '/placeholder.svg'}
                     alt='Avatar'
                     className='rounded-full object-cover w-full h-full'
                   />
                 </div>
                 <div>
-                  <h2 className='font-medium text-sm'>{currentUser.name}</h2>
+                  <h2 className='font-medium text-sm'>{currentUser?.name}</h2>
                   <p className='text-xs text-muted-foreground'>Chỉnh sửa thông tin</p>
                 </div>
               </div>
 
+              {/* Options */}
               <TabsList className='flex flex-col items-start justify-start h-auto bg-transparent border-0 p-0'>
                 <TabsTrigger
                   value='account'
@@ -93,7 +97,7 @@ const Account = () => {
             <div className='bg-white rounded-lg shadow-sm'>
               <TabsContent value='account' className='m-0'>
                 <div className='p-6'>
-                  <AddressForm user={currentUser} />
+                  <UserProfileForm user={currentUser} />
                 </div>
               </TabsContent>
               <TabsContent value='password' className='m-0'>
