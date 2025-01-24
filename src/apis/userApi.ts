@@ -129,3 +129,15 @@ export const useUpdateUserProfile = () => {
 
   return { updateUserProfile, isPending }
 }
+
+export const useChangeUserPassword = () => {
+  const createChangeUserPasswordRequest = async (data: { currentPassword: string; newPassword: string }) => {
+    await authorizedAxios.patch('/auth/me/update-password', data)
+  }
+
+  const { mutateAsync: changeUserPassword, isPending } = useMutation({
+    mutationFn: createChangeUserPasswordRequest
+  })
+
+  return { changeUserPassword, isPending }
+}
