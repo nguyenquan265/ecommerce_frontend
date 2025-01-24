@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import GoogleLogin from '@/components/shared/GoogleLogin'
+import SignUpSkeleton from '@/components/skeletons/SignUpSkeleton'
 
 import { useSignUp } from '@/apis/userApi'
 import { useUserContext } from '@/contexts/UserContext'
@@ -29,7 +30,7 @@ const formSchema = z.object({
 export type SignUpFormValues = z.infer<typeof formSchema>
 
 const SignUp = () => {
-  const { currentUser } = useUserContext()
+  const { currentUser, isUserLoading } = useUserContext()
   const [showPassword, setShowPassword] = useState(false)
   const { signUp, isPending } = useSignUp()
   const navigate = useNavigate()
@@ -42,6 +43,10 @@ const SignUp = () => {
       password: ''
     }
   })
+
+  if (isUserLoading) {
+    return <SignUpSkeleton />
+  }
 
   if (currentUser) {
     return <Navigate to='/' />

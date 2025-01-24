@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Heart, ShoppingCart, Menu, User2 } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Skeleton } from '../ui/skeleton'
 
 import { cn } from '@/lib/utils'
 
@@ -68,7 +69,7 @@ const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) =>
 }
 
 const Header = () => {
-  const { currentUser } = useUserContext()
+  const { currentUser, isUserLoading } = useUserContext()
   const { toggleSidebar } = useSidebar()
 
   return (
@@ -105,34 +106,42 @@ const Header = () => {
 
       {/* Account, Wishlist, Cart */}
       <div className='flex items-center gap-4'>
-        {currentUser ? (
-          <Link to='/account'>
-            <Avatar className='h-7 w-7'>
-              <AvatarImage src={currentUser.photoUrl} referrerPolicy='no-referrer' />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </Link>
+        {isUserLoading ? (
+          <>
+            <Skeleton className='h-7 w-7 rounded-full' />
+            <Skeleton className='h-5 w-5 hidden lg:block' />
+            <Skeleton className='h-5 w-5 hidden lg:block' />
+          </>
         ) : (
-          <Link to='/login' className='hidden lg:block'>
-            <User2 className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
-          </Link>
+          <>
+            {currentUser ? (
+              <Link to='/account'>
+                <Avatar className='h-7 w-7'>
+                  <AvatarImage src={currentUser.photoUrl} referrerPolicy='no-referrer' />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </Link>
+            ) : (
+              <Link to='/login' className='hidden lg:block'>
+                <User2 className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
+              </Link>
+            )}
+
+            <Link to='/wishlist' className='relative group hidden lg:block'>
+              <Heart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
+              <span className='absolute -top-2 -right-2 h-4 w-4 text-[10px] font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center'>
+                0
+              </span>
+            </Link>
+
+            <Link to='/cart' className='relative group hidden lg:block'>
+              <ShoppingCart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
+              <span className='absolute -top-2 -right-2 h-4 w-4 text-[10px] font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center'>
+                0
+              </span>
+            </Link>
+          </>
         )}
-
-        <Link to='/wishlist' className='relative group hidden lg:block'>
-          <Heart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
-
-          <span className='absolute -top-2 -right-2 h-4 w-4 text-[10px] font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center'>
-            0
-          </span>
-        </Link>
-
-        <Link to='/cart' className='relative group hidden lg:block'>
-          <ShoppingCart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
-
-          <span className='absolute -top-2 -right-2 h-4 w-4 text-[10px] font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center'>
-            0
-          </span>
-        </Link>
       </div>
     </header>
   )
