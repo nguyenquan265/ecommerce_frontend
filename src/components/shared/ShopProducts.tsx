@@ -138,7 +138,7 @@ const ShopProducts = () => {
           className={`grid gap-8 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1'}`}
         >
           {isProductsLoading || isCategoriesLoading
-            ? [...Array(4)].map((_, index) => <SkeletonProductCard key={index} viewMode={viewMode} />)
+            ? [...Array(12)].map((_, index) => <SkeletonProductCard key={index} viewMode={viewMode} />)
             : products?.map((product) => <ProductCard key={product._id} product={product} viewMode={viewMode} />)}
         </div>
       </div>

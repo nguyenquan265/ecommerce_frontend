@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import GoogleLogin from '@/components/shared/GoogleLogin'
-import SignUpSkeleton from '@/components/skeletons/SignUpSkeleton'
 
 import { useSignUp } from '@/apis/userApi'
 import { useUserContext } from '@/contexts/UserContext'
@@ -44,11 +43,7 @@ const SignUp = () => {
     }
   })
 
-  if (isUserLoading) {
-    return <SignUpSkeleton />
-  }
-
-  if (currentUser) {
+  if (!isUserLoading && currentUser) {
     return <Navigate to='/' />
   }
 

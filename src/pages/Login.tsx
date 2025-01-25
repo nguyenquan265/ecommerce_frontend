@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import GoogleLogin from '@/components/shared/GoogleLogin'
-import LoginSkeleton from '@/components/skeletons/LoginSkeleton'
 
 import { useLogin } from '@/apis/userApi'
 import { useUserContext } from '@/contexts/UserContext'
@@ -40,11 +39,7 @@ const Login = () => {
     }
   })
 
-  if (isUserLoading) {
-    return <LoginSkeleton />
-  }
-
-  if (currentUser) {
+  if (!isUserLoading && currentUser) {
     return <Navigate to='/' />
   }
 
