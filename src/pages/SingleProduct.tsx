@@ -14,7 +14,7 @@ import FancyBox from '@/components/shared/FancyBox'
 import { currencyFormatter } from '@/lib/utils'
 
 import { useGetAllProducts, useGetProduct } from '@/apis/productApi'
-import { useAddToWishlist } from '@/apis/userApi'
+import { useAddToWishlist, useRemoveFromWishlist } from '@/apis/userApi'
 import { useUserContext } from '@/contexts/UserContext'
 
 const SingleProduct = () => {
@@ -32,6 +32,7 @@ const SingleProduct = () => {
   const [rating, setRating] = useState(0)
   const [saveDetails, setSaveDetails] = useState(false)
   const { addToWishlist, isPending: isAddWishlistPending } = useAddToWishlist()
+  const { removeFromWishlist, isPending: isRemoveWishlistPending } = useRemoveFromWishlist()
   const navigate = useNavigate()
 
   if (isProductLoading || isRelatedProductsLoading) {
@@ -46,7 +47,11 @@ const SingleProduct = () => {
     if (!currentUser) {
       navigate('/login')
     } else {
-      await addToWishlist(productId)
+      if (currentUser.wishlistItems.find((product) => product._id === productId)) {
+        await removeFromWishlist(productId)
+      } else {
+        await addToWishlist(productId)
+      }
     }
   }
 
@@ -143,7 +148,7 @@ const SingleProduct = () => {
 
                 {/* Add To Cart */}
                 <button
-                  disabled={isAddWishlistPending}
+                  disabled={isAddWishlistPending || isRemoveWishlistPending}
                   className='flex-1 bg-zinc-800 hover:bg-zinc-900 text-white px-4'
                 >
                   ADD TO CART
@@ -151,7 +156,10 @@ const SingleProduct = () => {
               </div>
 
               {/* Buy now */}
-              <button disabled={isAddWishlistPending} className='w-full bg-zinc-800 hover:bg-zinc-900 text-white py-3'>
+              <button
+                disabled={isAddWishlistPending || isRemoveWishlistPending}
+                className='w-full bg-zinc-800 hover:bg-zinc-900 text-white py-3'
+              >
                 BUY NOW
               </button>
 
@@ -159,10 +167,13 @@ const SingleProduct = () => {
               <div className='flex gap-2'>
                 <button
                   onClick={() => handleAddToWishlist(product._id)}
-                  disabled={isAddWishlistPending}
+                  disabled={isAddWishlistPending || isRemoveWishlistPending}
                   className='w-full bg-red-600 hover:bg-red-700 active:bg-red-800 text-white py-3 transition-colors duration-200 disabled:bg-red-300 disabled:cursor-not-allowed flex items-center justify-center gap-1'
                 >
-                  <Heart className='h-4 w-4' /> THÊM VÀO YÊU THÍCH
+                  <Heart className='h-4 w-4' />
+                  {currentUser?.wishlistItems.find((product) => product._id === productId)
+                    ? 'ĐÃ THÊM VÀO YÊU THÍCH'
+                    : 'THÊM VÀO YÊU THÍCH'}
                 </button>
               </div>
 

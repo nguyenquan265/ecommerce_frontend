@@ -99,7 +99,7 @@ export const useLogout = () => {
   const { mutateAsync: logout } = useMutation({
     mutationFn: createLogoutRequest,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+      queryClient.removeQueries({ queryKey: ['currentUser'] })
     }
   })
 
@@ -155,11 +155,6 @@ export const useAddToWishlist = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] })
       toast.success('Đã thêm sản phẩm vào mục yêu thích.')
-    },
-    onError: (err) => {
-      console.log(err)
-
-      toast.error('Sản phẩm đã có trong mục yêu thích.')
     }
   })
 
