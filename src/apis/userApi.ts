@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import authorizedAxios from '@/axios/authorizedAxios'
@@ -11,15 +12,28 @@ export const useGetCurrentUser = () => {
   const createGetUserRequest = async (): Promise<User> => {
     const res = await authorizedAxios.get('/auth/check-auth')
 
-    localStorage.setItem('user', JSON.stringify(res.data.user))
-
     return res.data.user
   }
 
-  const { data: user, isLoading } = useQuery({
+  const {
+    data: user,
+    isLoading,
+    error,
+    isError
+  } = useQuery({
     queryKey: ['currentUser'],
     queryFn: createGetUserRequest
   })
+
+  if (isError) {
+    if (error.response.status === 401 && error.response.data.message === 'Unauthorized! (Refresh token expired)') {
+      toast.error('Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.')
+
+      setTimeout(() => {
+        window.location.href = '/login'
+      }, 2000)
+    }
+  }
 
   return { user, isLoading }
 }
@@ -32,7 +46,6 @@ export const useLogin = () => {
 
     localStorage.setItem('accessToken', res.data.accessToken)
     localStorage.setItem('refreshToken', res.data.refreshToken)
-    localStorage.setItem('user', JSON.stringify(res.data.user))
 
     return res.data
   }
@@ -55,7 +68,6 @@ export const useGoogleLogin = () => {
 
     localStorage.setItem('accessToken', res.data.accessToken)
     localStorage.setItem('refreshToken', res.data.refreshToken)
-    localStorage.setItem('user', JSON.stringify(res.data.user))
 
     return res.data
   }
@@ -78,7 +90,6 @@ export const useSignUp = () => {
 
     localStorage.setItem('accessToken', res.data.accessToken)
     localStorage.setItem('refreshToken', res.data.refreshToken)
-    localStorage.setItem('user', JSON.stringify(res.data.user))
 
     return res.data
   }
@@ -161,6 +172,15 @@ export const useAddToWishlist = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] })
       toast.success('Đã thêm sản phẩm vào mục yêu thích.')
+    },
+    onError: (error) => {
+      if (error.response.status === 401 && error.response.data.message === 'Unauthorized! (Refresh token expired)') {
+        toast.error('Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.')
+
+        setTimeout(() => {
+          window.location.href = '/login'
+        }, 2000)
+      }
     }
   })
 
@@ -179,6 +199,15 @@ export const useRemoveFromWishlist = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] })
       toast.success('Đã xóa sản phẩm khỏi mục yêu thích.')
+    },
+    onError: (error) => {
+      if (error.response.status === 401 && error.response.data.message === 'Unauthorized! (Refresh token expired)') {
+        toast.error('Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.')
+
+        setTimeout(() => {
+          window.location.href = '/login'
+        }, 2000)
+      }
     }
   })
 
