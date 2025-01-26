@@ -7,6 +7,7 @@ import { Product } from '@/types'
 import { currencyFormatter, cn } from '@/lib/utils'
 
 import { useUserContext } from '@/contexts/UserContext'
+import { useAddToWishlist, useRemoveFromWishlist } from '@/apis/userApi'
 
 interface ProductCardProps {
   product: Product
@@ -15,11 +16,17 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
   const { currentUser } = useUserContext()
+  const { addToWishlist, isPending: isAddWishlistPending } = useAddToWishlist()
+  const { removeFromWishlist, isPending: isRemoveWishlistPending } = useRemoveFromWishlist()
   const navigate = useNavigate()
 
-  const handleAddWishlist = () => {
+  const handleAddWishlist = async (productId: string) => {
     if (currentUser) {
-      // Add to wishlist
+      if (currentUser.wishlistItems.find((product) => product._id === productId)) {
+        await removeFromWishlist(productId)
+      } else {
+        await addToWishlist(productId)
+      }
     } else {
       navigate('/login')
     }
@@ -75,7 +82,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
           />
         </Link>
 
-        {/* lg button */}
+        {/* LG Button */}
         <div
           className={cn(
             'absolute top-[50%] transform -translate-y-[50%] translate-x-[100%] right-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-in-out'
@@ -83,14 +90,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
         >
           <Button
             size='icon'
-            onClick={handleAddWishlist}
+            onClick={() => handleAddWishlist(product._id)}
+            disabled={isAddWishlistPending || isRemoveWishlistPending}
             className='bg-white hover:bg-zinc-100 transition-colors shadow-lg hover:shadow-xl'
             aria-label='Add to Wishlist'
           >
-            <Heart className='h-4 w-4 text-zinc-800' />
+            <Heart
+              className={cn(
+                'h-4 w-4',
+                currentUser?.wishlistItems.find((item) => item._id === product._id)
+                  ? 'text-red-600 fill-red-600'
+                  : 'text-zinc-800'
+              )}
+            />
           </Button>
 
-          <Button size='icon' className='bg-white hover:bg-zinc-100 transition-colors shadow-lg hover:shadow-xl'>
+          <Button
+            disabled={isAddWishlistPending || isRemoveWishlistPending}
+            size='icon'
+            className='bg-white hover:bg-zinc-100 transition-colors shadow-lg hover:shadow-xl'
+          >
             <Eye className='h-4 w-4 text-zinc-800' />
           </Button>
         </div>
@@ -116,11 +135,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
           </div>
 
           <div className={cn('flex gap-2 mb-4', viewMode === 'grid' && 'hidden')}>
-            <Button size='icon' onClick={handleAddWishlist} variant='outline'>
+            <Button
+              size='icon'
+              disabled={isAddWishlistPending || isRemoveWishlistPending}
+              onClick={() => handleAddWishlist(product._id)}
+              variant='outline'
+            >
               <Heart className='h-4 w-4' />
             </Button>
 
-            <Button size='icon' variant='outline'>
+            <Button size='icon' disabled={isAddWishlistPending || isRemoveWishlistPending} variant='outline'>
               <Eye className='h-4 w-4' />
             </Button>
           </div>
@@ -128,6 +152,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
 
         <Button
           onClick={handleAddCart}
+          disabled={isAddWishlistPending || isRemoveWishlistPending}
           className={cn('h-9 w-full bg-zinc-800 hover:bg-zinc-900', viewMode === 'list' && 'max-w-[200px]')}
         >
           ADD TO CART

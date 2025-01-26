@@ -1,87 +1,71 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 
-import { Heart, Mail, ShoppingCart, Trash2 } from 'lucide-react'
+import { Heart, ShoppingCart, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
 
-interface WishlistItem {
-  id: number
-  name: string
-  price: number
-  image: string
-  selected: boolean
-}
+import { currencyFormatter } from '@/lib/utils'
+
+import { useUserContext } from '@/contexts/UserContext'
 
 const WishList = () => {
-  const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([
-    {
-      id: 1,
-      name: 'Volutpat lacus',
-      price: 879.99,
-      image: '/placeholder.svg?height=80&width=60',
-      selected: false
-    },
-    {
-      id: 2,
-      name: '10K Yellow Gold',
-      price: 99.99,
-      image: '/placeholder.svg?height=80&width=60',
-      selected: false
-    }
-  ])
+  const { currentUser, isUserLoading } = useUserContext()
 
-  const toggleItem = (id: number) => {
-    setWishlistItems((items) => items.map((item) => (item.id === id ? { ...item, selected: !item.selected } : item)))
+  if (isUserLoading) {
+    return null
   }
 
-  const toggleAll = (checked: boolean) => {
-    setWishlistItems((items) => items.map((item) => ({ ...item, selected: checked })))
-  }
-
-  const removeItem = (id: number) => {
-    setWishlistItems((items) => items.filter((item) => item.id !== id))
+  if (!currentUser) {
+    return <Navigate to='/login' />
   }
 
   return (
     <div className='min-h-screen bg-background'>
       <div className='bg-zinc-50 py-6'>
         <h1 className='container mx-auto px-4 text-center text-2xl font-medium flex items-center justify-center gap-2'>
-          <Heart className='w-5 h-5' />
+          <Heart className='w-5 h-5 fill-red-600 text-red-600' />
           WISHLIST
         </h1>
       </div>
 
       <div className='container mx-auto px-4 py-8'>
-        {wishlistItems.length > 0 ? (
+        {currentUser.wishlistItems.length > 0 ? (
           <>
             <div className='w-full overflow-auto'>
               <table className='w-full'>
                 <thead>
                   <tr className='border-b text-sm'>
                     <th className='pb-4 text-left font-medium w-8'>
-                      <Checkbox
-                        checked={wishlistItems.every((item) => item.selected)}
-                        onCheckedChange={(checked) => toggleAll(checked as boolean)}
-                      />
+                      <Checkbox />
                     </th>
-                    <th className='pb-4 text-left font-medium'>PRODUCT</th>
-                    <th className='pb-4 text-right font-medium'>ACTION</th>
+                    <th className='pb-4 text-left font-medium'>Select All</th>
+                    <th className='pb-4 text-right font-medium'></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {wishlistItems.map((item) => (
-                    <tr key={item.id} className='border-b'>
+                  {currentUser.wishlistItems.map((item) => (
+                    <tr key={item._id} className='border-b'>
                       <td className='py-4'>
-                        <Checkbox checked={item.selected} onCheckedChange={() => toggleItem(item.id)} />
+                        <Checkbox />
                       </td>
                       <td className='py-4'>
                         <div className='flex items-center gap-4'>
-                          <img src={item.image} alt={item.name} width={60} height={80} className='bg-zinc-100' />
+                          <img src={item.mainImage} alt={item.title} width={60} height={80} className='bg-zinc-100' />
                           <div>
-                            <h3 className='font-medium'>{item.name}</h3>
-                            <p className='text-sm text-muted-foreground'>${item.price.toFixed(2)}</p>
+                            <h3 className='font-medium'>{item.title}</h3>
+                            <div className='flex items-center gap-2 mb-4'>
+                              <p className='text-sm font-medium text-red-600'>
+                                {item.priceDiscount
+                                  ? currencyFormatter(item.price - (item.price * item.priceDiscount) / 100)
+                                  : currencyFormatter(item.price)}
+                              </p>
+
+                              {item.priceDiscount ? (
+                                <p className='text-sm text-gray-500 line-through'>{currencyFormatter(item.price)}</p>
+                              ) : (
+                                ''
+                              )}
+                            </div>
                           </div>
                         </div>
                       </td>
@@ -90,7 +74,7 @@ const WishList = () => {
                           <Button variant='default' size='icon' className='bg-zinc-800 hover:bg-zinc-900'>
                             <ShoppingCart className='h-4 w-4' />
                           </Button>
-                          <Button variant='outline' size='icon' onClick={() => removeItem(item.id)}>
+                          <Button variant='outline' size='icon'>
                             <Trash2 className='h-4 w-4' />
                           </Button>
                         </div>
@@ -100,27 +84,10 @@ const WishList = () => {
                 </tbody>
               </table>
             </div>
-
-            <div className='mt-8 flex flex-wrap items-center gap-4'>
-              <Select defaultValue='add'>
-                <SelectTrigger className='w-[200px]'>
-                  <SelectValue placeholder='Add to cart' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='add'>Add to cart</SelectItem>
-                  <SelectItem value='move'>Move to cart</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button className='bg-zinc-800 hover:bg-zinc-900'>APPLY</Button>
-              <Button variant='outline' className='ml-auto flex items-center gap-2'>
-                <Mail className='h-4 w-4' />
-                ASK FOR AN ESTIMATE
-              </Button>
-            </div>
           </>
         ) : (
           <div className='flex flex-col items-center justify-center text-center max-w-md mx-auto'>
-            <Heart className='w-12 h-12 mb-6 text-muted-foreground' />
+            <Heart className='w-12 h-12 mb-6 text-muted-foreground text-red-600' />
             <h1 className='text-2xl font-medium mb-4'>Your wishlist is empty</h1>
             <p className='text-muted-foreground mb-8'>
               We invite you to get acquainted with an assortment of our shop. Surely you can find something for

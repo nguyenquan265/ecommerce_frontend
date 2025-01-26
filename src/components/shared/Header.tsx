@@ -130,7 +130,7 @@ const Header = () => {
             <Link to='/wishlist' className='relative group hidden lg:block'>
               <Heart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
               <span className='absolute -top-2 -right-2 h-4 w-4 text-[10px] font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center'>
-                0
+                {currentUser?.wishlistItems.length || 0}
               </span>
             </Link>
 

@@ -68,7 +68,7 @@ authorizedAxios.interceptors.response.use(
             localStorage.removeItem('refreshToken')
 
             navigateTo('/login')
-            toast.error('Your session has expired. Please login again.')
+            toast.error('Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.')
 
             return Promise.reject(_error)
           })
@@ -83,12 +83,10 @@ authorizedAxios.interceptors.response.use(
     }
 
     if (error.response.status !== 401) {
-      console.log('Super Error: ', error)
+      console.log('Not Show Error: ', error)
 
-      if (error.response.data.message) {
-        toast.error(error.response.data.message)
-      } else {
-        toast.error('An error occurred. Please reload page and try again later.')
+      if (!error.response.data.message) {
+        toast.error('Đã xảy ra lỗi. Vui lòng thử lại sau')
       }
     }
 

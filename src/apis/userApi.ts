@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import authorizedAxios from '@/axios/authorizedAxios'
 
 import { User } from '@/types'
@@ -140,4 +141,45 @@ export const useChangeUserPassword = () => {
   })
 
   return { changeUserPassword, isPending }
+}
+
+export const useAddToWishlist = () => {
+  const queryClient = useQueryClient()
+
+  const createAddToWishlistRequest = async (productId: string) => {
+    await authorizedAxios.patch('/auth/me/add-to-wishlist', { productId })
+  }
+
+  const { mutateAsync: addToWishlist, isPending } = useMutation({
+    mutationFn: createAddToWishlistRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+      toast.success('Đã thêm sản phẩm vào mục yêu thích.')
+    },
+    onError: (err) => {
+      console.log(err)
+
+      toast.error('Sản phẩm đã có trong mục yêu thích.')
+    }
+  })
+
+  return { addToWishlist, isPending }
+}
+
+export const useRemoveFromWishlist = () => {
+  const queryClient = useQueryClient()
+
+  const createRemoveFromWishlistRequest = async (productId: string) => {
+    await authorizedAxios.patch('/auth/me/remove-from-wishlist', { productId })
+  }
+
+  const { mutateAsync: removeFromWishlist, isPending } = useMutation({
+    mutationFn: createRemoveFromWishlistRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+      toast.success('Đã xóa sản phẩm khỏi mục yêu thích.')
+    }
+  })
+
+  return { removeFromWishlist, isPending }
 }

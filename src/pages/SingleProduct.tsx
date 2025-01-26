@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { Heart, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -14,9 +14,12 @@ import FancyBox from '@/components/shared/FancyBox'
 import { currencyFormatter } from '@/lib/utils'
 
 import { useGetAllProducts, useGetProduct } from '@/apis/productApi'
+import { useAddToWishlist } from '@/apis/userApi'
+import { useUserContext } from '@/contexts/UserContext'
 
 const SingleProduct = () => {
   const { productId } = useParams()
+  const { currentUser } = useUserContext()
   const { product, isLoading: isProductLoading } = useGetProduct(productId)
   const { products: relatedProducts, isLoading: isRelatedProductsLoading } = useGetAllProducts({
     page: 1,
@@ -28,6 +31,8 @@ const SingleProduct = () => {
   const [quantity, setQuantity] = useState(1)
   const [rating, setRating] = useState(0)
   const [saveDetails, setSaveDetails] = useState(false)
+  const { addToWishlist, isPending: isAddWishlistPending } = useAddToWishlist()
+  const navigate = useNavigate()
 
   if (isProductLoading || isRelatedProductsLoading) {
     return null
@@ -35,6 +40,14 @@ const SingleProduct = () => {
 
   if (!product) {
     return <div>Product not found</div>
+  }
+
+  const handleAddToWishlist = async (productId: string) => {
+    if (!currentUser) {
+      navigate('/login')
+    } else {
+      await addToWishlist(productId)
+    }
   }
 
   const handleSubmitReview = (e: React.FormEvent<HTMLFormElement>) => {
@@ -80,6 +93,7 @@ const SingleProduct = () => {
 
           {/* Product Details */}
           <div>
+            {/* Name - Price - Discount */}
             <h1 className='text-2xl font-medium mb-2'>{product?.title}</h1>
             <div className='flex items-center gap-2 mb-4'>
               <p className='text-xl font-medium text-red-600'>
@@ -105,8 +119,10 @@ const SingleProduct = () => {
               </p>
             </div>
 
+            {/* Product Actions */}
             <div className='space-y-6'>
               <div className='flex gap-4'>
+                {/* Quantity */}
                 <div className='flex items-center border'>
                   <button
                     className='px-3 py-2 hover:bg-zinc-100'
@@ -124,15 +140,29 @@ const SingleProduct = () => {
                     +
                   </button>
                 </div>
-                <button className='flex-1 bg-zinc-800 hover:bg-zinc-900 text-white px-4'>ADD TO CART</button>
+
+                {/* Add To Cart */}
+                <button
+                  disabled={isAddWishlistPending}
+                  className='flex-1 bg-zinc-800 hover:bg-zinc-900 text-white px-4'
+                >
+                  ADD TO CART
+                </button>
               </div>
 
-              <button className='w-full bg-zinc-800 hover:bg-zinc-900 text-white py-3'>BUY NOW</button>
+              {/* Buy now */}
+              <button disabled={isAddWishlistPending} className='w-full bg-zinc-800 hover:bg-zinc-900 text-white py-3'>
+                BUY NOW
+              </button>
 
               {/* Add Wishlist */}
               <div className='flex gap-2'>
-                <button className='p-2 border hover:border-zinc-400'>
-                  <Heart className='h-4 w-4' />
+                <button
+                  onClick={() => handleAddToWishlist(product._id)}
+                  disabled={isAddWishlistPending}
+                  className='w-full bg-red-600 hover:bg-red-700 active:bg-red-800 text-white py-3 transition-colors duration-200 disabled:bg-red-300 disabled:cursor-not-allowed flex items-center justify-center gap-1'
+                >
+                  <Heart className='h-4 w-4' /> THÊM VÀO YÊU THÍCH
                 </button>
               </div>
 

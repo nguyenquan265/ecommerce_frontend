@@ -13,6 +13,7 @@ export type User = {
     ward: string
     wardName: string
   }
+  wishlistItems: Product[]
   isGoogleAccount: boolean
   createdAt: string
   updatedAt: string
