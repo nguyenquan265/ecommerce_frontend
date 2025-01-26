@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { useRefreshToken } from '@/apis/userApi'
 import { toast } from 'sonner'
-import { navigateTo } from '@/lib/navigationHelper'
 
 const API_BASE_URL = import.meta.env.VITE_SERVER_URL
 
@@ -66,9 +65,6 @@ authorizedAxios.interceptors.response.use(
           .catch((_error: any) => {
             localStorage.removeItem('accessToken')
             localStorage.removeItem('refreshToken')
-
-            navigateTo('/login')
-            toast.error('Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.')
 
             return Promise.reject(_error)
           })
