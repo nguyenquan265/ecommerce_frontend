@@ -1,7 +1,6 @@
-import { Link } from 'react-router-dom'
-
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { ChevronLeft } from 'lucide-react'
+
+import Breadcrumb from '@/components/shared/Breadcrumb'
 
 const features = [
   {
@@ -66,28 +65,16 @@ const About = () => {
   return (
     <div className='min-h-screen bg-background'>
       {/* Breadcrumb */}
-      <div className='border-b'>
-        <div className='container mx-auto px-4 py-4 flex justify-between items-center'>
-          <div className='flex items-center gap-2 text-sm text-muted-foreground'>
-            <Link to='/' className='hover:text-foreground'>
-              Home
-            </Link>
-            <span>/</span>
-            <span>About Us</span>
-          </div>
-          <Link to='/' className='text-sm text-muted-foreground hover:text-foreground flex items-center gap-1'>
-            <ChevronLeft className='h-4 w-4' />
-            Return to previous page
-          </Link>
-        </div>
-      </div>
+      <Breadcrumb text='Giới thiệu về chúng tôi' />
 
       {/* Main Content */}
       <div className='container mx-auto px-4 py-16'>
         {/* Features Section */}
         <div className='text-center mb-16'>
-          <span className='text-sm text-muted-foreground uppercase tracking-wider'>WE TRY OUR BEST FOR YOU</span>
-          <h1 className='text-3xl font-medium mt-4 mb-12'>Welcome to the Marseille04 Shop</h1>
+          <span className='text-sm text-muted-foreground uppercase tracking-wider'>
+            CHÚNG TÔI CỐ GẮNG HẾT MÌNH VÌ BẠN
+          </span>
+          <h1 className='text-3xl font-medium mt-4 mb-12'>Chào mừng đến với Cửa hàng Marseille04</h1>
 
           <div className='grid md:grid-cols-3 gap-8 mb-16'>
             {features.map((feature, index) => (
@@ -117,8 +104,10 @@ const About = () => {
         {/* FAQ Section */}
         <div className='max-w-3xl mx-auto'>
           <div className='text-center mb-8'>
-            <span className='text-sm text-muted-foreground uppercase tracking-wider'>WE ARE HAPPY TO HELP YOU</span>
-            <h2 className='text-2xl font-medium mt-4'>Have Any Questions?</h2>
+            <span className='text-sm text-muted-foreground uppercase tracking-wider'>
+              CHÚNG TÔI RẤT VUI ĐƯỢC GIÚP ĐỠ BẠN
+            </span>
+            <h2 className='text-2xl font-medium mt-4'>Bạn có thắc mắc gì không?</h2>
           </div>
 
           <Accordion type='single' collapsible className='w-full'>

@@ -37,7 +37,7 @@ const Footer = () => {
 
           {/* Payment Methods */}
           <div className='text-center mb-8'>
-            <h3 className='text-sm mb-4'>Guaranteed safe ckeckout</h3>
+            <h3 className='text-sm mb-4'>Đảm bảo thanh toán an toàn</h3>
             <div className='flex justify-center gap-2'>
               {paymentMethods.map((method) => (
                 <div key={method.name} className='w-12 h-8 bg-white/10 rounded flex items-center justify-center'>

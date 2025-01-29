@@ -9,7 +9,7 @@ import Breadcrumb from '@/components/shared/Breadcrumb'
 const Contact = () => {
   return (
     <div className='min-h-screen bg-background'>
-      <Breadcrumb text='contact us' />
+      <Breadcrumb text='liên hệ với chúng tôi' />
 
       {/* Map */}
       <div className='container mx-auto px-4 h-[300px]'>
@@ -29,10 +29,10 @@ const Contact = () => {
         <div className='grid md:grid-cols-2 gap-12'>
           {/* Information */}
           <div className='max-lg:text-center'>
-            <h2 className='text-xl font-medium mb-8'>Information</h2>
+            <h2 className='text-xl font-medium mb-8'>Thông tin</h2>
             <div className='space-y-6'>
               <div>
-                <h3 className='text-sm font-medium mb-2'>Address</h3>
+                <h3 className='text-sm font-medium mb-2'>Địa chỉ</h3>
                 <p className='text-sm text-muted-foreground'>
                   7895 Fairmont Dr NE
                   <br />
@@ -42,7 +42,7 @@ const Contact = () => {
                 </p>
               </div>
               <div>
-                <h3 className='text-sm font-medium mb-2'>Phones</h3>
+                <h3 className='text-sm font-medium mb-2'>Điện thoại</h3>
                 <p className='text-sm text-muted-foreground'>
                   +391 (0)35 2568 4593
                   <br />
@@ -50,8 +50,8 @@ const Contact = () => {
                 </p>
               </div>
               <div>
-                <h3 className='text-sm font-medium mb-2'>We're Open</h3>
-                <p className='text-sm text-muted-foreground'>Every day 11am to 7pm</p>
+                <h3 className='text-sm font-medium mb-2'>Chúng tôi mở</h3>
+                <p className='text-sm text-muted-foreground'>Mỗi ngày từ 11 giờ sáng đến 7 giờ tối</p>
               </div>
 
               <div className='flex gap-4 pt-4 max-lg:items-center max-lg:justify-center'>
@@ -73,9 +73,9 @@ const Contact = () => {
 
           {/* Contact Form */}
           <div>
-            <h2 className='text-xl font-medium mb-4'>Contact Us</h2>
+            <h2 className='text-xl font-medium mb-4'>Liên hệ với chúng tôi</h2>
             <p className='text-sm text-muted-foreground mb-8'>
-              If you've got great products your looking to work with us then drop us a line.
+              Nếu bạn có những sản phẩm tuyệt vời và muốn hợp tác với chúng tôi, hãy liên hệ với chúng tôi.
             </p>
             <form className='space-y-4'>
               <div className='grid grid-cols-2 gap-4'>
@@ -83,7 +83,7 @@ const Contact = () => {
                 <Input type='email' placeholder='Email' className='rounded-none' />
               </div>
               <Textarea placeholder='Message' className='min-h-[150px] rounded-none' />
-              <Button className='w-full bg-zinc-800 hover:bg-zinc-900 rounded-none'>Send Now</Button>
+              <Button className='w-full bg-zinc-800 hover:bg-zinc-900 rounded-none'>Gửi ngay</Button>
             </form>
           </div>
         </div>

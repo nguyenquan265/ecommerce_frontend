@@ -9,10 +9,10 @@ import { Heart, Search, ShoppingCart, User2, X } from 'lucide-react'
 import { useUserContext } from '@/contexts/UserContext'
 
 const navigateItems = [
-  { href: '/', label: 'Home' },
-  { href: '/shop', label: 'Shop' },
-  { href: '/about', label: 'About us' },
-  { href: '/contact', label: 'Contact us' }
+  { href: '/', label: 'Trang chủ' },
+  { href: '/shop', label: 'Cửa hàng' },
+  { href: '/about', label: 'Về chúng tôi' },
+  { href: '/contact', label: 'Liên hệ' }
 ]
 
 const MobileSidebar = () => {
@@ -41,7 +41,7 @@ const MobileSidebar = () => {
       </SidebarHeader>
 
       <div className='relative px-7 mb-3'>
-        <Input type='search' placeholder='Search for products.' className='pl-2' />
+        <Input type='search' placeholder='Tìm kiếm sản phẩm.' className='pl-2' />
         <Search className='absolute right-10 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
       </div>
 
@@ -71,7 +71,7 @@ const MobileSidebar = () => {
               )}
             >
               <User2 className='h-4 w-4' />
-              Account
+              Tài khoản
             </Link>
           ) : (
             <Link
@@ -82,20 +82,9 @@ const MobileSidebar = () => {
               )}
             >
               <User2 className='h-4 w-4' />
-              Login
+              Đăng nhập
             </Link>
           )}
-
-          <Link
-            to='/cart'
-            className={cn(
-              'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
-              pathname === '/cart' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
-            )}
-          >
-            <ShoppingCart className='h-4 w-4' />
-            Cart $0.00
-          </Link>
 
           <Link
             to='/wishlist'
@@ -105,7 +94,18 @@ const MobileSidebar = () => {
             )}
           >
             <Heart className='h-4 w-4' />
-            Wishlist
+            Danh sách yêu thích
+          </Link>
+
+          <Link
+            to='/cart'
+            className={cn(
+              'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
+              pathname === '/cart' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
+            )}
+          >
+            <ShoppingCart className='h-4 w-4' />
+            Giỏ hàng $0.00
           </Link>
         </div>
       </SidebarContent>

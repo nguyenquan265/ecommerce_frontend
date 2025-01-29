@@ -14,7 +14,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ text }) => {
       <div className='container mx-auto px-4 py-4 flex justify-between items-center'>
         <div className='flex items-center gap-2 text-sm text-muted-foreground'>
           <Link to='/' className='hover:text-foreground'>
-            Home
+            Trang chủ
           </Link>
           <span>/</span>
           <span className='capitalize'>{text}</span>
@@ -25,7 +25,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ text }) => {
           className='hover:cursor-pointer text-sm text-muted-foreground hover:text-foreground flex items-center gap-1'
         >
           <ChevronLeft className='h-4 w-4' />
-          Return to previous page
+          Quay lại trang trước
         </p>
       </div>
     </div>

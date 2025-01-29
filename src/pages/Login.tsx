@@ -56,14 +56,14 @@ const Login = () => {
       <div className='bg-zinc-50 py-6'>
         <h1 className='container mx-auto px-4 text-center text-2xl font-medium flex items-center justify-center gap-2'>
           <User2 className='w-5 h-5' />
-          Login
+          Đăng Nhập
         </h1>
       </div>
 
       <div className='container mx-auto px-4 py-8'>
         <div className='max-w-md mx-auto'>
           <div className='bg-white p-8'>
-            <h2 className='text-xl font-medium mb-6'>LOGIN</h2>
+            <h2 className='text-xl font-medium mb-6'>Đăng Nhập</h2>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
                 <FormField
@@ -76,7 +76,7 @@ const Login = () => {
                       </FormLabel>
 
                       <FormControl>
-                        <Input placeholder='Enter your email' {...field} className='rounded-none' />
+                        <Input placeholder='Nhập email của bạn' {...field} className='rounded-none' />
                       </FormControl>
 
                       <FormMessage />
@@ -90,13 +90,13 @@ const Login = () => {
                   render={({ field }) => (
                     <FormItem className='space-y-2'>
                       <FormLabel className='block text-sm'>
-                        Password<span className='text-red-500'>*</span>
+                        Mật khẩu<span className='text-red-500'>*</span>
                       </FormLabel>
 
                       <FormControl>
                         <div className='relative'>
                           <Input
-                            placeholder='Enter your password'
+                            placeholder='Nhập mật khẩu của bạn'
                             type={showPassword ? 'text' : 'password'}
                             {...field}
                             className='rounded-none pr-10'
@@ -123,20 +123,20 @@ const Login = () => {
                 />
 
                 <Button type='submit' disabled={isPending} className='w-full bg-zinc-800 hover:bg-zinc-900'>
-                  LOG IN
+                  Đăng Nhập
                 </Button>
 
                 <GoogleLogin isParentLoading={isPending} />
 
                 <div className='text-center'>
                   <Link to='/forgot-password' className='text-sm text-zinc-600 hover:underline'>
-                    Lost your password?
+                    Quên mật khẩu?
                   </Link>
                 </div>
 
                 <div className='text-center'>
                   <Link to='/sign-up' className='text-sm text-zinc-600 hover:underline'>
-                    Don't have an account? Sign up
+                    Không có tài khoản? Đăng ký
                   </Link>
                 </div>
               </form>

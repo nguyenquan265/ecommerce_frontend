@@ -82,9 +82,9 @@ const Header = () => {
       <SocialLinks />
 
       {/* Shop, About */}
-      <nav className='hidden w-[160px] lg:flex items-center gap-6'>
-        <NavLink to='/shop'>Our Shop</NavLink>
-        <NavLink to='/about'>About Us</NavLink>
+      <nav className='hidden w-[200px] lg:flex items-center gap-6'>
+        <NavLink to='/shop'>cửa hàng</NavLink>
+        <NavLink to='/about'>về chúng tôi</NavLink>
       </nav>
 
       {/* Logo */}
@@ -99,9 +99,9 @@ const Header = () => {
       </Link>
 
       {/* Contact, Search */}
-      <nav className='hidden w-[160px] lg:flex items-center gap-6'>
-        <NavLink to='/contact'>Contacts</NavLink>
-        <NavLink to='#'>Search</NavLink>
+      <nav className='hidden w-[200px] lg:flex items-center gap-6'>
+        <NavLink to='/contact'>liên hệ</NavLink>
+        <NavLink to='#'>Tìm kiếm</NavLink>
       </nav>
 
       {/* Account, Wishlist, Cart */}
@@ -127,14 +127,14 @@ const Header = () => {
               </Link>
             )}
 
-            <Link to='/wishlist' className='relative group hidden lg:block'>
+            <Link to={`/${currentUser ? 'wishlist' : 'login'}`} className='relative group hidden lg:block'>
               <Heart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
               <span className='absolute -top-2 -right-2 h-4 w-4 text-[10px] font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center'>
                 {currentUser?.wishlistItems.length || 0}
               </span>
             </Link>
 
-            <Link to='/cart' className='relative group hidden lg:block'>
+            <Link to={`/${currentUser ? 'cart' : 'login'}`} className='relative group hidden lg:block'>
               <ShoppingCart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
               <span className='absolute -top-2 -right-2 h-4 w-4 text-[10px] font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center'>
                 0

@@ -20,7 +20,7 @@ const ForgotPassword = () => {
       <div className='bg-zinc-50 py-6'>
         <h1 className='container mx-auto px-4 text-center text-2xl font-medium flex items-center justify-center gap-2'>
           <User2 className='w-5 h-5' />
-          Forgot Password
+          Quên Mật Khẩu
         </h1>
       </div>
 
@@ -28,7 +28,7 @@ const ForgotPassword = () => {
         <div className='max-w-md mx-auto'>
           {/* Login Form */}
           <div className='bg-white p-8'>
-            <h2 className='text-xl font-medium mb-6'>FORGOT PASSWORD</h2>
+            <h2 className='text-xl font-medium mb-6'>Quên Mật Khẩu</h2>
             <form onSubmit={handleSubmit} className='space-y-4'>
               <div className='space-y-2'>
                 <label htmlFor='email' className='block text-sm'>
@@ -45,7 +45,7 @@ const ForgotPassword = () => {
               </div>
 
               <Button type='submit' className='w-full bg-zinc-800 hover:bg-zinc-900'>
-                SUBMIT
+                Xác Nhận
               </Button>
             </form>
           </div>

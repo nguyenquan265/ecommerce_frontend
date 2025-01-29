@@ -7,29 +7,29 @@ const Overview = () => {
         <div className='flex items-center gap-4'>
           <Truck className='h-6 w-6 flex-shrink-0' />
           <div>
-            <h3 className='font-medium mb-1'>Fastest Shipping</h3>
-            <p className='text-sm text-zinc-400'>Order at $39 order</p>
+            <h3 className='text-center font-medium mb-1'>Vận chuyển nhanh nhất</h3>
+            <p className='text-center text-sm text-zinc-400'>Đặt hàng với giá $39</p>
           </div>
         </div>
         <div className='flex items-center gap-4'>
           <CreditCard className='h-6 w-6 flex-shrink-0' />
           <div>
-            <h3 className='font-medium mb-1'>100% Safe Payments</h3>
-            <p className='text-sm text-zinc-400'>9 month installments</p>
+            <h3 className='text-center font-medium mb-1'>Thanh toán an toàn 100%</h3>
+            <p className='text-center text-sm text-zinc-400'>Trả góp 9 tháng</p>
           </div>
         </div>
         <div className='flex items-center gap-4'>
           <RotateCcw className='h-6 w-6 flex-shrink-0' />
           <div>
-            <h3 className='font-medium mb-1'>14-Days Return</h3>
-            <p className='text-sm text-zinc-400'>Shop with confidence</p>
+            <h3 className='text-center font-medium mb-1'>Trả hàng trong vòng 14 ngày</h3>
+            <p className='text-center text-sm text-zinc-400'>Mua sắm một cách tự tin</p>
           </div>
         </div>
         <div className='flex items-center gap-4'>
           <HeadphonesIcon className='h-6 w-6 flex-shrink-0' />
           <div>
-            <h3 className='font-medium mb-1'>24/7 Online Support</h3>
-            <p className='text-sm text-zinc-400'>Delivered to home</p>
+            <h3 className='text-center font-medium mb-1'>Hỗ trợ trực tuyến 24/7</h3>
+            <p className='text-center text-sm text-zinc-400'>Giao tận nhà</p>
           </div>
         </div>
       </div>

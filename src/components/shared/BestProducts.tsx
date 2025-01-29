@@ -47,8 +47,8 @@ const BestProducts = () => {
     <div className='py-16'>
       <div className='container mx-auto px-4'>
         <div className='text-center mb-12'>
-          <span className='text-sm text-muted-foreground uppercase tracking-wider'>DON'T MISS SUPER OFFERS</span>
-          <h2 className='text-3xl font-medium mt-2'>Our best products</h2>
+          <span className='text-sm text-muted-foreground uppercase tracking-wider'>ĐỪNG BỎ LỠ ƯU ĐÃI SIÊU KHỦNG</span>
+          <h2 className='text-3xl font-medium mt-2'>Sản phẩm tốt nhất của chúng tôi</h2>
         </div>
 
         {/* Featured Product with Timer */}
@@ -77,10 +77,10 @@ const BestProducts = () => {
                 ))}
               </div>
 
-              <h2 className='text-4xl font-medium text-center mb-6'>The Classics Make A Comeback</h2>
+              <h2 className='text-4xl font-medium text-center mb-6'>Những sản phẩm kinh điển trở lại</h2>
 
               <Button size='lg' className='bg-zinc-800 hover:bg-zinc-900'>
-                Buy now
+                Mua ngay
               </Button>
             </div>
           </div>

@@ -1,5 +1,3 @@
-import { Navigate } from 'react-router-dom'
-
 import { User, Lock, ShoppingBag, LogOut } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
@@ -18,12 +16,8 @@ const Account = () => {
   const { currentUser, isUserLoading } = useUserContext()
   const { logout } = useLogout()
 
-  if (isUserLoading) {
+  if (!currentUser || isUserLoading) {
     return <AccountSkeleton />
-  }
-
-  if (!currentUser) {
-    return <Navigate to='/login' />
   }
 
   const handleLogout = async () => {
@@ -36,7 +30,7 @@ const Account = () => {
 
   return (
     <div className='min-h-screen bg-background'>
-      <Breadcrumb text='account' />
+      <Breadcrumb text='tài khoản' />
 
       <div className='container mx-auto py-8 px-4'>
         <Tabs defaultValue='account' className='w-full'>

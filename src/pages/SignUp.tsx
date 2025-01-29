@@ -60,14 +60,14 @@ const SignUp = () => {
       <div className='bg-zinc-50 py-6'>
         <h1 className='container mx-auto px-4 text-center text-2xl font-medium flex items-center justify-center gap-2'>
           <User2 className='w-5 h-5' />
-          Sign Up
+          Đăng Ký
         </h1>
       </div>
 
       <div className='container mx-auto px-4 py-8'>
         <div className='max-w-md mx-auto'>
           <div className='bg-white p-8'>
-            <h2 className='text-xl font-medium mb-6'>SIGN UP</h2>
+            <h2 className='text-xl font-medium mb-6'>Đăng Ký</h2>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
                 <FormField
@@ -76,11 +76,11 @@ const SignUp = () => {
                   render={({ field }) => (
                     <FormItem className='space-y-2'>
                       <FormLabel className='block text-sm'>
-                        Name<span className='text-red-500'>*</span>
+                        Tên<span className='text-red-500'>*</span>
                       </FormLabel>
 
                       <FormControl>
-                        <Input placeholder='Enter your name' {...field} className='rounded-none' />
+                        <Input placeholder='Nhập tên của bạn' {...field} className='rounded-none' />
                       </FormControl>
 
                       <FormMessage />
@@ -98,7 +98,7 @@ const SignUp = () => {
                       </FormLabel>
 
                       <FormControl>
-                        <Input placeholder='Enter your email' {...field} className='rounded-none' />
+                        <Input placeholder='Nhập email của bạn' {...field} className='rounded-none' />
                       </FormControl>
 
                       <FormMessage />
@@ -112,13 +112,13 @@ const SignUp = () => {
                   render={({ field }) => (
                     <FormItem className='space-y-2'>
                       <FormLabel className='block text-sm'>
-                        Password<span className='text-red-500'>*</span>
+                        Mật khẩu<span className='text-red-500'>*</span>
                       </FormLabel>
 
                       <FormControl>
                         <div className='relative'>
                           <Input
-                            placeholder='Enter your password'
+                            placeholder='Nhập mật khẩu của bạn'
                             type={showPassword ? 'text' : 'password'}
                             {...field}
                             className='rounded-none pr-10'
@@ -145,14 +145,14 @@ const SignUp = () => {
                 />
 
                 <Button type='submit' disabled={isPending} className='w-full bg-zinc-800 hover:bg-zinc-900'>
-                  SIGN UP
+                  Đăng Ký
                 </Button>
 
                 <GoogleLogin isParentLoading={isPending} />
 
                 <div className='text-center'>
                   <Link to='/login' className='text-sm text-zinc-600 hover:underline'>
-                    Already have an account? Login
+                    Đã có tài khoản? Đăng nhập
                   </Link>
                 </div>
               </form>

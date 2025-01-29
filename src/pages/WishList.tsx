@@ -1,22 +1,25 @@
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { Heart, ShoppingCart, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import WishListSkeleton from '@/components/skeletons/WishlistSkeleton'
 
 import { currencyFormatter } from '@/lib/utils'
 
 import { useUserContext } from '@/contexts/UserContext'
+import { useRemoveFromWishlist } from '@/apis/userApi'
 
 const WishList = () => {
   const { currentUser, isUserLoading } = useUserContext()
+  const { removeFromWishlist, isPending } = useRemoveFromWishlist()
 
-  if (isUserLoading) {
-    return null
+  const handleRemoveFromWishlist = async (productId: string) => {
+    await removeFromWishlist(productId)
   }
 
-  if (!currentUser) {
-    return <Navigate to='/login' />
+  if (isUserLoading || !currentUser) {
+    return <WishListSkeleton />
   }
 
   return (
@@ -24,7 +27,7 @@ const WishList = () => {
       <div className='bg-zinc-50 py-6'>
         <h1 className='container mx-auto px-4 text-center text-2xl font-medium flex items-center justify-center gap-2'>
           <Heart className='w-5 h-5 fill-red-600 text-red-600' />
-          WISHLIST
+          DANH SÁCH YÊU THÍCH
         </h1>
       </div>
 
@@ -38,7 +41,7 @@ const WishList = () => {
                     <th className='pb-4 text-left font-medium w-8'>
                       <Checkbox />
                     </th>
-                    <th className='pb-4 text-left font-medium'>Select All</th>
+                    <th className='pb-4 text-left font-medium'>Chọn tất cả</th>
                     <th className='pb-4 text-right font-medium'></th>
                   </tr>
                 </thead>
@@ -69,12 +72,24 @@ const WishList = () => {
                           </div>
                         </div>
                       </td>
+
                       <td className='py-4'>
                         <div className='flex justify-end gap-2'>
-                          <Button variant='default' size='icon' className='bg-zinc-800 hover:bg-zinc-900'>
+                          <Button
+                            disabled={isPending}
+                            variant='default'
+                            size='icon'
+                            className='bg-zinc-800 hover:bg-zinc-900'
+                          >
                             <ShoppingCart className='h-4 w-4' />
                           </Button>
-                          <Button variant='outline' size='icon'>
+
+                          <Button
+                            disabled={isPending}
+                            variant='outline'
+                            size='icon'
+                            onClick={() => handleRemoveFromWishlist(item._id)}
+                          >
                             <Trash2 className='h-4 w-4' />
                           </Button>
                         </div>
@@ -88,13 +103,13 @@ const WishList = () => {
         ) : (
           <div className='flex flex-col items-center justify-center text-center max-w-md mx-auto'>
             <Heart className='w-12 h-12 mb-6 text-muted-foreground text-red-600' />
-            <h1 className='text-2xl font-medium mb-4'>Your wishlist is empty</h1>
+            <h1 className='text-2xl font-medium mb-4'>Danh sách yêu thích của bạn đang trống</h1>
             <p className='text-muted-foreground mb-8'>
-              We invite you to get acquainted with an assortment of our shop. Surely you can find something for
-              yourself!
+              Chúng tôi mời bạn xem qua các mặt hàng của cửa hàng chúng tôi. Chắc chắn bạn sẽ tìm được thứ gì đó cho
+              riêng mình!
             </p>
             <Button asChild className='bg-zinc-800 hover:bg-zinc-900 rounded-none px-8'>
-              <Link to='/shop'>RETURN TO SHOP</Link>
+              <Link to='/shop'>TRỞ LẠI CỬA HÀNG</Link>
             </Button>
           </div>
         )}

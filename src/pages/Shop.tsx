@@ -5,7 +5,7 @@ import ShopProducts from '@/components/shared/ShopProducts'
 const Shop = () => {
   return (
     <div className='min-h-screen bg-background'>
-      <Breadcrumb text='shop' />
+      <Breadcrumb text='cửa hàng' />
 
       {/* Banner */}
       <div className='relative h-[400px] bg-zinc-100'>
@@ -18,10 +18,10 @@ const Shop = () => {
           />
         </div>
         <div className='relative z-10 h-full flex flex-col items-center justify-center text-center text-white'>
-          <h1 className='text-4xl font-medium mb-6'>The Classics Make A Comeback</h1>
+          <h1 className='text-4xl font-medium mb-6'>Những sản phẩm kinh điển trở lại</h1>
 
           <Button size='lg' className='bg-zinc-800 hover:bg-zinc-900'>
-            Buy now
+            Mua ngay
           </Button>
         </div>
       </div>

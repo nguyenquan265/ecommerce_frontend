@@ -47,7 +47,7 @@ const Cart = () => {
       <div className='bg-zinc-50 py-6'>
         <h1 className='container mx-auto px-4 text-center text-2xl font-medium flex items-center justify-center gap-2'>
           <ShoppingCart className='w-5 h-5' />
-          Cart
+          GIỎ HÀNG
         </h1>
       </div>
 
@@ -59,11 +59,11 @@ const Cart = () => {
               <table className='w-full'>
                 <thead>
                   <tr className='border-b text-sm'>
-                    <th className='pb-4 text-left font-medium'>PRODUCT</th>
-                    <th className='pb-4 text-left font-medium'>PRICE</th>
+                    <th className='pb-4 text-left font-medium'>SẢN PHẨM</th>
+                    <th className='pb-4 text-left font-medium'>GIÁ</th>
                     <th className='pb-4 text-left font-medium'>SKU</th>
-                    <th className='pb-4 text-left font-medium'>QUANTITY</th>
-                    <th className='pb-4 text-right font-medium'>SUBTOTAL</th>
+                    <th className='pb-4 text-left font-medium'>SỐ LƯỢNG</th>
+                    <th className='pb-4 text-right font-medium'>TỔNG CỘNG</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -74,7 +74,7 @@ const Cart = () => {
                           <img src={item.image} alt={item.name} width={60} height={80} className='bg-zinc-100' />
                           <div>
                             <h3 className='font-medium'>{item.name}</h3>
-                            <p className='text-sm text-muted-foreground'>Size: {item.size}</p>
+                            <p className='text-sm text-muted-foreground'>Kích cỡ: {item.size}</p>
                           </div>
                         </div>
                       </td>
@@ -129,20 +129,20 @@ const Cart = () => {
               </div>
               <Button variant='outline' className='flex items-center gap-2' onClick={clearCart}>
                 <Trash2 className='h-4 w-4' />
-                CLEAR SHOPPING CART
+                XÓA GIỎ HÀNG
               </Button>
             </div>
 
             {/* Cart Totals */}
             <div className='mt-8 border p-6'>
-              <h2 className='text-lg font-medium mb-4'>CART TOTALS</h2>
+              <h2 className='text-lg font-medium mb-4'>TỔNG SỐ GIỎ HÀNG</h2>
               <div className='space-y-2 mb-4'>
                 <div className='flex justify-between py-2 border-b'>
-                  <span>Subtotal</span>
+                  <span>Tổng cộng</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
                 <div className='flex justify-between py-2 text-lg font-medium'>
-                  <span>TOTAL</span>
+                  <span>TỔNG CỘNG</span>
                   <span>${total.toFixed(2)}</span>
                 </div>
               </div>
@@ -151,21 +151,21 @@ const Cart = () => {
             {/* Checkout */}
             <div className='mt-8 text-center space-y-4'>
               <p className='text-sm'>
-                GUARANTEED <span className='text-green-600'>SAFE</span> CHECKOUT
+                ĐẢM BẢO THANH TOÁN <span className='text-green-600'>AN TOÀN</span>
               </p>
-              <Button className='w-full bg-zinc-800 hover:bg-zinc-900'>PROCEED TO CHECKOUT</Button>
+              <Button className='w-full bg-zinc-800 hover:bg-zinc-900'>TIẾN HÀNH THANH TOÁN</Button>
             </div>
           </>
         ) : (
           <div className='flex flex-col items-center justify-center text-center max-w-md mx-auto'>
             <ShoppingCart className='w-12 h-12 mb-6 text-muted-foreground' />
-            <h1 className='text-2xl font-medium mb-4'>YOUR SHOPPING CART IS EMPTY</h1>
+            <h1 className='text-2xl font-medium mb-4'>GIỎ HÀNG CỦA BẠN TRỐNG</h1>
             <p className='text-muted-foreground mb-8'>
-              We invite you to get acquainted with an assortment of our shop. Surely you can find something for
-              yourself!
+              Chúng tôi mời bạn xem qua các mặt hàng của cửa hàng chúng tôi. Chắc chắn bạn sẽ tìm được thứ gì đó cho
+              riêng mình!
             </p>
             <Button asChild className='bg-zinc-800 hover:bg-zinc-900 rounded-none px-8'>
-              <Link to='/shop'>RETURN TO SHOP</Link>
+              <Link to='/shop'>TRỞ LẠI CỬA HÀNG</Link>
             </Button>
           </div>
         )}

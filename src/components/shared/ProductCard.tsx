@@ -155,7 +155,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
           disabled={isAddWishlistPending || isRemoveWishlistPending}
           className={cn('h-9 w-full bg-zinc-800 hover:bg-zinc-900', viewMode === 'list' && 'max-w-[200px]')}
         >
-          ADD TO CART
+          THÊM VÀO GIỎ HÀNG
         </Button>
       </div>
     </div>
