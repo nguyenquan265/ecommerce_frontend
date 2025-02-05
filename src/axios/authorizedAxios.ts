@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useRefreshToken } from '@/apis/userApi'
 import { toast } from 'sonner'
+import { errorMessages } from '@/lib/constants'
 
 const API_BASE_URL = import.meta.env.VITE_SERVER_URL
 
@@ -81,8 +82,19 @@ authorizedAxios.interceptors.response.use(
     if (error.response.status !== 401) {
       console.log('Not Show Error: ', error)
 
-      if (!error.response.data.message) {
+      if (error.response?.status === 500 || !error.response.data.message) {
         toast.error('Đã xảy ra lỗi. Vui lòng thử lại sau')
+      }
+
+      if (error.response?.status === 400 || error.response?.status === 403) {
+        const message = error.response.data.message
+
+        if (message.startsWith('Duplicate field value:')) {
+          const field = message.split(':')[1]?.trim()
+          toast.error(`Trường ${field} đã tồn tại. Vui lòng chọn giá trị khác.`)
+        } else if (errorMessages[message]) {
+          toast.error(errorMessages[message])
+        }
       }
     }
 
