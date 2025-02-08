@@ -4,10 +4,13 @@ import { cn } from '@/lib/utils'
 
 import { Sidebar, SidebarContent, SidebarHeader, useSidebar } from '../ui/sidebar'
 import { Input } from '../ui/input'
-import { Heart, Search, ShoppingCart, User2, X } from 'lucide-react'
+import { Heart, LogOut, Search, ShoppingCart, User2, X } from 'lucide-react'
 
 import { useUserContext } from '@/contexts/UserContext'
 import { useGetCart } from '@/apis/cartApi'
+import { useLogout } from '@/apis/userApi'
+import { signOut } from 'firebase/auth'
+import { auth } from '@/firebase/firebase'
 
 const navigateItems = [
   { href: '/', label: 'Trang chủ' },
@@ -20,9 +23,17 @@ const MobileSidebar = () => {
   const { currentUser } = useUserContext()
   const { cart } = useGetCart(currentUser?._id)
   const { toggleSidebar } = useSidebar()
-
+  const { logout } = useLogout()
   const location = useLocation()
   const pathname = location.pathname
+
+  const handleLogout = async () => {
+    await signOut(auth)
+
+    await logout()
+
+    window.location.href = '/login'
+  }
 
   return (
     <Sidebar>
@@ -100,6 +111,11 @@ const MobileSidebar = () => {
                 Giỏ hàng
                 <span className='ml-auto'>({cart?.cartItems.length || 0})</span>
               </Link>
+
+              <button onClick={handleLogout} className='flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent'>
+                <LogOut className='h-4 w-4' />
+                Đăng xuất
+              </button>
             </>
           ) : (
             <>

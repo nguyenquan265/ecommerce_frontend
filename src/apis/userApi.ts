@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import authorizedAxios from '@/axios/authorizedAxios'
@@ -15,25 +14,10 @@ export const useGetCurrentUser = () => {
     return res.data.user
   }
 
-  const {
-    data: user,
-    isLoading,
-    error,
-    isError
-  } = useQuery({
+  const { data: user, isLoading } = useQuery({
     queryKey: ['currentUser'],
     queryFn: createGetUserRequest
   })
-
-  if (isError) {
-    if (error.response.status === 401 && error.response.data.message === 'Unauthorized! (Refresh token expired)') {
-      toast.error('Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.')
-
-      setTimeout(() => {
-        window.location.href = '/login'
-      }, 2000)
-    }
-  }
 
   return { user, isLoading }
 }
@@ -142,6 +126,7 @@ export const useUpdateUserProfile = () => {
     mutationFn: createUpdateUserProfileRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+      toast.success('Cập nhật thông tin thành công.')
     }
   })
 
@@ -154,7 +139,10 @@ export const useChangeUserPassword = () => {
   }
 
   const { mutateAsync: changeUserPassword, isPending } = useMutation({
-    mutationFn: createChangeUserPasswordRequest
+    mutationFn: createChangeUserPasswordRequest,
+    onSuccess: () => {
+      toast.success('Đổi mật khẩu thành công.')
+    }
   })
 
   return { changeUserPassword, isPending }
@@ -172,15 +160,6 @@ export const useAddToWishlist = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] })
       toast.success('Đã thêm sản phẩm vào mục yêu thích.')
-    },
-    onError: (error) => {
-      if (error.response.status === 401 && error.response.data.message === 'Unauthorized! (Refresh token expired)') {
-        toast.error('Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.')
-
-        setTimeout(() => {
-          window.location.href = '/login'
-        }, 2000)
-      }
     }
   })
 
@@ -199,15 +178,6 @@ export const useRemoveFromWishlist = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] })
       toast.success('Đã xóa sản phẩm khỏi mục yêu thích.')
-    },
-    onError: (error) => {
-      if (error.response.status === 401 && error.response.data.message === 'Unauthorized! (Refresh token expired)') {
-        toast.error('Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.')
-
-        setTimeout(() => {
-          window.location.href = '/login'
-        }, 2000)
-      }
     }
   })
 

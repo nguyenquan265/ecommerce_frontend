@@ -2,8 +2,10 @@ import axios from 'axios'
 import { useRefreshToken } from '@/apis/userApi'
 import { toast } from 'sonner'
 import { errorMessages } from '@/lib/constants'
+import { navigateTo } from '@/lib/navigationHelper'
 
 const API_BASE_URL = import.meta.env.VITE_SERVER_URL
+const authenticatedPaths = ['/account', '/wishlist', '/cart', '/checkout']
 
 let authorizedAxios = axios.create({
   baseURL: API_BASE_URL,
@@ -46,6 +48,10 @@ authorizedAxios.interceptors.response.use(
     ) {
       localStorage.removeItem('accessToken')
       localStorage.removeItem('refreshToken')
+
+      if (authenticatedPaths.includes(window.location.pathname)) {
+        navigateTo('/login')
+      }
     }
 
     if (
@@ -67,6 +73,17 @@ authorizedAxios.interceptors.response.use(
             localStorage.removeItem('accessToken')
             localStorage.removeItem('refreshToken')
 
+            if (
+              _error.response.status === 401 &&
+              _error.response.data.message === 'Unauthorized! (Refresh token expired)'
+            ) {
+              toast.error('Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.')
+
+              setTimeout(() => {
+                window.location.href = '/login'
+              }, 2000)
+            }
+
             return Promise.reject(_error)
           })
           .finally(() => {
@@ -80,7 +97,7 @@ authorizedAxios.interceptors.response.use(
     }
 
     if (error.response.status !== 401) {
-      console.log('Not Show Error: ', error)
+      console.log('Super Error: ', error)
 
       if (error.response?.status === 500 || !error.response.data.message) {
         toast.error('Đã xảy ra lỗi. Vui lòng thử lại sau')
