@@ -45,3 +45,16 @@ export type Product = {
   createdAt: string
   updatedAt: string
 }
+
+export type Cart = {
+  _id: string
+  user: string | User
+  cartItems: {
+    product: string | Product
+    quantity: number
+  }[]
+  totalPrice: number
+  totalQuantity: number
+  createdAt: string
+  updatedAt: string
+}

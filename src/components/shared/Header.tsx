@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils'
 
 import { useSidebar } from '../ui/sidebar'
 import { useUserContext } from '@/contexts/UserContext'
+import { useGetCart } from '@/apis/cartApi'
 
 const socialLinks = [
   {
@@ -70,6 +71,7 @@ const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) =>
 
 const Header = () => {
   const { currentUser, isUserLoading } = useUserContext()
+  const { cart, isLoading: isCartLoading } = useGetCart(currentUser?._id)
   const { toggleSidebar } = useSidebar()
 
   return (
@@ -108,8 +110,7 @@ const Header = () => {
       <div className='flex items-center gap-4'>
         {isUserLoading ? (
           <>
-            <Skeleton className='h-7 w-7 rounded-full' />
-            <Skeleton className='h-5 w-5 hidden lg:block' />
+            <Skeleton className='h-7 w-7 rounded-full hidden lg:block' />
             <Skeleton className='h-5 w-5 hidden lg:block' />
           </>
         ) : (
@@ -133,14 +134,18 @@ const Header = () => {
                 {currentUser?.wishlistItems.length || 0}
               </span>
             </Link>
-
-            <Link to={`/${currentUser ? 'cart' : 'login'}`} className='relative group hidden lg:block'>
-              <ShoppingCart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
-              <span className='absolute -top-2 -right-2 h-4 w-4 text-[10px] font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center'>
-                0
-              </span>
-            </Link>
           </>
+        )}
+
+        {isCartLoading ? (
+          <Skeleton className='h-5 w-5 hidden lg:block' />
+        ) : (
+          <Link to={`/${currentUser ? 'cart' : 'login'}`} className='relative group hidden lg:block'>
+            <ShoppingCart className='h-5 w-5 hover:cursor-pointer opacity-1 hover:opacity-50' />
+            <span className='absolute -top-2 -right-2 h-4 w-4 text-[10px] font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center'>
+              {cart?.totalQuantity || 0}
+            </span>
+          </Link>
         )}
       </div>
     </header>

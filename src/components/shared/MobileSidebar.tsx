@@ -7,6 +7,7 @@ import { Input } from '../ui/input'
 import { Heart, Search, ShoppingCart, User2, X } from 'lucide-react'
 
 import { useUserContext } from '@/contexts/UserContext'
+import { useGetCart } from '@/apis/cartApi'
 
 const navigateItems = [
   { href: '/', label: 'Trang chủ' },
@@ -17,6 +18,7 @@ const navigateItems = [
 
 const MobileSidebar = () => {
   const { currentUser } = useUserContext()
+  const { cart } = useGetCart(currentUser?._id)
   const { toggleSidebar } = useSidebar()
 
   const location = useLocation()
@@ -63,50 +65,56 @@ const MobileSidebar = () => {
 
         <div className='flex flex-col'>
           {currentUser ? (
-            <Link
-              to='/account'
-              className={cn(
-                'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
-                pathname === '/account' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
-              )}
-            >
-              <User2 className='h-4 w-4' />
-              Tài khoản
-            </Link>
+            <>
+              <Link
+                to='/account'
+                className={cn(
+                  'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
+                  pathname === '/account' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
+                )}
+              >
+                <User2 className='h-4 w-4' />
+                Tài khoản
+              </Link>
+
+              <Link
+                to='/wishlist'
+                className={cn(
+                  'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
+                  pathname === '/wishlist' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
+                )}
+              >
+                <Heart className='h-4 w-4' />
+                Yêu thích
+                <span className='ml-auto'>({currentUser.wishlistItems.length || 0})</span>
+              </Link>
+
+              <Link
+                to='/cart'
+                className={cn(
+                  'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
+                  pathname === '/cart' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
+                )}
+              >
+                <ShoppingCart className='h-4 w-4' />
+                Giỏ hàng
+                <span className='ml-auto'>({cart?.cartItems.length || 0})</span>
+              </Link>
+            </>
           ) : (
-            <Link
-              to='/login'
-              className={cn(
-                'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
-                pathname === '/login' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
-              )}
-            >
-              <User2 className='h-4 w-4' />
-              Đăng nhập
-            </Link>
+            <>
+              <Link
+                to='/login'
+                className={cn(
+                  'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
+                  pathname === '/login' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
+                )}
+              >
+                <User2 className='h-4 w-4' />
+                Đăng nhập
+              </Link>
+            </>
           )}
-
-          <Link
-            to='/wishlist'
-            className={cn(
-              'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
-              pathname === '/wishlist' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
-            )}
-          >
-            <Heart className='h-4 w-4' />
-            Danh sách yêu thích
-          </Link>
-
-          <Link
-            to='/cart'
-            className={cn(
-              'flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent',
-              pathname === '/cart' ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50' : ''
-            )}
-          >
-            <ShoppingCart className='h-4 w-4' />
-            Giỏ hàng $0.00
-          </Link>
         </div>
       </SidebarContent>
     </Sidebar>
