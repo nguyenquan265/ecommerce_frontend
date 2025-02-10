@@ -6,6 +6,8 @@ import SkeletonProductCard from '../skeletons/SkeletonProductCard'
 
 import { useGetAllProducts } from '@/apis/productApi'
 
+import HomeSlide3 from '@/assets/home_slide3.png'
+
 const BestProducts = () => {
   const [timeLeft, setTimeLeft] = useState({
     days: 4,
@@ -55,7 +57,7 @@ const BestProducts = () => {
         <div className='md:col-span-2 lg:col-span-3 xl:col-span-4'>
           <div className='relative h-[400px] group overflow-hidden'>
             <img
-              src='https://res.cloudinary.com/dxx85izni/image/upload/v1736993845/jgld4xcwovvph1ozwvcb.png'
+              src={HomeSlide3}
               alt='The Classics'
               className='object-cover h-full w-full transition-transform duration-700 group-hover:scale-105'
               loading='lazy'
