@@ -8,6 +8,7 @@ import { currencyFormatter, cn } from '@/lib/utils'
 
 import { useUserContext } from '@/contexts/UserContext'
 import { useAddToWishlist, useRemoveFromWishlist } from '@/apis/userApi'
+import { useAddToCart } from '@/apis/cartApi'
 
 interface ProductCardProps {
   product: Product
@@ -18,6 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
   const { currentUser } = useUserContext()
   const { addToWishlist, isPending: isAddWishlistPending } = useAddToWishlist()
   const { removeFromWishlist, isPending: isRemoveWishlistPending } = useRemoveFromWishlist()
+  const { addToCart, isPending: isAddToCartPending } = useAddToCart()
   const navigate = useNavigate()
 
   const handleAddWishlist = async (productId: string) => {
@@ -32,9 +34,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
     }
   }
 
-  const handleAddCart = () => {
+  const handleAddCart = async () => {
     if (currentUser) {
-      // Add to cart
+      await addToCart({ productId: product._id, quantity: 1 })
     } else {
       navigate('/login')
     }
@@ -152,7 +154,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
 
         <Button
           onClick={handleAddCart}
-          disabled={isAddWishlistPending || isRemoveWishlistPending}
+          disabled={isAddToCartPending}
           className={cn('h-9 w-full bg-zinc-800 hover:bg-zinc-900', viewMode === 'list' && 'max-w-[200px]')}
         >
           THÊM VÀO GIỎ HÀNG

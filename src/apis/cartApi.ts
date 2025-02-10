@@ -6,7 +6,7 @@ import authorizedAxios from '@/axios/authorizedAxios'
 
 export const useGetCart = (userId: string = '') => {
   const createGetCartRequest = async (): Promise<Cart> => {
-    const res = await authorizedAxios.get('/carts')
+    const res = await authorizedAxios.get('/cart')
 
     return res.data.cart
   }
@@ -24,7 +24,7 @@ export const useAddToCart = () => {
   const queryClient = useQueryClient()
 
   const createAddToCartRequest = async (data: { productId: string; quantity: number }): Promise<Cart> => {
-    const res = await authorizedAxios.post('/carts/items', data)
+    const res = await authorizedAxios.post('/cart/add', data)
 
     return res.data.cart
   }
@@ -44,7 +44,7 @@ export const useRemoveFromCart = () => {
   const queryClient = useQueryClient()
 
   const createRemoveFromCartRequest = async (productId: string): Promise<Cart> => {
-    const res = await authorizedAxios.delete(`/carts/items/${productId}`)
+    const res = await authorizedAxios.delete(`/cart/remove/${productId}`)
 
     return res.data.cart
   }
@@ -57,4 +57,24 @@ export const useRemoveFromCart = () => {
   })
 
   return { removeFromCart, isPending }
+}
+
+export const useClearCart = () => {
+  const queryClient = useQueryClient()
+
+  const createClearCartRequest = async (): Promise<Cart> => {
+    const res = await authorizedAxios.delete('/cart/clear')
+
+    return res.data.cart
+  }
+
+  const { mutateAsync: clearCart, isPending } = useMutation({
+    mutationFn: createClearCartRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
+      toast.success('Giỏ hàng đã được xóa.')
+    }
+  })
+
+  return { clearCart, isPending }
 }

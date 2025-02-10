@@ -21,6 +21,7 @@ import { currencyFormatter } from '@/lib/utils'
 import { useGetAllProducts, useGetProduct } from '@/apis/productApi'
 import { useAddToWishlist, useRemoveFromWishlist } from '@/apis/userApi'
 import { useUserContext } from '@/contexts/UserContext'
+import { useAddToCart } from '@/apis/cartApi'
 
 const SingleProduct = () => {
   const { productId } = useParams()
@@ -38,6 +39,7 @@ const SingleProduct = () => {
   const [saveDetails, setSaveDetails] = useState(false)
   const { addToWishlist, isPending: isAddWishlistPending } = useAddToWishlist()
   const { removeFromWishlist, isPending: isRemoveWishlistPending } = useRemoveFromWishlist()
+  const { addToCart, isPending: isAddToCartPending } = useAddToCart()
   const navigate = useNavigate()
 
   if (isProductLoading) {
@@ -69,6 +71,14 @@ const SingleProduct = () => {
       } else {
         await addToWishlist(productId)
       }
+    }
+  }
+
+  const handleAddCart = async () => {
+    if (currentUser) {
+      await addToCart({ productId: product._id, quantity })
+    } else {
+      navigate('/login')
     }
   }
 
@@ -176,7 +186,8 @@ const SingleProduct = () => {
 
                   {/* Add To Cart */}
                   <button
-                    disabled={isAddWishlistPending || isRemoveWishlistPending}
+                    onClick={handleAddCart}
+                    disabled={isAddToCartPending}
                     className='flex-1 bg-zinc-800 hover:bg-zinc-900 text-white px-4'
                   >
                     THÊM VÀO GIỎ HÀNG
@@ -184,10 +195,7 @@ const SingleProduct = () => {
                 </div>
 
                 {/* Buy now */}
-                <button
-                  disabled={isAddWishlistPending || isRemoveWishlistPending}
-                  className='w-full bg-zinc-800 hover:bg-zinc-900 text-white py-3'
-                >
+                <button disabled className='w-full bg-zinc-800 hover:bg-zinc-900 text-white py-3'>
                   MUA NGAY
                 </button>
 

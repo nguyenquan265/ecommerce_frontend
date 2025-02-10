@@ -6,10 +6,13 @@ import Footer from '../shared/Footer'
 import Header from '../shared/Header'
 import MobileSidebar from '../shared/MobileSidebar'
 import { UserProvider } from '@/contexts/UserContext'
+import ScrollToTop from '../shared/ScrollToTop'
 
 const MainLayout = () => {
   return (
     <UserProvider>
+      <ScrollToTop />
+
       <SidebarProvider defaultOpen={false}>
         <MobileSidebar />
 

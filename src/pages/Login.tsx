@@ -16,10 +16,10 @@ import { useUserContext } from '@/contexts/UserContext'
 
 const formSchema = z.object({
   email: z.string().email({
-    message: 'Please enter a valid email address.'
+    message: 'Vui lòng nhập địa chỉ email hợp lệ.'
   }),
   password: z.string().min(6, {
-    message: 'Password must be at least 6 characters.'
+    message: 'Mật khẩu phải chứa ít nhất 6 ký tự.'
   })
 })
 

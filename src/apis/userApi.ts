@@ -177,7 +177,6 @@ export const useRemoveFromWishlist = () => {
     mutationFn: createRemoveFromWishlistRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] })
-      toast.success('Đã xóa sản phẩm khỏi mục yêu thích.')
     }
   })
 

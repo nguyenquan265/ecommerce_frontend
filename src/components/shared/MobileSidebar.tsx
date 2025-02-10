@@ -109,7 +109,7 @@ const MobileSidebar = () => {
               >
                 <ShoppingCart className='h-4 w-4' />
                 Giỏ hàng
-                <span className='ml-auto'>({cart?.cartItems.length || 0})</span>
+                <span className='ml-auto'>({cart?.totalQuantity || 0})</span>
               </Link>
 
               <button onClick={handleLogout} className='flex items-center gap-2 py-2.5 px-4 text-sm hover:bg-accent'>

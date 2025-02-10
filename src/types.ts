@@ -50,10 +50,9 @@ export type Cart = {
   _id: string
   user: string | User
   cartItems: {
-    product: string | Product
+    product: Product
     quantity: number
   }[]
-  totalPrice: number
   totalQuantity: number
   createdAt: string
   updatedAt: string

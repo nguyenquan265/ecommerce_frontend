@@ -2,19 +2,25 @@ import { Link } from 'react-router-dom'
 
 import { Heart, ShoppingCart, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import WishListSkeleton from '@/components/skeletons/WishlistSkeleton'
 
 import { currencyFormatter } from '@/lib/utils'
 
 import { useUserContext } from '@/contexts/UserContext'
 import { useRemoveFromWishlist } from '@/apis/userApi'
+import { useAddToCart } from '@/apis/cartApi'
 
 const WishList = () => {
   const { currentUser, isUserLoading } = useUserContext()
-  const { removeFromWishlist, isPending } = useRemoveFromWishlist()
+  const { removeFromWishlist, isPending: isRemoveWishlistPending } = useRemoveFromWishlist()
+  const { addToCart, isPending: isAddToCartPending } = useAddToCart()
 
   const handleRemoveFromWishlist = async (productId: string) => {
+    await removeFromWishlist(productId)
+  }
+
+  const handleAddToCart = async (productId: string) => {
+    await addToCart({ productId, quantity: 1 })
     await removeFromWishlist(productId)
   }
 
@@ -36,21 +42,9 @@ const WishList = () => {
           <>
             <div className='w-full overflow-auto'>
               <table className='w-full'>
-                <thead>
-                  <tr className='border-b text-sm'>
-                    <th className='pb-4 text-left font-medium w-8'>
-                      <Checkbox />
-                    </th>
-                    <th className='pb-4 text-left font-medium'>Chọn tất cả</th>
-                    <th className='pb-4 text-right font-medium'></th>
-                  </tr>
-                </thead>
                 <tbody>
                   {currentUser.wishlistItems.map((item) => (
                     <tr key={item._id} className='border-b'>
-                      <td className='py-4'>
-                        <Checkbox />
-                      </td>
                       <td className='py-4'>
                         <div className='flex items-center gap-4'>
                           <img src={item.mainImage} alt={item.title} width={60} height={80} className='bg-zinc-100' />
@@ -76,16 +70,17 @@ const WishList = () => {
                       <td className='py-4'>
                         <div className='flex justify-end gap-2'>
                           <Button
-                            disabled={isPending}
+                            disabled={isRemoveWishlistPending || isAddToCartPending}
                             variant='default'
                             size='icon'
                             className='bg-zinc-800 hover:bg-zinc-900'
+                            onClick={() => handleAddToCart(item._id)}
                           >
                             <ShoppingCart className='h-4 w-4' />
                           </Button>
 
                           <Button
-                            disabled={isPending}
+                            disabled={isRemoveWishlistPending || isAddToCartPending}
                             variant='outline'
                             size='icon'
                             onClick={() => handleRemoveFromWishlist(item._id)}
