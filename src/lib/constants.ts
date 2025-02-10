@@ -1,3 +1,5 @@
+import { Truck, CreditCard, RotateCcw, HeadphonesIcon } from 'lucide-react'
+
 export const errorMessages: Record<string, string> = {
   'Not authorized to perform this action': 'Không có quyền thực hiện hành động này.',
   'Email already exists': 'Email đã tồn tại. Vui lòng chọn email khác.',
@@ -19,3 +21,91 @@ export const errorMessages: Record<string, string> = {
   'Category has products, cannot delete': 'Danh mục đã có sản phẩm, không thể xóa.',
   'Product not found': 'Sản phẩm không tồn tại.'
 }
+
+export const features = [
+  {
+    image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-min.jpg',
+    description:
+      'At urna cras augue nisi neque lauinis in aliquam. Odio pellentesque sed ultricies dolor amet nunc habitusse grave conec. Eur feugiat egestas eget.'
+  },
+  {
+    image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-copy-2-min.jpg',
+    description:
+      'Arcu volutpat sollicitudin sapien sit justo tellus eu fames senect. Faucibus et eu nulla adipiscing. Ipsum a morbi urtor ullamcorper sit semper.'
+  },
+  {
+    image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-copy-min.jpg',
+    description:
+      'Nibh luctus eu dignissim sit. Lorem netue ultrices neque elementum. Et convallis consectetur lacus luctus iaculis quisque sed.'
+  }
+]
+
+export const brands = [
+  {
+    name: 'Brand 1',
+    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2024/04/brand-01-min.png'
+  },
+  {
+    name: 'Brand 2',
+    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/brand-03-min.png'
+  },
+  {
+    name: 'Brand 3',
+    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/brand-04-min.png'
+  },
+  {
+    name: 'Brand 4',
+    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/brand-05-min.png'
+  },
+  {
+    name: 'Brand 5',
+    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/brand-02-min.png'
+  }
+]
+
+export const faqs = [
+  {
+    question: 'Feugiat purus mi nisl dolor pellentesque tellus?',
+    answer:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.'
+  },
+  {
+    question: 'Suspendisse nunc sagittis adipiscing imperdiet turpis sodales massa convallis elit?',
+    answer:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.'
+  },
+  {
+    question: 'Facilisis adipiscing lacus, nisl et in consectetur in?',
+    answer:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.'
+  }
+]
+
+export const navigation = [
+  { name: 'Home', href: '/' },
+  { name: 'Shop', href: '/shop' },
+  { name: 'About Us', href: '/about' },
+  { name: 'Contact Us', href: '/contact' }
+]
+
+export const paymentMethods = [
+  { name: 'American Express', image: '/placeholder.svg?height=30&width=47' },
+  { name: 'Discover', image: '/placeholder.svg?height=30&width=47' },
+  { name: 'Mastercard', image: '/placeholder.svg?height=30&width=47' },
+  { name: 'PayPal', image: '/placeholder.svg?height=30&width=47' },
+  { name: 'Visa', image: '/placeholder.svg?height=30&width=47' }
+]
+
+export const navigateItems = [
+  { href: '/', label: 'Trang chủ' },
+  { href: '/shop', label: 'Cửa hàng' },
+  { href: '/about', label: 'Về chúng tôi' },
+  { href: '/contact', label: 'Liên hệ' }
+]
+
+export const overviewFeatures = [
+  { icon: Truck, title: 'Vận chuyển nhanh nhất', description: 'Đặt hàng với giá $39' },
+  { icon: CreditCard, title: 'Thanh toán an toàn 100%', description: 'Trả góp 9 tháng' },
+  { icon: RotateCcw, title: 'Trả hàng trong vòng 14 ngày', description: 'Mua sắm một cách tự tin' },
+  { icon: HeadphonesIcon, title: 'Hỗ trợ trực tuyến 24/7', description: 'Giao tận nhà' }
+]

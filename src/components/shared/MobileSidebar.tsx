@@ -12,12 +12,7 @@ import { useLogout } from '@/apis/userApi'
 import { signOut } from 'firebase/auth'
 import { auth } from '@/firebase/firebase'
 
-const navigateItems = [
-  { href: '/', label: 'Trang chủ' },
-  { href: '/shop', label: 'Cửa hàng' },
-  { href: '/about', label: 'Về chúng tôi' },
-  { href: '/contact', label: 'Liên hệ' }
-]
+import { navigateItems } from '@/lib/constants'
 
 const MobileSidebar = () => {
   const { currentUser } = useUserContext()

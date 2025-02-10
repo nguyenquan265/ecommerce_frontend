@@ -1,19 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Shop', href: '/shop' },
-  { name: 'About Us', href: '/about' },
-  { name: 'Contact Us', href: '/contact' }
-]
-
-const paymentMethods = [
-  { name: 'American Express', image: '/placeholder.svg?height=30&width=47' },
-  { name: 'Discover', image: '/placeholder.svg?height=30&width=47' },
-  { name: 'Mastercard', image: '/placeholder.svg?height=30&width=47' },
-  { name: 'PayPal', image: '/placeholder.svg?height=30&width=47' },
-  { name: 'Visa', image: '/placeholder.svg?height=30&width=47' }
-]
+import { navigation, paymentMethods } from '@/lib/constants'
 
 const Footer = () => {
   return (

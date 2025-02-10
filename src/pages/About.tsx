@@ -2,64 +2,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 
 import Breadcrumb from '@/components/shared/Breadcrumb'
 
-const features = [
-  {
-    image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-min.jpg',
-    description:
-      'At urna cras augue nisi neque lauinis in aliquam. Odio pellentesque sed ultricies dolor amet nunc habitusse grave conec. Eur feugiat egestas eget.'
-  },
-  {
-    image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-copy-2-min.jpg',
-    description:
-      'Arcu volutpat sollicitudin sapien sit justo tellus eu fames senect. Faucibus et eu nulla adipiscing. Ipsum a morbi urtor ullamcorper sit semper.'
-  },
-  {
-    image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-copy-min.jpg',
-    description:
-      'Nibh luctus eu dignissim sit. Lorem netue ultrices neque elementum. Et convallis consectetur lacus luctus iaculis quisque sed.'
-  }
-]
-
-const brands = [
-  {
-    name: 'Brand 1',
-    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2024/04/brand-01-min.png'
-  },
-  {
-    name: 'Brand 2',
-    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/brand-03-min.png'
-  },
-  {
-    name: 'Brand 3',
-    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/brand-04-min.png'
-  },
-  {
-    name: 'Brand 4',
-    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/brand-05-min.png'
-  },
-  {
-    name: 'Brand 5',
-    logo: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/brand-02-min.png'
-  }
-]
-
-const faqs = [
-  {
-    question: 'Feugiat purus mi nisl dolor pellentesque tellus?',
-    answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.'
-  },
-  {
-    question: 'Suspendisse nunc sagittis adipiscing imperdiet turpis sodales massa convallis elit?',
-    answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.'
-  },
-  {
-    question: 'Facilisis adipiscing lacus, nisl et in consectetur in?',
-    answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.'
-  }
-]
+import { brands, faqs, features } from '@/lib/constants'
 
 const About = () => {
   return (
@@ -80,7 +23,7 @@ const About = () => {
             {features.map((feature, index) => (
               <div key={index} className='text-center'>
                 <div className='relative aspect-square mb-6 bg-zinc-100'>
-                  <img src={feature.image} alt={`Feature ${index + 1}`} className='object-cover' />
+                  <img src={feature.image} alt={`Feature ${index + 1}`} className='object-cover' loading='lazy' />
                 </div>
                 <p className='text-muted-foreground leading-relaxed'>{feature.description}</p>
               </div>
@@ -96,6 +39,7 @@ const About = () => {
                 width={120}
                 height={50}
                 className='opacity-50 hover:opacity-100 transition-opacity'
+                loading='lazy'
               />
             ))}
           </div>

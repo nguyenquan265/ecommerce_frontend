@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 
 import Overview from './Overview'
 
-const slides = [
-  'https://indexlivingmallvn.com/media/mageplaza/bannerslider/banner/image/_/1/_1366x430_pc_takayama.jpg',
-  'https://indexlivingmallvn.com/media/mageplaza/bannerslider/banner/image/_/1/_1366x430_pc_bronxplus.jpg'
-]
+import HomeSlide1 from '@/assets/home_slide1.jpg'
+import HomeSlide2 from '@/assets/home_slide2.jpg'
+
+const slides = [HomeSlide1, HomeSlide2]
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
