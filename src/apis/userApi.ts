@@ -6,6 +6,8 @@ import { User } from '@/types'
 import { LoginFormValues } from '@/pages/Login'
 import { SignUpFormValues } from '@/pages/SignUp'
 import { UserProfileFormValues } from '@/components/forms/UserProfileForm'
+import { ForgotPasswordFormValues } from '@/pages/ForgotPassword'
+import { ResetPasswordFormValues } from '@/pages/ResetPassword'
 
 export const useGetCurrentUser = () => {
   const createGetUserRequest = async (): Promise<User> => {
@@ -181,4 +183,34 @@ export const useRemoveFromWishlist = () => {
   })
 
   return { removeFromWishlist, isPending }
+}
+
+export const useForgotPassword = () => {
+  const createForgotPasswordRequest = async (data: ForgotPasswordFormValues) => {
+    await authorizedAxios.post('/auth/forgot-password', data)
+  }
+
+  const { mutateAsync: forgotPassword, isPending } = useMutation({
+    mutationFn: createForgotPasswordRequest,
+    onSuccess: () => {
+      toast.success('Vui lòng kiểm tra email để đặt lại mật khẩu.')
+    }
+  })
+
+  return { forgotPassword, isPending }
+}
+
+export const useResetPassword = () => {
+  const createResetPasswordRequest = async (data: ResetPasswordFormValues) => {
+    await authorizedAxios.post('/auth/reset-password', data)
+  }
+
+  const { mutateAsync: resetPassword, isPending } = useMutation({
+    mutationFn: createResetPasswordRequest,
+    onSuccess: () => {
+      toast.success('Đặt lại mật khẩu thành công.')
+    }
+  })
+
+  return { resetPassword, isPending }
 }

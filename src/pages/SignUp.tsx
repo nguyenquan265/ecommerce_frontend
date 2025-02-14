@@ -43,7 +43,11 @@ const SignUp = () => {
     }
   })
 
-  if (!isUserLoading && currentUser) {
+  if (isUserLoading) {
+    return <div className='min-h-screen bg-background'></div>
+  }
+
+  if (currentUser) {
     return <Navigate to='/' />
   }
 

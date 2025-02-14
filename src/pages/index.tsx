@@ -9,5 +9,19 @@ import Login from './Login'
 import SignUp from './SignUp'
 import SingleProduct from './SingleProduct'
 import ForgotPassword from './ForgotPassword'
+import ResetPassword from './ResetPassword'
 
-export { Home, Shop, About, Contact, Cart, WishList, Account, Login, SignUp, SingleProduct, ForgotPassword }
+export {
+  Home,
+  Shop,
+  About,
+  Contact,
+  Cart,
+  WishList,
+  Account,
+  Login,
+  SignUp,
+  SingleProduct,
+  ForgotPassword,
+  ResetPassword
+}

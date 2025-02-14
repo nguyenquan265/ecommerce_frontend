@@ -19,7 +19,13 @@ export const errorMessages: Record<string, string> = {
   'Category ID is required': 'Vui lòng nhập ID danh mục.',
   'Category not found': 'Danh mục không tồn tại.',
   'Category has products, cannot delete': 'Danh mục đã có sản phẩm, không thể xóa.',
-  'Product not found': 'Sản phẩm không tồn tại.'
+  'Product not found': 'Sản phẩm không tồn tại.',
+  'Out of stock': 'Hết hàng.',
+  'Product not in cart': 'Sản phẩm không có trong giỏ hàng.',
+  'Email is required': 'Vui lòng nhập email.',
+  'Password and confirm password are required': 'Vui lòng nhập mật khẩu và xác nhận mật khẩu.',
+  'Passwords do not match': 'Mật khẩu không khớp.',
+  'Invalid or expired reset password token': 'Token đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.'
 }
 
 export const features = [

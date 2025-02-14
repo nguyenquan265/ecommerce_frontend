@@ -9,6 +9,7 @@ import {
   ForgotPassword,
   Home,
   Login,
+  ResetPassword,
   Shop,
   SignUp,
   SingleProduct,
@@ -67,6 +68,14 @@ export const router = createBrowserRouter([
       {
         path: '/forgot-password',
         element: <ForgotPassword />
+      },
+      {
+        path: '/reset-password',
+        element: <Navigate to='/' />
+      },
+      {
+        path: '/reset-password/:token',
+        element: <ResetPassword />
       }
     ]
   },

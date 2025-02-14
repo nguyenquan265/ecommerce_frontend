@@ -33,7 +33,7 @@ const WishList = () => {
       <div className='bg-zinc-50 py-6'>
         <h1 className='container mx-auto px-4 text-center text-2xl font-medium flex items-center justify-center gap-2'>
           <Heart className='w-5 h-5 fill-red-600 text-red-600' />
-          DANH SÁCH YÊU THÍCH
+          DANH SÁCH YÊU THÍCH ({currentUser.wishlistItems.length})
         </h1>
       </div>
 
@@ -50,6 +50,7 @@ const WishList = () => {
                           <img src={item.mainImage} alt={item.title} width={60} height={80} className='bg-zinc-100' />
                           <div>
                             <h3 className='font-medium'>{item.title}</h3>
+                            <p className='text-sm text-zinc-600'>{item.quantity > 1 ? 'còn hàng' : 'hết hàng'}</p>
                             <div className='flex items-center gap-2 mb-4'>
                               <p className='text-sm font-medium text-red-600'>
                                 {item.priceDiscount
@@ -70,7 +71,7 @@ const WishList = () => {
                       <td className='py-4'>
                         <div className='flex justify-end gap-2'>
                           <Button
-                            disabled={isRemoveWishlistPending || isAddToCartPending}
+                            disabled={isRemoveWishlistPending || isAddToCartPending || item.quantity < 1}
                             variant='default'
                             size='icon'
                             className='bg-zinc-800 hover:bg-zinc-900'

@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -9,25 +9,34 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 
-import { useForgotPassword } from '@/apis/userApi'
 import { useUserContext } from '@/contexts/UserContext'
+import { useResetPassword } from '@/apis/userApi'
 
-const formSchema = z.object({
-  email: z.string().email({
-    message: 'Vui lòng nhập một địa chỉ email hợp lệ.'
+const formSchema = z
+  .object({
+    password: z.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
+    confirmPassword: z.string().min(6, 'Xác nhận mật khẩu phải có ít nhất 6 ký tự'),
+    token: z.string()
   })
-})
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Mật khẩu không khớp',
+    path: ['confirmPassword']
+  })
 
-export type ForgotPasswordFormValues = z.infer<typeof formSchema>
+export type ResetPasswordFormValues = z.infer<typeof formSchema>
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
+  const { token } = useParams()
   const { currentUser, isUserLoading } = useUserContext()
-  const { forgotPassword, isPending } = useForgotPassword()
+  const { resetPassword, isPending } = useResetPassword()
+  const navigate = useNavigate()
 
-  const form = useForm<ForgotPasswordFormValues>({
+  const form = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: ''
+      password: '',
+      confirmPassword: '',
+      token: token || ''
     }
   })
 
@@ -39,8 +48,10 @@ const ForgotPassword = () => {
     return <Navigate to='/' />
   }
 
-  const onSubmit = async (values: ForgotPasswordFormValues) => {
-    await forgotPassword(values)
+  const onSubmit = async (values: ResetPasswordFormValues) => {
+    await resetPassword(values)
+
+    navigate('/login')
   }
 
   return (
@@ -48,7 +59,7 @@ const ForgotPassword = () => {
       <div className='bg-zinc-50 py-6'>
         <h1 className='container mx-auto px-4 text-center text-2xl font-medium flex items-center justify-center gap-2'>
           <User2 className='w-5 h-5' />
-          Quên Mật Khẩu
+          Đặt Lại Mật Khẩu
         </h1>
       </div>
 
@@ -56,20 +67,36 @@ const ForgotPassword = () => {
         <div className='max-w-md mx-auto'>
           {/* Login Form */}
           <div className='bg-white p-8'>
-            <h2 className='text-xl font-medium mb-6'>Hãy Nhập Email Của Bạn</h2>
+            <h2 className='text-xl font-medium mb-6'>Nhập Mật Khẩu Mới</h2>
 
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
                 <FormField
                   control={form.control}
-                  name='email'
+                  name='password'
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Email<span className='text-red-500'>*</span>
+                        Mật khẩu mới<span className='text-red-500'>*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input type='email' {...field} className='rounded-none' />
+                        <Input type='password' {...field} className='rounded-none' />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='confirmPassword'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Xác nhận mật khẩu<span className='text-red-500'>*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input type='password' {...field} className='rounded-none' />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -88,4 +115,4 @@ const ForgotPassword = () => {
   )
 }
 
-export default ForgotPassword
+export default ResetPassword

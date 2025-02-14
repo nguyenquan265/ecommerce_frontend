@@ -1,31 +1,45 @@
 import { Outlet } from 'react-router-dom'
 
 import { SidebarProvider } from '../ui/sidebar'
+import { UserProvider } from '@/contexts/UserContext'
+import { PreviewProvider, usePreview } from '@/contexts/PreviewContext'
 
 import Footer from '../shared/Footer'
 import Header from '../shared/Header'
 import MobileSidebar from '../shared/MobileSidebar'
-import { UserProvider } from '@/contexts/UserContext'
 import ScrollToTop from '../shared/ScrollToTop'
+import PreviewModal from '../shared/PreviewModal'
 
 const MainLayout = () => {
   return (
     <UserProvider>
-      <ScrollToTop />
+      <PreviewProvider>
+        <ScrollToTop />
 
-      <SidebarProvider defaultOpen={false}>
-        <MobileSidebar />
+        <SidebarProvider defaultOpen={false}>
+          <MobileSidebar />
 
-        <div className='min-h-screen w-full bg-background'>
-          <Header />
+          <div className='min-h-screen w-full bg-background'>
+            <Header />
 
-          <Outlet />
+            <Outlet />
 
-          <Footer />
-        </div>
-      </SidebarProvider>
+            <Footer />
+          </div>
+        </SidebarProvider>
+
+        <PreviewModalWrapper />
+      </PreviewProvider>
     </UserProvider>
   )
+}
+
+const PreviewModalWrapper = () => {
+  const { previewProduct, closePreview } = usePreview()
+
+  return previewProduct ? (
+    <PreviewModal product={previewProduct} isOpen={!!previewProduct} onClose={closePreview} />
+  ) : null
 }
 
 export default MainLayout
