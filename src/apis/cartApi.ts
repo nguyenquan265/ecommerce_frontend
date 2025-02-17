@@ -40,6 +40,25 @@ export const useAddToCart = () => {
   return { addToCart, isPending }
 }
 
+export const useUpdateCart = () => {
+  const queryClient = useQueryClient()
+
+  const createUpdateCartRequest = async (data: { productId: string; newQuantity: number }): Promise<Cart> => {
+    const res = await authorizedAxios.patch('/cart/update', data)
+
+    return res.data.cart
+  }
+
+  const { mutateAsync: updateCart, isPending } = useMutation({
+    mutationFn: createUpdateCartRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
+    }
+  })
+
+  return { updateCart, isPending }
+}
+
 export const useRemoveFromCart = () => {
   const queryClient = useQueryClient()
 
