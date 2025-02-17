@@ -137,7 +137,7 @@ const Header = () => {
           </>
         )}
 
-        {isCartLoading ? (
+        {isUserLoading || isCartLoading ? (
           <Skeleton className='h-5 w-5 hidden lg:block' />
         ) : (
           <Link to={`/${currentUser ? 'cart' : 'login'}`} className='relative group hidden lg:block'>
