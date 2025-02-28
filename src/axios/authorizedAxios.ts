@@ -109,6 +109,10 @@ authorizedAxios.interceptors.response.use(
         if (message.startsWith('Duplicate field value:')) {
           const field = message.split(':')[1]?.trim()
           toast.error(`Trường ${field} đã tồn tại. Vui lòng chọn giá trị khác.`)
+        } else if (message.startsWith('Product (')) {
+          toast.error('Sản phẩm không tồn tại hoặc đã bị xóa.')
+        } else if (message.startsWith('Not enough (')) {
+          toast.error('Số lượng sản phẩm không đủ.')
         } else if (errorMessages[message]) {
           toast.error(errorMessages[message])
         }

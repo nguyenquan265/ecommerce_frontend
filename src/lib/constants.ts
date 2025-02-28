@@ -25,7 +25,11 @@ export const errorMessages: Record<string, string> = {
   'Email is required': 'Vui lòng nhập email.',
   'Password and confirm password are required': 'Vui lòng nhập mật khẩu và xác nhận mật khẩu.',
   'Passwords do not match': 'Mật khẩu không khớp.',
-  'Invalid or expired reset password token': 'Token đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.'
+  'Invalid or expired reset password token': 'Token đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.',
+  'Quantity cannot be negative': 'Số lượng không thể âm.',
+  'You are not allowed to cancel this order': 'Bạn không được phép hủy đơn hàng này.',
+  'Order is already paid': 'Đơn hàng đã được thanh toán. Không thể hủy.',
+  'Order not found': 'Đơn hàng không tồn tại.'
 }
 
 export const features = [
@@ -115,3 +119,15 @@ export const overviewFeatures = [
   { icon: RotateCcw, title: 'Trả hàng trong vòng 14 ngày', description: 'Mua sắm một cách tự tin' },
   { icon: HeadphonesIcon, title: 'Hỗ trợ trực tuyến 24/7', description: 'Giao tận nhà' }
 ]
+
+const orderStatusMap: Record<string, string> = {
+  Pending: 'Chờ xử lý',
+  Processing: 'Đang xử lý',
+  Delivering: 'Đang giao hàng',
+  Delivered: 'Đã giao hàng',
+  Cancelled: 'Đã hủy'
+}
+
+export const getStatusLabel = (status: string): string => {
+  return orderStatusMap[status] || 'Không xác định'
+}
