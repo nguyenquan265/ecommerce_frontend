@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import { Order } from '@/types'
 
 import authorizedAxios from '@/axios/authorizedAxios'
@@ -67,6 +68,7 @@ export const useCancelOrder = () => {
     mutationFn: createCancelOrderRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['orders'] })
+      toast.success('Đã hủy đơn hàng')
     }
   })
 
