@@ -7,6 +7,7 @@ import CartStepper from '@/components/shared/CartStepper'
 import UserCart from '@/components/shared/UserCart'
 import UserProfileForm from '@/components/forms/UserProfileForm'
 import UserCartOverview from '@/components/shared/UserCartOverview'
+import PaymentMethodForm from '@/components/forms/PaymentMethodForm'
 
 import { useUserContext } from '@/contexts/UserContext'
 import { useGetCart } from '@/apis/cartApi'
@@ -43,12 +44,14 @@ const Cart = () => {
       <div className='container mx-auto px-4 py-8'>
         {isLoading && <CartSkeleton />}
 
-        {cart && cartStep == 1 && <UserCart cart={cart} setCartStep={setCartStep} />}
+        {cartStep == 1 && <UserCart cart={cart} setCartStep={setCartStep} />}
 
-        {cart && cartStep == 2 && (
+        {cart && cartStep > 1 && (
           <>
-            <div className='flex flex-wrap justify-center gap-2'>
-              <UserProfileForm user={currentUser} setCartStep={setCartStep} isFromCheckout />
+            <div className='flex flex-wrap xl:flex-row flex-col-reverse max-xl:items-center justify-center gap-2'>
+              {cartStep == 2 && <UserProfileForm from='checkout' setCartStep={setCartStep} isFromCheckout />}
+
+              {cartStep == 3 && <PaymentMethodForm setCartStep={setCartStep} />}
 
               <UserCartOverview cart={cart} />
             </div>
