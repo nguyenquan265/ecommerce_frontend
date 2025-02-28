@@ -1,9 +1,6 @@
 import { User, Lock, ShoppingBag, LogOut } from 'lucide-react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 
-import UserProfileForm from '@/components/forms/UserProfileForm'
-import ChangePasswordForm from '@/components/forms/ChangePasswordForm'
 import Breadcrumb from '@/components/shared/Breadcrumb'
 import AccountSkeleton from '@/components/skeletons/AccountSkeleton'
 
@@ -11,10 +8,17 @@ import { useLogout } from '@/apis/userApi'
 import { signOut } from 'firebase/auth'
 import { auth } from '@/firebase/firebase'
 import { useUserContext } from '@/contexts/UserContext'
+import { Link, Outlet, useLocation } from 'react-router-dom'
+import { cn } from '@/lib/utils'
+import { Card } from '@/components/ui/card'
 
 const Account = () => {
   const { currentUser, isUserLoading } = useUserContext()
   const { logout } = useLogout()
+  const location = useLocation()
+  const isActiveLink = (path: string) => {
+    return location.pathname === `/account${path}` ? 'bg-primary/5 text-primary' : ''
+  }
 
   if (!currentUser || isUserLoading) {
     return <AccountSkeleton />
@@ -22,9 +26,7 @@ const Account = () => {
 
   const handleLogout = async () => {
     await signOut(auth)
-
     await logout()
-
     window.location.href = '/login'
   }
 
@@ -33,81 +35,65 @@ const Account = () => {
       <Breadcrumb text='tài khoản' />
 
       <div className='container mx-auto py-8 px-4'>
-        <Tabs defaultValue='account' className='w-full'>
-          <div className='grid grid-cols-1 md:grid-cols-[240px_1fr] gap-8'>
-            {/* Sidebar */}
-            <div className='bg-white rounded-lg shadow-sm p-4'>
-              {/* Main user detail */}
-              <div className='flex items-center gap-3 mb-6 pb-4 border-b'>
-                <div className='relative w-10 h-10'>
-                  <img
-                    src={currentUser?.photoUrl || '/placeholder.svg'}
-                    alt='Avatar'
-                    className='rounded-full object-cover w-full h-full'
-                  />
-                </div>
-                <div>
-                  <h2 className='font-medium text-sm'>{currentUser?.name}</h2>
-                  <p className='text-xs text-muted-foreground'>Chỉnh sửa thông tin</p>
-                </div>
+        <div className='grid grid-cols-1 md:grid-cols-[240px_1fr] gap-4'>
+          {/* Sidebar */}
+          <Card className='bg-white p-4 max-h-[281px]'>
+            {/* Main user detail */}
+            <div className='flex items-center gap-3 mb-6 pb-4 border-b'>
+              <div className='relative w-10 h-10'>
+                <img src={currentUser.photoUrl} alt='Avatar' className='rounded-full object-cover w-full h-full' />
               </div>
+              <div>
+                <h2 className='font-medium text-sm'>{currentUser.name}</h2>
+                <p className='text-xs text-muted-foreground'>Chỉnh sửa thông tin</p>
+              </div>
+            </div>
 
-              {/* Options */}
-              <TabsList className='flex flex-col items-start justify-start h-auto bg-transparent border-0 p-0'>
-                <TabsTrigger
-                  value='account'
-                  className='w-full justify-start rounded-md mb-1 data-[state=active]:bg-primary/5'
-                >
-                  <User size={16} className='mr-2' />
-                  Tài khoản của tôi
-                </TabsTrigger>
-                <TabsTrigger
-                  value='password'
-                  className='w-full justify-start rounded-md mb-1 data-[state=active]:bg-primary/5'
-                >
-                  <Lock size={16} className='mr-2' />
-                  Đổi mật khẩu
-                </TabsTrigger>
-                <TabsTrigger
-                  value='orders'
-                  className='w-full justify-start rounded-md mb-1 data-[state=active]:bg-primary/5'
-                >
-                  <ShoppingBag size={16} className='mr-2' />
-                  Đơn mua
-                </TabsTrigger>
-              </TabsList>
-
-              <Button
-                variant='ghost'
-                onClick={handleLogout}
-                className='w-full justify-start text-left mt-4 hover:bg-destructive/10 hover:text-destructive'
+            {/* Navigation Links */}
+            <nav className='flex flex-col space-y-1'>
+              <Link
+                to='/account'
+                className={cn('flex items-center px-3 py-2 text-sm rounded-md hover:bg-primary/5', isActiveLink(''))}
               >
-                <LogOut size={16} className='mr-2' />
-                Đăng xuất
-              </Button>
-            </div>
+                <User size={16} className='mr-2' />
+                Tài khoản của tôi
+              </Link>
+              <Link
+                to='/account/password'
+                className={cn(
+                  'flex items-center px-3 py-2 text-sm rounded-md hover:bg-primary/5',
+                  isActiveLink('/password')
+                )}
+              >
+                <Lock size={16} className='mr-2' />
+                Đổi mật khẩu
+              </Link>
+              <Link
+                to='/account/orders'
+                className={cn(
+                  'flex items-center px-3 py-2 text-sm rounded-md hover:bg-primary/5',
+                  isActiveLink('/orders')
+                )}
+              >
+                <ShoppingBag size={16} className='mr-2' />
+                Đơn mua
+              </Link>
+            </nav>
 
-            {/* Main Content */}
-            <div className='bg-white rounded-lg shadow-sm'>
-              <TabsContent value='account' className='m-0'>
-                <div className='p-6'>
-                  <UserProfileForm user={currentUser} />
-                </div>
-              </TabsContent>
-              <TabsContent value='password' className='m-0'>
-                <div className='p-6'>
-                  <ChangePasswordForm user={currentUser} />
-                </div>
-              </TabsContent>
-              <TabsContent value='orders' className='m-0'>
-                <div className='p-6'>
-                  <h1 className='text-xl font-semibold mb-6'>Đơn mua của bạn</h1>
-                  <p className='text-muted-foreground'>Chức năng này đang được phát triển. Vui lòng quay lại sau.</p>
-                </div>
-              </TabsContent>
-            </div>
+            <Button
+              variant='ghost'
+              onClick={handleLogout}
+              className='w-full justify-start text-left mt-4 hover:bg-destructive/10 hover:text-destructive'
+            >
+              <LogOut size={16} className='mr-2' />
+              Đăng xuất
+            </Button>
+          </Card>
+
+          <div className='bg-white'>
+            <Outlet />
           </div>
-        </Tabs>
+        </div>
       </div>
     </div>
   )

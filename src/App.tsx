@@ -5,6 +5,7 @@ import {
   About,
   Account,
   Cart,
+  Compare,
   Contact,
   ForgotPassword,
   Home,
@@ -15,6 +16,10 @@ import {
   SingleProduct,
   WishList
 } from './pages'
+
+import ChangePasswordForm from './components/forms/ChangePasswordForm'
+import UserOrder from './components/shared/UserOrder'
+import UserProfileForm from './components/forms/UserProfileForm'
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +43,10 @@ export const router = createBrowserRouter([
         element: <Contact />
       },
       {
+        path: '/compare',
+        element: <Compare />
+      },
+      {
         path: '/cart',
         element: <Cart />
       },
@@ -47,7 +56,21 @@ export const router = createBrowserRouter([
       },
       {
         path: '/account',
-        element: <Account />
+        element: <Account />,
+        children: [
+          {
+            index: true,
+            element: <UserProfileForm from='profile' />
+          },
+          {
+            path: '/account/password',
+            element: <ChangePasswordForm />
+          },
+          {
+            path: '/account/orders',
+            element: <UserOrder />
+          }
+        ]
       },
       {
         path: '/login',

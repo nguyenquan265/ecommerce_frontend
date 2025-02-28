@@ -13,6 +13,7 @@ html body[data-scroll-locked] {
   margin-right: 0 !important;
 }
 
+/* Product */
 .product-information h2 {
   font-weight: bold;
   margin-bottom: 1rem;
@@ -31,8 +32,10 @@ html body[data-scroll-locked] {
   font-weight: bold;
 }
 
+/* Scroll */
 .custom-scroll::-webkit-scrollbar {
   height: 6px;
+  width: 6px;
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
@@ -42,6 +45,23 @@ html body[data-scroll-locked] {
 
 .custom-scroll::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.custom-dialog::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+
+.custom-dialog button {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.custom-dialog button:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -130,6 +150,15 @@ html body[data-scroll-locked] {
 @layer base {
   * {
     @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
