@@ -57,3 +57,37 @@ export type Cart = {
   createdAt: string
   updatedAt: string
 }
+
+export type Order = {
+  _id: string
+  user: string | User
+  orderItems: {
+    product: string | Product
+    title: string
+    size: string
+    amount: number
+    image: string
+    price: number
+  }[]
+  shippingAddress: {
+    name: string
+    phone: string
+    address: string
+    province: string
+    district: string
+    ward: string
+    provinceName: string
+    districtName: string
+    wardName: string
+  }
+  paymentMethod: string
+  shippingFee: number
+  totalPrice: number
+  isPaid: boolean
+  paidAt: string
+  isDelivered: boolean
+  deliveredAt: string
+  status: string
+  createdAt: string
+  updatedAt: string
+}
