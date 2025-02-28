@@ -14,11 +14,12 @@ import type { User } from '@/types'
 import { useUpdateUserProfile } from '@/apis/userApi'
 import { useAddressData } from '@/apis/locationApi'
 import { cn } from '@/lib/utils'
+import { useUserContext } from '@/contexts/UserContext'
 
 interface UserProfileFormProps {
-  user: User
   isFromCheckout?: boolean
   setCartStep?: React.Dispatch<React.SetStateAction<1 | 2 | 3>>
+  from: 'profile' | 'checkout'
 }
 
 const formSchema = z.object({
@@ -31,40 +32,64 @@ const formSchema = z.object({
   phoneNumber: z.string().min(10, {
     message: 'Số điện thoại phải có ít nhất 10 số.'
   }),
-  province: z.string(),
+  province: z.string().nonempty({ message: 'Vui lòng chọn Tỉnh/Thành phố' }),
   provinceName: z.string(),
-  district: z.string(),
+  district: z.string().nonempty({ message: 'Vui lòng chọn Quận/Huyện' }),
   districtName: z.string(),
-  ward: z.string(),
+  ward: z.string().nonempty({ message: 'Vui lòng chọn Phường/Xã' }),
   wardName: z.string(),
-  address: z.string()
+  address: z.string().nonempty({ message: 'Vui lòng nhập địa chỉ' })
 })
 
 export type UserProfileFormValues = z.infer<typeof formSchema>
 
-const UserProfileForm: React.FC<UserProfileFormProps> = ({ user, setCartStep, isFromCheckout }) => {
+const UserProfileForm: React.FC<UserProfileFormProps> = ({ setCartStep, isFromCheckout, from }) => {
+  const { currentUser: user } = useUserContext()
   const { provinces, districts, wards, fetchDistricts, fetchWards } = useAddressData()
   const { updateUserProfile, isPending } = useUpdateUserProfile()
 
   const form = useForm<UserProfileFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: user.name,
-      email: user.email,
-      phoneNumber: user.phoneNumber || '',
-      province: user.shippingAddress?.province || '',
-      provinceName: user.shippingAddress?.provinceName || '',
-      district: user.shippingAddress?.district || '',
-      districtName: user.shippingAddress?.districtName || '',
-      ward: user.shippingAddress?.ward || '',
-      wardName: user.shippingAddress?.wardName || '',
-      address: user.shippingAddress?.address || ''
+      name: user?.name,
+      email: user?.email,
+      phoneNumber: user?.phoneNumber || '',
+      province: user?.shippingAddress?.province || '',
+      provinceName: user?.shippingAddress?.provinceName || '',
+      district: user?.shippingAddress?.district || '',
+      districtName: user?.shippingAddress?.districtName || '',
+      ward: user?.shippingAddress?.ward || '',
+      wardName: user?.shippingAddress?.wardName || '',
+      address: user?.shippingAddress?.address || ''
     },
-    shouldUnregister: true
+    shouldUnregister: isFromCheckout ? false : true
   })
 
+  const mapUserToFormValues = (user: User): UserProfileFormValues => ({
+    name: user.name,
+    email: user.email,
+    phoneNumber: user.phoneNumber || '',
+    province: user.shippingAddress?.province || '',
+    provinceName: user.shippingAddress?.provinceName || '',
+    district: user.shippingAddress?.district || '',
+    districtName: user.shippingAddress?.districtName || '',
+    ward: user.shippingAddress?.ward || '',
+    wardName: user.shippingAddress?.wardName || '',
+    address: user.shippingAddress?.address || ''
+  })
+
+  const isUserChanged = (user: User, values: UserProfileFormValues) => {
+    const mappedUser = mapUserToFormValues(user)
+
+    return Object.keys(mappedUser).some((key) => {
+      return mappedUser[key as keyof UserProfileFormValues] !== values[key as keyof UserProfileFormValues]
+    })
+  }
+
   const onSubmit = async (values: UserProfileFormValues) => {
-    await updateUserProfile(values)
+    if (isUserChanged(user!, values)) {
+      await updateUserProfile(values)
+    }
 
     if (isFromCheckout && setCartStep) {
       setCartStep(3)
@@ -84,7 +109,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ user, setCartStep, is
   }, [user, fetchWards])
 
   return (
-    <Card className={cn('max-w-3xl p-6', isFromCheckout ? 'w-full' : 'mx-auto')}>
+    <Card className={cn('p-6', isFromCheckout ? 'w-full' : 'mx-auto', from === 'profile' ? 'max-w-4xl' : 'max-w-3xl')}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           {isFromCheckout && <h1 className='text-xl font-semibold'>Thông tin giao hàng</h1>}

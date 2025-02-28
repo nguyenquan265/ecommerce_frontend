@@ -11,12 +11,8 @@ import { Button } from '@/components/ui/button'
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 
-import type { User } from '@/types'
 import { useChangeUserPassword } from '@/apis/userApi'
-
-interface ChangePasswordFormProps {
-  user: User
-}
+import { useUserContext } from '@/contexts/UserContext'
 
 const formSchema = z
   .object({
@@ -31,10 +27,11 @@ const formSchema = z
 
 type ChangePasswordFormValues = z.infer<typeof formSchema>
 
-const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ user }) => {
+const ChangePasswordForm = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false)
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const { currentUser } = useUserContext()
   const { changeUserPassword, isPending } = useChangeUserPassword()
 
   const form = useForm<ChangePasswordFormValues>({
@@ -47,15 +44,13 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ user }) => {
   })
 
   const onSubmit = async (values: ChangePasswordFormValues) => {
-    console.log(values)
-
     await changeUserPassword(values)
   }
 
-  if (user.isGoogleAccount) {
+  if (currentUser?.isGoogleAccount) {
     return (
-      <Card className='max-w-3xl mx-auto p-6'>
-        <div className='space-y-4'>
+      <Card className='max-w-4xl mx-auto p-6'>
+        <div className='space-y-4 max-md:flex max-md:flex-col max-md:items-center'>
           <h1 className='text-xl font-semibold'>Tài khoản Google</h1>
           <p className='text-sm text-muted-foreground'>
             Bạn đang sử dụng tài khoản Google để đăng nhập. Để thay đổi mật khẩu, vui lòng truy cập trang quản lý tài
