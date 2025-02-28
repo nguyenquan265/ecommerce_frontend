@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 
 import { useAddToCart } from '@/apis/cartApi'
 import { useUserContext } from '@/contexts/UserContext'
-import { cn, currencyFormatter } from '@/lib/utils'
+import { cn, currencyFormatter, priceFormatter } from '@/lib/utils'
 
 interface PreviewModalProps {
   product: Product
@@ -69,15 +69,12 @@ const PreviewModal = ({ product, isOpen, onClose }: PreviewModalProps) => {
           </div>
 
           <div className='space-y-4'>
-            {product.priceDiscount ? (
+            {product.priceDiscount && (
               <p className='text-2xl text-gray-500 line-through'>{currencyFormatter(product.price)}</p>
-            ) : (
-              ''
             )}
+
             <p className='text-2xl font-medium text-red-600'>
-              {product.priceDiscount
-                ? currencyFormatter(product.price - (product.price * product.priceDiscount) / 100)
-                : currencyFormatter(product.price)}
+              {currencyFormatter(priceFormatter(product.priceDiscount, product.price))}
             </p>
             <p>Kích thước: {product.size}</p>
             <p>Số lượng còn lại: {product.quantity}</p>
