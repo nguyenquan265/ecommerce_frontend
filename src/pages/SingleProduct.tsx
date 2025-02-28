@@ -16,7 +16,7 @@ import SkeletonProductImages from '@/components/skeletons/SkeletonProductImages'
 import SkeletonProductDetails from '@/components/skeletons/SkeletonProductDetails'
 import ProductNotFound from '@/components/shared/ProductNotFound'
 
-import { currencyFormatter } from '@/lib/utils'
+import { currencyFormatter, priceFormatter } from '@/lib/utils'
 
 import { useGetAllProducts, useGetProduct } from '@/apis/productApi'
 import { useAddToWishlist, useRemoveFromWishlist } from '@/apis/userApi'
@@ -140,15 +140,11 @@ const SingleProduct = () => {
               <h1 className='text-2xl font-medium mb-2'>{product?.title}</h1>
               <div className='flex items-center gap-2 mb-4'>
                 <p className='text-xl font-medium text-red-600'>
-                  {product?.priceDiscount
-                    ? currencyFormatter(product.price - (product.price * product.priceDiscount) / 100)
-                    : currencyFormatter(product ? product.price : 0)}
+                  {currencyFormatter(priceFormatter(product.priceDiscount, product.price))}
                 </p>
 
-                {product?.priceDiscount ? (
+                {product?.priceDiscount && (
                   <p className='text-xl text-gray-500 line-through'>{currencyFormatter(product.price)}</p>
-                ) : (
-                  ''
                 )}
               </div>
 

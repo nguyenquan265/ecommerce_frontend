@@ -4,7 +4,7 @@ import { Heart, ShoppingCart, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import WishListSkeleton from '@/components/skeletons/WishlistSkeleton'
 
-import { currencyFormatter } from '@/lib/utils'
+import { currencyFormatter, priceFormatter } from '@/lib/utils'
 
 import { useUserContext } from '@/contexts/UserContext'
 import { useRemoveFromWishlist } from '@/apis/userApi'
@@ -53,15 +53,11 @@ const WishList = () => {
                             <p className='text-sm text-zinc-600'>{item.quantity > 1 ? 'còn hàng' : 'hết hàng'}</p>
                             <div className='flex items-center gap-2 mb-4'>
                               <p className='text-sm font-medium text-red-600'>
-                                {item.priceDiscount
-                                  ? currencyFormatter(item.price - (item.price * item.priceDiscount) / 100)
-                                  : currencyFormatter(item.price)}
+                                {currencyFormatter(priceFormatter(item.priceDiscount, item.price))}
                               </p>
 
-                              {item.priceDiscount ? (
+                              {item.priceDiscount && (
                                 <p className='text-sm text-gray-500 line-through'>{currencyFormatter(item.price)}</p>
-                              ) : (
-                                ''
                               )}
                             </div>
                           </div>

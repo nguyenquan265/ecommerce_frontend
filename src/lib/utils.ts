@@ -29,3 +29,7 @@ export const getSortLabel = (option: SortOption): string => {
 export const currencyFormatter = (price: number) => {
   return Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price)
 }
+
+export const priceFormatter = (discount: number, price: number) => {
+  return discount ? Math.round(price - (price * discount) / 100) : price
+}
