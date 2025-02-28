@@ -10,6 +10,7 @@ import SignUp from './SignUp'
 import SingleProduct from './SingleProduct'
 import ForgotPassword from './ForgotPassword'
 import ResetPassword from './ResetPassword'
+import Compare from './Compare'
 
 export {
   Home,
@@ -23,5 +24,6 @@ export {
   SignUp,
   SingleProduct,
   ForgotPassword,
-  ResetPassword
+  ResetPassword,
+  Compare
 }

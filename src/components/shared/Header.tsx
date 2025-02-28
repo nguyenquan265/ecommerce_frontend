@@ -103,7 +103,7 @@ const Header = () => {
       {/* Contact, Search */}
       <nav className='hidden w-[200px] lg:flex items-center gap-6'>
         <NavLink to='/contact'>liên hệ</NavLink>
-        <NavLink to='#'>Tìm kiếm</NavLink>
+        <NavLink to='/compare'>So sánh</NavLink>
       </nav>
 
       {/* Account, Wishlist, Cart */}
