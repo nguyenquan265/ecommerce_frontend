@@ -5,11 +5,11 @@ import { Trash2, ShoppingCart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 import { useClearCart, useRemoveFromCart, useUpdateCart } from '@/apis/cartApi'
-import { currencyFormatter } from '@/lib/utils'
+import { currencyFormatter, priceFormatter } from '@/lib/utils'
 import { Cart, Product } from '@/types'
 
 interface UserCartProps {
-  cart: Cart
+  cart?: Cart
   setCartStep: React.Dispatch<React.SetStateAction<1 | 2 | 3>>
 }
 
@@ -45,7 +45,7 @@ const UserCart: React.FC<UserCartProps> = ({ cart, setCartStep }) => {
     debouncedHandleInputChange(product, value)
   }
 
-  if (cart.cartItems.length === 0) {
+  if (!cart || cart.cartItems.length === 0) {
     return (
       <div className='flex flex-col items-center justify-center text-center max-w-md mx-auto'>
         <ShoppingCart className='w-12 h-12 mb-6 text-muted-foreground' />
@@ -98,9 +98,7 @@ const UserCart: React.FC<UserCartProps> = ({ cart, setCartStep }) => {
                   </Link>
                 </td>
                 <td className='py-4'>
-                  {item.product.priceDiscount
-                    ? currencyFormatter(item.product.price - (item.product.price * item.product.priceDiscount) / 100)
-                    : currencyFormatter(item.product.price)}
+                  {currencyFormatter(priceFormatter(item.product.priceDiscount, item.product.price))}
                 </td>
                 <td className='py-4'>
                   <div className='flex items-center gap-2'>
@@ -138,7 +136,7 @@ const UserCart: React.FC<UserCartProps> = ({ cart, setCartStep }) => {
                 <td className='py-4'>
                   {currencyFormatter(
                     item.product.priceDiscount
-                      ? (item.product.price - (item.product.price * item.product.priceDiscount) / 100) * item.quantity
+                      ? priceFormatter(item.product.priceDiscount, item.product.price) * item.quantity
                       : item.product.price * item.quantity
                   )}
                 </td>
@@ -177,7 +175,7 @@ const UserCart: React.FC<UserCartProps> = ({ cart, setCartStep }) => {
                   (acc, item) =>
                     acc +
                     (item.product.priceDiscount
-                      ? (item.product.price - (item.product.price * item.product.priceDiscount) / 100) * item.quantity
+                      ? priceFormatter(item.product.priceDiscount, item.product.price) * item.quantity
                       : item.product.price * item.quantity),
                   0
                 )
@@ -198,7 +196,7 @@ const UserCart: React.FC<UserCartProps> = ({ cart, setCartStep }) => {
                   (acc, item) =>
                     acc +
                     (item.product.priceDiscount
-                      ? (item.product.price - (item.product.price * item.product.priceDiscount) / 100) * item.quantity
+                      ? priceFormatter(item.product.priceDiscount, item.product.price) * item.quantity
                       : item.product.price * item.quantity),
                   0
                 ) + 3000
