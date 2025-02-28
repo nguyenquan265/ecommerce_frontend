@@ -4,7 +4,7 @@ import { Button } from '../ui/button'
 import { Eye, Heart } from 'lucide-react'
 
 import { Product } from '@/types'
-import { currencyFormatter, cn } from '@/lib/utils'
+import { currencyFormatter, cn, priceFormatter } from '@/lib/utils'
 
 import { useUserContext } from '@/contexts/UserContext'
 import { useAddToWishlist, useRemoveFromWishlist } from '@/apis/userApi'
@@ -127,15 +127,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
 
             <div className='flex items-center gap-2 mb-4'>
               <p className='text-sm font-medium text-red-600'>
-                {product.priceDiscount
-                  ? currencyFormatter(product.price - (product.price * product.priceDiscount) / 100)
-                  : currencyFormatter(product.price)}
+                {currencyFormatter(priceFormatter(product.priceDiscount, product.price))}
               </p>
 
-              {product.priceDiscount ? (
+              {product.priceDiscount && (
                 <p className='text-sm text-gray-500 line-through'>{currencyFormatter(product.price)}</p>
-              ) : (
-                ''
               )}
             </div>
 
