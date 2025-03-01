@@ -85,8 +85,8 @@ const Header = () => {
 
       {/* Shop, About */}
       <nav className='hidden w-[200px] lg:flex items-center gap-6'>
-        <NavLink to='/shop'>cửa hàng</NavLink>
-        <NavLink to='/about'>về chúng tôi</NavLink>
+        <NavLink to='/shop'>sản phẩm</NavLink>
+        <NavLink to='/about'>giới thiệu</NavLink>
       </nav>
 
       {/* Logo */}
@@ -103,7 +103,7 @@ const Header = () => {
       {/* Contact, Search */}
       <nav className='hidden w-[200px] lg:flex items-center gap-6'>
         <NavLink to='/contact'>liên hệ</NavLink>
-        <NavLink to='/compare'>So sánh</NavLink>
+        <NavLink to='/compare'>so sánh</NavLink>
       </nav>
 
       {/* Account, Wishlist, Cart */}

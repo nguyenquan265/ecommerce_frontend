@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom'
 import { SidebarProvider } from '../ui/sidebar'
 import { UserProvider } from '@/contexts/UserContext'
 import { PreviewProvider, usePreview } from '@/contexts/PreviewContext'
+import { CompareProvider } from '@/contexts/CompareContext'
 
 import Footer from '../shared/Footer'
 import Header from '../shared/Header'
@@ -14,21 +15,23 @@ const MainLayout = () => {
   return (
     <UserProvider>
       <PreviewProvider>
-        <ScrollToTop />
+        <CompareProvider>
+          <ScrollToTop />
 
-        <SidebarProvider defaultOpen={false}>
-          <MobileSidebar />
+          <SidebarProvider defaultOpen={false}>
+            <MobileSidebar />
 
-          <div className='min-h-screen w-full bg-background'>
-            <Header />
+            <div className='min-h-screen w-full bg-background'>
+              <Header />
 
-            <Outlet />
+              <Outlet />
 
-            <Footer />
-          </div>
-        </SidebarProvider>
+              <Footer />
+            </div>
+          </SidebarProvider>
 
-        <PreviewModalWrapper />
+          <PreviewModalWrapper />
+        </CompareProvider>
       </PreviewProvider>
     </UserProvider>
   )

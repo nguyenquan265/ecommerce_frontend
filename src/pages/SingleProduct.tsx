@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { Heart, Star } from 'lucide-react'
+import { Heart, RefreshCcw, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Textarea } from '@/components/ui/textarea'
@@ -22,6 +22,7 @@ import { useGetAllProducts, useGetProduct } from '@/apis/productApi'
 import { useAddToWishlist, useRemoveFromWishlist } from '@/apis/userApi'
 import { useUserContext } from '@/contexts/UserContext'
 import { useAddToCart } from '@/apis/cartApi'
+import { useCompare } from '@/contexts/CompareContext'
 
 const SingleProduct = () => {
   const { productId } = useParams()
@@ -40,6 +41,7 @@ const SingleProduct = () => {
   const { addToWishlist, isPending: isAddWishlistPending } = useAddToWishlist()
   const { removeFromWishlist, isPending: isRemoveWishlistPending } = useRemoveFromWishlist()
   const { addToCart, isPending: isAddToCartPending } = useAddToCart()
+  const { addToCompare } = useCompare()
   const navigate = useNavigate()
 
   if (isProductLoading) {
@@ -143,8 +145,10 @@ const SingleProduct = () => {
                   {currencyFormatter(priceFormatter(product.priceDiscount, product.price))}
                 </p>
 
-                {product?.priceDiscount && (
+                {product?.priceDiscount ? (
                   <p className='text-xl text-gray-500 line-through'>{currencyFormatter(product.price)}</p>
+                ) : (
+                  ''
                 )}
               </div>
 
@@ -190,11 +194,6 @@ const SingleProduct = () => {
                   </button>
                 </div>
 
-                {/* Buy now */}
-                <button disabled className='w-full bg-zinc-800 hover:bg-zinc-900 text-white py-3'>
-                  MUA NGAY
-                </button>
-
                 {/* Add Wishlist */}
                 <div className='flex gap-2'>
                   <button
@@ -206,6 +205,17 @@ const SingleProduct = () => {
                     {currentUser?.wishlistItems.find((product) => product._id === productId)
                       ? 'ĐÃ THÊM VÀO YÊU THÍCH'
                       : 'THÊM VÀO YÊU THÍCH'}
+                  </button>
+                </div>
+
+                <div className='flex gap-2'>
+                  <button
+                    onClick={() => addToCompare(product)}
+                    disabled={isAddWishlistPending || isRemoveWishlistPending}
+                    className='w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white py-3 transition-colors duration-200 disabled:bg-red-300 disabled:cursor-not-allowed flex items-center justify-center gap-1'
+                  >
+                    <RefreshCcw className='h-4 w-4' />
+                    THÊM VÀO SO SÁNH
                   </button>
                 </div>
 

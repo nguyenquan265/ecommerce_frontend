@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 
 import { Button } from '../ui/button'
-import { Eye, Heart } from 'lucide-react'
+import { Eye, Heart, RefreshCcw } from 'lucide-react'
 
 import { Product } from '@/types'
 import { currencyFormatter, cn, priceFormatter } from '@/lib/utils'
@@ -10,6 +10,7 @@ import { useUserContext } from '@/contexts/UserContext'
 import { useAddToWishlist, useRemoveFromWishlist } from '@/apis/userApi'
 import { useAddToCart } from '@/apis/cartApi'
 import { usePreview } from '@/contexts/PreviewContext'
+import { useCompare } from '@/contexts/CompareContext'
 
 interface ProductCardProps {
   product: Product
@@ -22,6 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
   const { addToWishlist, isPending: isAddWishlistPending } = useAddToWishlist()
   const { removeFromWishlist, isPending: isRemoveWishlistPending } = useRemoveFromWishlist()
   const { addToCart, isPending: isAddToCartPending } = useAddToCart()
+  const { addToCompare } = useCompare()
   const navigate = useNavigate()
 
   const handleAddWishlist = async (productId: string) => {
@@ -117,6 +119,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
             >
               <Eye className='h-4 w-4 text-zinc-800' />
             </Button>
+
+            <Button
+              onClick={() => addToCompare(product)}
+              size='icon'
+              className='bg-white hover:bg-zinc-100 transition-colors shadow-lg hover:shadow-xl'
+            >
+              <RefreshCcw className='h-4 w-4 text-zinc-800' />
+            </Button>
           </div>
         </div>
 
@@ -130,8 +140,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
                 {currencyFormatter(priceFormatter(product.priceDiscount, product.price))}
               </p>
 
-              {product.priceDiscount && (
+              {product.priceDiscount ? (
                 <p className='text-sm text-gray-500 line-through'>{currencyFormatter(product.price)}</p>
+              ) : (
+                ''
               )}
             </div>
 
@@ -147,6 +159,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, viewMode }) => {
 
               <Button size='icon' onClick={() => showPreview(product)} variant='outline'>
                 <Eye className='h-4 w-4' />
+              </Button>
+
+              <Button onClick={() => addToCompare(product)} size='icon' variant='outline'>
+                <RefreshCcw className='h-4 w-4' />
               </Button>
             </div>
           </div>
