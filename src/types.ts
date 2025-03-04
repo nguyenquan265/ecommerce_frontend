@@ -71,6 +71,7 @@ export type Order = {
   }[]
   shippingAddress: {
     name: string
+    email: string
     phone: string
     address: string
     province: string
