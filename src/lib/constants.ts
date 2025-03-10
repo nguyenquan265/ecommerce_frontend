@@ -1,4 +1,18 @@
-import { Truck, CreditCard, RotateCcw, HeadphonesIcon } from 'lucide-react'
+import {
+  Truck,
+  CreditCard,
+  RotateCcw,
+  HeadphonesIcon,
+  Box,
+  Folder,
+  LayoutDashboard,
+  Package,
+  Users,
+  Store,
+  Wallet,
+  QrCode,
+  BanknoteIcon
+} from 'lucide-react'
 
 export const errorMessages: Record<string, string> = {
   'Not authorized to perform this action': 'Không có quyền thực hiện hành động này.',
@@ -91,32 +105,25 @@ export const faqs = [
   }
 ]
 
-export const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Shop', href: '/shop' },
-  { name: 'About Us', href: '/about' },
-  { name: 'Contact Us', href: '/contact' }
-]
-
 export const paymentMethods = [
-  { name: 'American Express', image: '/placeholder.svg?height=30&width=47' },
-  { name: 'Discover', image: '/placeholder.svg?height=30&width=47' },
-  { name: 'Mastercard', image: '/placeholder.svg?height=30&width=47' },
-  { name: 'PayPal', image: '/placeholder.svg?height=30&width=47' },
-  { name: 'Visa', image: '/placeholder.svg?height=30&width=47' }
+  { name: 'COD', icon: BanknoteIcon },
+  { name: 'ZALO', icon: Wallet },
+  { name: 'MOMO', icon: CreditCard },
+  { name: 'SEPAY', icon: QrCode }
 ]
 
 export const navigateItems = [
   { href: '/', label: 'Trang chủ' },
-  { href: '/shop', label: 'Cửa hàng' },
-  { href: '/about', label: 'Về chúng tôi' },
-  { href: '/contact', label: 'Liên hệ' }
+  { href: '/shop', label: 'Sản phẩm' },
+  { href: '/about', label: 'Giới thiệu' },
+  { href: '/contact', label: 'Liên hệ' },
+  { href: '/compare', label: 'So sánh' }
 ]
 
 export const overviewFeatures = [
   { icon: Truck, title: 'Vận chuyển nhanh nhất', description: 'Đặt hàng với giá $39' },
   { icon: CreditCard, title: 'Thanh toán an toàn 100%', description: 'Trả góp 9 tháng' },
-  { icon: RotateCcw, title: 'Trả hàng trong vòng 14 ngày', description: 'Mua sắm một cách tự tin' },
+  { icon: RotateCcw, title: 'Trả hàng trong 14 ngày', description: 'Mua sắm một cách tự tin' },
   { icon: HeadphonesIcon, title: 'Hỗ trợ trực tuyến 24/7', description: 'Giao tận nhà' }
 ]
 
@@ -131,3 +138,51 @@ const orderStatusMap: Record<string, string> = {
 export const getStatusLabel = (status: string): string => {
   return orderStatusMap[status] || 'Không xác định'
 }
+
+export const adminNavItems = [
+  {
+    title: 'Trang chủ',
+    href: '/admin',
+    icon: LayoutDashboard
+  },
+  {
+    title: 'Quản lý người dùng',
+    href: '/admin/users',
+    icon: Users
+  },
+  {
+    title: 'Quản lý danh mục',
+    href: '/admin/categories',
+    icon: Folder
+  },
+  {
+    title: 'Quản lý sản phẩm',
+    href: '/admin/products',
+    icon: Box
+  },
+  {
+    title: 'Quản lý đơn hàng',
+    href: '/admin/orders',
+    icon: Package
+  },
+  {
+    title: 'Trang bán hàng',
+    href: '/',
+    icon: Store
+  }
+]
+
+export const orderPaymentMethodOptions = ['COD', 'ZALO', 'MOMO', 'PAYOS']
+
+const orderPaymentMethodMap: Record<string, string> = {
+  COD: 'Thanh toán khi nhận hàng',
+  ZALO: 'Zalo Pay',
+  MOMO: 'Momo',
+  PAYOS: 'PayOs'
+}
+
+export const getPaymentMethodLabel = (method: string): string => {
+  return orderPaymentMethodMap[method] || 'Không xác định'
+}
+
+export const orderStatusOptions = ['Pending', 'Processing', 'Delivering', 'Delivered', 'Cancelled']

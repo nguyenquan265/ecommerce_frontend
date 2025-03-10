@@ -5,21 +5,30 @@ import {
   About,
   Account,
   Cart,
+  Categories,
   Compare,
   Contact,
+  Dashboard,
   ForgotPassword,
   Home,
   Login,
+  Orders,
+  Products,
   ResetPassword,
   Shop,
   SignUp,
+  SingleAdminProduct,
+  SingleOrder,
   SingleProduct,
+  SingleUser,
+  Users,
   WishList
 } from './pages'
 
 import ChangePasswordForm from './components/forms/ChangePasswordForm'
 import UserOrder from './components/shared/UserOrder'
 import UserProfileForm from './components/forms/UserProfileForm'
+import AdminLayout from './components/layout/AdminLayout'
 
 export const router = createBrowserRouter([
   {
@@ -99,6 +108,44 @@ export const router = createBrowserRouter([
       {
         path: '/reset-password/:token',
         element: <ResetPassword />
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />
+      },
+      {
+        path: '/admin/users',
+        element: <Users />
+      },
+      {
+        path: '/admin/users/:userId',
+        element: <SingleUser />
+      },
+      {
+        path: '/admin/products',
+        element: <Products />
+      },
+      {
+        path: '/admin/products/:productId',
+        element: <SingleAdminProduct />
+      },
+      {
+        path: '/admin/categories',
+        element: <Categories />
+      },
+      {
+        path: '/admin/orders',
+        element: <Orders />
+      },
+      {
+        path: '/admin/orders/:orderId',
+        element: <SingleOrder />
       }
     ]
   },

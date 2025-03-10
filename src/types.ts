@@ -15,6 +15,8 @@ export type User = {
   }
   wishlistItems: Product[]
   isGoogleAccount: boolean
+  isAdmin: boolean
+  isActive: boolean
   createdAt: string
   updatedAt: string
 }

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-import { navigation, paymentMethods } from '@/lib/constants'
+import { paymentMethods, navigateItems } from '@/lib/constants'
 
 const Footer = () => {
   return (
@@ -9,15 +9,14 @@ const Footer = () => {
         <div className='flex flex-col items-center'>
           {/* Logo */}
           <Link to='/' className='text-center mb-8'>
-            <h2 className='text-2xl font-serif'>Marseille</h2>
-            <p className='text-xs text-zinc-400'>XSTORE THEME</p>
+            <h2 className='text-2xl font-serif'>PlusHouse</h2>
           </Link>
 
           {/* Navigation */}
           <nav className='flex flex-wrap justify-center gap-x-8 gap-y-2 mb-12'>
-            {navigation.map((item) => (
-              <Link key={item.name} to={item.href} className='text-sm hover:text-zinc-300 transition-colors'>
-                {item.name}
+            {navigateItems.map((item) => (
+              <Link key={item.label} to={item.href} className='text-sm hover:text-zinc-300 transition-colors'>
+                {item.label}
               </Link>
             ))}
           </nav>
@@ -28,13 +27,7 @@ const Footer = () => {
             <div className='flex justify-center gap-2'>
               {paymentMethods.map((method) => (
                 <div key={method.name} className='w-12 h-8 bg-white/10 rounded flex items-center justify-center'>
-                  <img
-                    src={method.image}
-                    alt={method.name}
-                    width={47}
-                    height={30}
-                    className='opacity-50 hover:opacity-75 transition-opacity'
-                  />
+                  <method.icon className='h-5 w-5 opacity-50 hover:opacity-75 transition-opacity' />
                 </div>
               ))}
             </div>

@@ -12,6 +12,15 @@ import ForgotPassword from './ForgotPassword'
 import ResetPassword from './ResetPassword'
 import Compare from './Compare'
 
+import Dashboard from './admin/Dashboard'
+import Users from './admin/Users'
+import SingleUser from './admin/SingleUser'
+import Products from './admin/Products'
+import SingleAdminProduct from './admin/SingleProduct'
+import Categories from './admin/Categories'
+import Orders from './admin/Orders'
+import SingleOrder from './admin/SingleOrder'
+
 export {
   Home,
   Shop,
@@ -25,5 +34,13 @@ export {
   SingleProduct,
   ForgotPassword,
   ResetPassword,
-  Compare
+  Compare,
+  Dashboard,
+  Users,
+  SingleUser,
+  Products,
+  SingleAdminProduct,
+  Categories,
+  Orders,
+  SingleOrder
 }

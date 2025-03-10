@@ -56,8 +56,10 @@ const WishList = () => {
                                 {currencyFormatter(priceFormatter(item.priceDiscount, item.price))}
                               </p>
 
-                              {item.priceDiscount && (
+                              {item.priceDiscount ? (
                                 <p className='text-sm text-gray-500 line-through'>{currencyFormatter(item.price)}</p>
+                              ) : (
+                                ''
                               )}
                             </div>
                           </div>

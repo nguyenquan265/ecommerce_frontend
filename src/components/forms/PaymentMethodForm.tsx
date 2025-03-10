@@ -103,11 +103,11 @@ const PaymentMethodForm: React.FC<PaymentMethodFormProps> = ({ setCartStep }) =>
 
                     <FormItem className='flex items-center space-x-3 space-y-0 border rounded-lg p-4'>
                       <FormControl>
-                        <RadioGroupItem value='PAYOS' />
+                        <RadioGroupItem value='SEPAY' />
                       </FormControl>
                       <FormLabel className='font-normal flex items-center gap-2'>
                         <QrCode className='h-5 w-5 text-blue-500' />
-                        Thanh toán bằng VietQR
+                        Thanh toán bằng Sepay
                       </FormLabel>
                     </FormItem>
                   </RadioGroup>

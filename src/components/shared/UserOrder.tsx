@@ -7,7 +7,7 @@ import { Badge } from '../ui/badge'
 import OrderDetail from './OrderDetail'
 import Pagination from './Pagination'
 
-import { useCancelOrder, useGetMyOrders } from '@/apis/orderApi'
+import { useCancelOrder, useConfirmOrder, useGetMyOrders } from '@/apis/orderApi'
 
 import { getStatusLabel } from '@/lib/constants'
 import { cn, currencyFormatter } from '@/lib/utils'
@@ -17,7 +17,8 @@ const UserOrder = () => {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
   const [totalPages, setTotalPages] = useState(1)
   const { orders, pagination, isLoading } = useGetMyOrders({ page: 1, limit: 5 })
-  const { cancelOrder, isPending } = useCancelOrder()
+  const { cancelOrder, isPending: isCancelling } = useCancelOrder()
+  const { confirmOrder, isPending: isConfirming } = useConfirmOrder()
   const location = useLocation()
   const queryParams = useMemo(() => new URLSearchParams(location.search), [location.search])
   const currentPage = parseInt(queryParams.get('page') || '1', 10)
@@ -105,20 +106,31 @@ const UserOrder = () => {
                 </div>
 
                 <div className='mt-4 flex gap-3 justify-end'>
-                  {order.status !== 'Cancelled' && (
+                  {order.status !== 'Delivered' && (
+                    <Button
+                      variant='outline'
+                      size='sm'
+                      className='border-blue-500 text-blue-500 hover:bg-blue-50'
+                      onClick={() => confirmOrder(order._id)}
+                      disabled={isCancelling || isConfirming}
+                    >
+                      Xác nhận nhận hàng
+                    </Button>
+                  )}
+                  {order.status !== 'Cancelled' && order.status !== 'Delivered' && (
                     <Button
                       variant='outline'
                       size='sm'
                       className='border-blue-500 text-blue-500 hover:bg-blue-50'
                       onClick={() => cancelOrder(order._id)}
-                      disabled={isPending}
+                      disabled={isCancelling || isConfirming}
                     >
                       Hủy đơn hàng
                     </Button>
                   )}
                   <Button
                     variant='outline'
-                    disabled={isPending}
+                    disabled={isCancelling || isConfirming}
                     size='sm'
                     className='border-blue-500 text-blue-500 hover:bg-blue-50'
                     onClick={() => setSelectedOrder(order)}

@@ -5,10 +5,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export type SortOption = 'asc' | 'desc' | 'a-z' | 'z-a' | 'price-asc' | 'price-desc'
+export type SortOption = 'default' | 'asc' | 'desc' | 'a-z' | 'z-a' | 'price-asc' | 'price-desc'
 
 export const getSortLabel = (option: SortOption): string => {
   switch (option) {
+    case 'default':
+      return 'Mặc định'
     case 'desc':
       return 'Mới nhất'
     case 'asc':

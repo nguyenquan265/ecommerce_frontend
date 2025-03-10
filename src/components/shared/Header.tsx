@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button'
 import { Heart, ShoppingCart, Menu, User2 } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Skeleton } from '../ui/skeleton'
+import { useSidebar } from '../ui/sidebar'
 
 import { cn } from '@/lib/utils'
 
-import { useSidebar } from '../ui/sidebar'
 import { useUserContext } from '@/contexts/UserContext'
 import { useGetCart } from '@/apis/cartApi'
 
@@ -91,13 +91,7 @@ const Header = () => {
 
       {/* Logo */}
       <Link to='/' className='flex items-center justify-center'>
-        <img
-          src='https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Logo-retina.png'
-          alt='logo'
-          width={150}
-          height={52}
-          loading='lazy'
-        />
+        <h1 className='text-3xl font-serif'>PlusHouse</h1>
       </Link>
 
       {/* Contact, Search */}

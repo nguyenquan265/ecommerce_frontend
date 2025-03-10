@@ -8,7 +8,9 @@ import { SignUpFormValues } from '@/pages/SignUp'
 import { UserProfileFormValues } from '@/components/forms/UserProfileForm'
 import { ForgotPasswordFormValues } from '@/pages/ForgotPassword'
 import { ResetPasswordFormValues } from '@/pages/ResetPassword'
+import { UserFormValues } from '@/components/forms/admin/UserForm'
 
+// default user
 export const useGetCurrentUser = () => {
   const createGetUserRequest = async (): Promise<User> => {
     const res = await authorizedAxios.get('/auth/check-auth')
@@ -213,4 +215,103 @@ export const useResetPassword = () => {
   })
 
   return { resetPassword, isPending }
+}
+
+// admin
+export const useGetAllUsers = (params: { page?: number; limit?: number; searchString?: string; sortBy?: string }) => {
+  const createGetUsersRequest = async (): Promise<{
+    users: User[]
+    pagination: { totalUsers: number; totalPages: number; currentPage: number; limit: number }
+  }> => {
+    const res = await authorizedAxios.get('/users/admin', { params })
+
+    return res.data
+  }
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['users', params],
+    queryFn: createGetUsersRequest
+  })
+
+  return { users: data?.users, pagination: data?.pagination, isLoading }
+}
+
+export const useGetUser = (userId: string = '') => {
+  const createGetUserRequest = async (): Promise<User> => {
+    const res = await authorizedAxios.get(`/users/admin/${userId}`)
+
+    return res.data.user
+  }
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['user', { userId }],
+    queryFn: createGetUserRequest,
+    enabled: userId === 'new' ? false : !!userId
+  })
+
+  return { user: data, isLoading }
+}
+
+export const useCreateUser = () => {
+  const queryClient = useQueryClient()
+
+  const createCreateUserRequest = async (data: UserFormValues): Promise<User> => {
+    const res = await authorizedAxios.post('/users', data)
+
+    return res.data.user
+  }
+
+  const { mutateAsync: createUser, isPending } = useMutation({
+    mutationFn: createCreateUserRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ['shopOverview'] })
+      toast.success('Tạo người dùng thành công.')
+    }
+  })
+
+  return { createUser, isPending }
+}
+
+export const useUpdateUser = (userId: string = '') => {
+  const queryClient = useQueryClient()
+
+  const createUpdateUserRequest = async (data: UserFormValues): Promise<User> => {
+    const res = await authorizedAxios.patch(`/users/${userId}`, data)
+
+    return res.data.user
+  }
+
+  const { mutateAsync: updateUser, isPending } = useMutation({
+    mutationFn: createUpdateUserRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ['user', { userId }] })
+      toast.success('Cập nhật người dùng thành công.')
+    }
+  })
+
+  return { updateUser, isPending }
+}
+
+export const useDeleteUser = (userId: string = '') => {
+  const queryClient = useQueryClient()
+
+  const createDeleteUserRequest = async (): Promise<User> => {
+    const res = await authorizedAxios.delete(`/users/${userId}`)
+
+    return res.data
+  }
+
+  const { mutateAsync: deleteUser, isPending } = useMutation({
+    mutationFn: createDeleteUserRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.removeQueries({ queryKey: ['user', { userId }] })
+      queryClient.invalidateQueries({ queryKey: ['shopOverview'] })
+      toast.success('Xóa người dùng thành công.')
+    }
+  })
+
+  return { deleteUser, isPending }
 }

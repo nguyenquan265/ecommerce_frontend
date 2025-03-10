@@ -1,4 +1,4 @@
-import { User, Lock, ShoppingBag, LogOut } from 'lucide-react'
+import { User, Lock, ShoppingBag, LogOut, List } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 import Breadcrumb from '@/components/shared/Breadcrumb'
@@ -37,7 +37,7 @@ const Account = () => {
       <div className='container mx-auto py-8 px-4'>
         <div className='grid grid-cols-1 md:grid-cols-[240px_1fr] gap-4'>
           {/* Sidebar */}
-          <Card className='bg-white p-4 max-h-[281px]'>
+          <Card className={cn('bg-white p-4', currentUser.isAdmin ? 'h-[318px]' : 'h-[281px]')}>
             {/* Main user detail */}
             <div className='flex items-center gap-3 mb-6 pb-4 border-b'>
               <div className='relative w-10 h-10'>
@@ -78,6 +78,12 @@ const Account = () => {
                 <ShoppingBag size={16} className='mr-2' />
                 Đơn mua
               </Link>
+              {currentUser.isAdmin && (
+                <Link to='/admin' className='flex items-center px-3 py-2 text-sm rounded-md hover:bg-primary/5'>
+                  <List size={16} className='mr-2' />
+                  Quản lý cửa hàng
+                </Link>
+              )}
             </nav>
 
             <Button
