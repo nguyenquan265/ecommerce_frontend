@@ -24,7 +24,7 @@ const FacebookPluginChat: FunctionComponent<FacebookChatPluginProps> = () => {
       window.fbAsyncInit = function () {
         window.FB.init({
           xfbml: true,
-          version: 'v16.0'
+          version: 'v17.0'
         })
       }
       ;(function (d, s, id) {
