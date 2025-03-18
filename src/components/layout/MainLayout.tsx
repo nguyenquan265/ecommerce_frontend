@@ -10,7 +10,6 @@ import Header from '../shared/Header'
 import MobileSidebar from '../shared/MobileSidebar'
 import ScrollToTop from '../shared/ScrollToTop'
 import PreviewModal from '../shared/PreviewModal'
-import FacebookPluginChat from '../shared/FacebookPluginChat'
 
 const MainLayout = () => {
   return (
@@ -28,8 +27,6 @@ const MainLayout = () => {
               <Outlet />
 
               <Footer />
-
-              <FacebookPluginChat />
             </div>
           </SidebarProvider>
 
