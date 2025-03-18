@@ -10,6 +10,7 @@ import Header from '../shared/Header'
 import MobileSidebar from '../shared/MobileSidebar'
 import ScrollToTop from '../shared/ScrollToTop'
 import PreviewModal from '../shared/PreviewModal'
+import Messenger from '../shared/Messenger'
 
 const MainLayout = () => {
   return (
@@ -27,6 +28,8 @@ const MainLayout = () => {
               <Outlet />
 
               <Footer />
+
+              <Messenger />
             </div>
           </SidebarProvider>
 
