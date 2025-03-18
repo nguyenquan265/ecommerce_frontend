@@ -58,6 +58,7 @@ export const useGetAllAdminProducts = (params: {
   limit?: number
   searchString?: string
   sortBy?: string
+  categorySlug?: string
 }) => {
   const createGetProductsRequest = async (): Promise<{
     products: Product[]

@@ -1,4 +1,4 @@
-import { User, Lock, ShoppingBag, LogOut, List } from 'lucide-react'
+import { User, Lock, ShoppingBag, LogOut, Store } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 import Breadcrumb from '@/components/shared/Breadcrumb'
@@ -80,7 +80,7 @@ const Account = () => {
               </Link>
               {currentUser.isAdmin && (
                 <Link to='/admin' className='flex items-center px-3 py-2 text-sm rounded-md hover:bg-primary/5'>
-                  <List size={16} className='mr-2' />
+                  <Store size={16} className='mr-2' />
                   Quản lý cửa hàng
                 </Link>
               )}

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useMemo, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import lodash from 'lodash'
 
 import { ChevronDown, Filter } from 'lucide-react'
@@ -8,10 +8,13 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import CellAction from '@/components/shared/admin/CellAction'
 import AdminPagination from '@/components/shared/admin/AdminPagination'
 
 import { useGetAllAdminProducts } from '@/apis/productApi'
+import { useGetAllCategories } from '@/apis/categoryApi'
+
 import { SortOption, cn, currencyFormatter, getSortLabel } from '@/lib/utils'
 
 const sortOptions: SortOption[] = ['desc', 'asc', 'a-z', 'z-a', 'price-asc', 'price-desc']
@@ -20,12 +23,21 @@ const Inventory = () => {
   const [page, setPage] = useState(1)
   const [sortBy, setSortBy] = useState<SortOption>('desc')
   const [searchString, setSearchString] = useState('')
-  const { products, pagination, isLoading } = useGetAllAdminProducts({
+  const navigate = useNavigate()
+  const queryParams = useMemo(() => new URLSearchParams(location.search), [location.search])
+  const selectedCategory = queryParams.get('category') || 'all'
+  const {
+    products,
+    pagination,
+    isLoading: isProductsLoading
+  } = useGetAllAdminProducts({
     page,
     limit: 10,
     searchString,
-    sortBy
+    sortBy,
+    categorySlug: selectedCategory
   })
+  const { categories, isLoading: isCategoriesLoading } = useGetAllCategories()
 
   const handleSearch = lodash.debounce((value: string) => {
     setSearchString(value)
@@ -36,22 +48,48 @@ const Inventory = () => {
     handleSearch(e.target.value)
   }
 
+  const handleCategoryChange = (category: string) => {
+    const params = new URLSearchParams(location.search)
+    params.set('category', category)
+    params.set('page', '1')
+    navigate(`?${params.toString()}`, { replace: true })
+  }
+
   return (
     <div className='space-y-6'>
       <div className='space-y-4'>
-        <div className='flex items-center justify-between'>
+        <div className='flex flex-wrap items-center justify-between gap-2'>
           <h2 className='text-2xl font-semibold'>Sản phẩm ({pagination?.totalProducts || 0})</h2>
 
-          <div className='flex items-center gap-2'>
+          <div className='flex flex-wrap items-center gap-2'>
             <Link to='/admin/products/new'>
               <Button className='bg-[#1570EF] hover:bg-[#1f4375]'>Thêm sản phẩm</Button>
             </Link>
 
+            <Select
+              disabled={isCategoriesLoading || isProductsLoading}
+              value={selectedCategory}
+              defaultValue='all'
+              onValueChange={(val: string) => handleCategoryChange(val)}
+            >
+              <SelectTrigger className='w-[240px]'>
+                <SelectValue placeholder='Lọc theo danh mục' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='all'>Danh mục: tất cả</SelectItem>
+                {categories?.map((category) => (
+                  <SelectItem key={category._id} value={category.slug}>
+                    {`Danh mục: ` + category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+              <DropdownMenuTrigger asChild disabled={isCategoriesLoading || isProductsLoading}>
                 <Button variant='outline'>
                   <Filter className='mr-2 h-4 w-4' />
-                  Sắp Xếp
+                  <p className='font-normal'>Sắp Xếp</p>
                   <ChevronDown className='ml-2 h-4 w-4' />
                 </Button>
               </DropdownMenuTrigger>
@@ -87,13 +125,14 @@ const Inventory = () => {
                 <TableHead>Giá</TableHead>
                 <TableHead>Giảm giá</TableHead>
                 <TableHead>Giá sau khi giảm</TableHead>
-                <TableHead>Số lượng</TableHead>
+                <TableHead>Đã bán</TableHead>
+                <TableHead>Tồn kho</TableHead>
                 <TableHead>Tình trạng</TableHead>
                 <TableHead></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {isLoading && (
+              {isProductsLoading && isCategoriesLoading && (
                 <TableRow>
                   <TableCell colSpan={9} className='h-24 text-center'>
                     Đang tải...
@@ -122,6 +161,7 @@ const Inventory = () => {
                       ? currencyFormatter(product.price - (product.price * product.priceDiscount) / 100)
                       : '-'}
                   </TableCell>
+                  <TableCell>-</TableCell>
                   <TableCell>{product.quantity}</TableCell>
                   <TableCell>
                     <Badge
@@ -145,7 +185,12 @@ const Inventory = () => {
           </Table>
         </div>
 
-        <AdminPagination page={page} setPage={setPage} pagination={pagination} isLoading={isLoading} />
+        <AdminPagination
+          page={page}
+          setPage={setPage}
+          pagination={pagination}
+          isLoading={isProductsLoading && isCategoriesLoading}
+        />
       </div>
     </div>
   )

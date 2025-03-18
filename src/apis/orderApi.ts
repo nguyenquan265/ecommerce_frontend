@@ -107,6 +107,7 @@ export const useGetAdminOrders = (params: {
   limit?: number
   searchString?: string
   sortBy?: string
+  paymentMethod?: string
 }) => {
   const createGetOrdersRequest = async (): Promise<{
     orders: Order[]
@@ -167,7 +168,7 @@ export const useGetShopOverview = () => {
   return { shopOverview: data, isLoading }
 }
 
-export const useGetOrderOverview = () => {
+export const useGetOrderOverview = (params: { orderTimeOption: string }) => {
   const createGetOrderOverviewRequest = async (): Promise<{
     totalRevenue: number
     cancelledOrders: number
@@ -176,13 +177,13 @@ export const useGetOrderOverview = () => {
     deliveredOrders: number
     pendingOrders: number
   }> => {
-    const res = await authorizedAxios.get('/orders/overview')
+    const res = await authorizedAxios.get('/orders/overview', { params })
 
     return res.data.data
   }
 
   const { data, isLoading } = useQuery({
-    queryKey: ['ordersOverview'],
+    queryKey: ['ordersOverview', params],
     queryFn: createGetOrderOverviewRequest
   })
 

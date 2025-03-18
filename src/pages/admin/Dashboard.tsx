@@ -14,13 +14,14 @@ import {
   MailMinus
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Calendar } from '@/components/ui/calendar'
 import { Skeleton } from '@/components/ui/skeleton'
 import MetricsCard from '@/components/shared/admin/MetricsCard'
 import OrderSummaryChart from '@/components/shared/admin/OrderSummaryChart'
 
 import { useGetShopOverview } from '@/apis/orderApi'
+import { currencyFormatter } from '@/lib/utils'
+import PaymentSummaryChart from '@/components/shared/admin/PaymentSummaryChart'
 
 const Dashboard = () => {
   const [date, setDate] = useState<Date | undefined>(new Date())
@@ -120,7 +121,7 @@ const Dashboard = () => {
                   </div>
                   <div>
                     <p className='text-sm font-medium text-muted-foreground'>Tổng thu</p>
-                    <h3 className='text-2xl font-bold'>{shopOverview?.totalRevenue}</h3>
+                    <h3 className='text-2xl font-bold'>{currencyFormatter(shopOverview?.totalRevenue || 0)}</h3>
                   </div>
                 </div>
                 <div className='flex items-center space-x-4'>
@@ -128,7 +129,7 @@ const Dashboard = () => {
                     <Home className='h-5 w-5 text-green-500' />
                   </div>
                   <div>
-                    <p className='text-sm font-medium text-muted-foreground'>Vận chuyển thành công</p>
+                    <p className='text-sm font-medium text-muted-foreground'>Số đơn hàng vận chuyển thành công</p>
                     <h3 className='text-2xl font-bold'>{shopOverview?.deliveredOrders}</h3>
                   </div>
                 </div>
@@ -137,7 +138,7 @@ const Dashboard = () => {
                     <XCircle className='h-5 w-5 text-purple-500' />
                   </div>
                   <div>
-                    <p className='text-sm font-medium text-muted-foreground'>Đã hủy</p>
+                    <p className='text-sm font-medium text-muted-foreground'>Số đơn hàng đã hủy</p>
                     <h3 className='text-2xl font-bold'>{shopOverview?.cancelledOrders}</h3>
                   </div>
                 </div>
@@ -146,7 +147,7 @@ const Dashboard = () => {
                     <Wallet className='h-5 w-5 text-orange-500' />
                   </div>
                   <div>
-                    <p className='text-sm font-medium text-muted-foreground'>Đã thanh toán</p>
+                    <p className='text-sm font-medium text-muted-foreground'>Số đơn hàng đã thanh toán</p>
                     <h3 className='text-2xl font-bold'>{shopOverview?.isPaidOrders}</h3>
                   </div>
                 </div>
@@ -159,14 +160,14 @@ const Dashboard = () => {
           <div className='grid gap-4 grid-cols-2'>
             <MetricsCard
               isLoading={isLoading}
-              label='Sản phẩm tồn kho'
+              label='Số sản phẩm tồn kho'
               value={shopOverview?.totalProductInStock}
               icon={Package}
               iconColor='text-orange-500'
             />
             <MetricsCard
               isLoading={isLoading}
-              label='Sản phẩm đã xóa'
+              label='Số sản phẩm đã xóa'
               value={shopOverview?.totalDeletedProducts}
               icon={Clock}
               iconColor='text-purple-500'
@@ -303,129 +304,65 @@ const Dashboard = () => {
       </div>
 
       <div className='grid gap-4 md:gap-8 grid-cols-1 lg:grid-cols-2 mb-8'>
+        <PaymentSummaryChart isLoading={isLoading} data={shopOverview?.paymentMethodArr} />
+
         {isLoading ? (
-          <>
-            <Card>
-              <CardHeader className='flex flex-row items-center justify-between'>
-                <Skeleton className='h-7 w-64' /> {/* Skeleton for the title */}
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>
-                        <Skeleton className='h-4 w-24' />
-                      </TableHead>
-                      <TableHead className='text-right'>
-                        <Skeleton className='h-4 w-20 ml-auto' />
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {/* Generate 4 skeleton rows */}
-                    {Array(4)
-                      .fill(0)
-                      .map((_, index) => (
-                        <TableRow key={index}>
-                          <TableCell>
-                            <Skeleton className='h-4 w-32' />
-                          </TableCell>
-                          <TableCell className='text-right'>
-                            <Skeleton className='h-4 w-12 ml-auto' />
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-
-            {/* Low Stock Products Card Skeleton */}
-            <Card>
-              <CardHeader className='flex flex-row items-center justify-between'>
-                <Skeleton className='h-7 w-72' /> {/* Skeleton for the title */}
-              </CardHeader>
-              <CardContent>
-                <div className='space-y-4'>
-                  {/* Generate 3 skeleton product items */}
-                  {Array(3)
-                    .fill(0)
-                    .map((_, index) => (
-                      <div key={index} className='flex items-center justify-between'>
-                        <div className='flex items-center space-x-4'>
-                          <Skeleton className='h-12 w-12 rounded-lg' /> {/* Skeleton for product image */}
-                          <div>
-                            <Skeleton className='h-5 w-40 mb-2' /> {/* Skeleton for product title */}
-                            <Skeleton className='h-4 w-48' /> {/* Skeleton for quantity text */}
-                          </div>
-                        </div>
-                        <Skeleton className='h-6 w-14 rounded-full' /> {/* Skeleton for badge */}
-                      </div>
-                    ))}
-                </div>
-              </CardContent>
-            </Card>
-          </>
-        ) : (
-          <>
-            <Card>
-              <CardHeader className='flex flex-row items-center justify-between'>
-                <CardTitle>Tổng quan hình thức thanh toán</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Hình thức</TableHead>
-                      <TableHead className='text-right'>Số lượng</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {shopOverview?.paymentMethodArr.map((paymentMethod, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{paymentMethod.method}</TableCell>
-                        <TableCell className='text-right'>{paymentMethod.count}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className='flex flex-row items-center justify-between'>
-                <CardTitle>Số lượng hàng tồn kho thấp ({shopOverview?.lowStockProducts.length})</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className='space-y-4'>
-                  {shopOverview?.lowStockProducts.map((product) => (
-                    <div key={product._id} className='flex items-center justify-between'>
+          <Card>
+            <CardHeader className='flex flex-row items-center justify-between'>
+              <Skeleton className='h-7 w-72' /> {/* Skeleton for the title */}
+            </CardHeader>
+            <CardContent>
+              <div className='space-y-4'>
+                {/* Generate 3 skeleton product items */}
+                {Array(3)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div key={index} className='flex items-center justify-between'>
                       <div className='flex items-center space-x-4'>
-                        <div className='h-12 w-12 rounded-lg overflow-hidden'>
-                          <img
-                            src={product.mainImage}
-                            alt={product.title}
-                            width={48}
-                            height={48}
-                            className='h-full w-full object-cover'
-                          />
-                        </div>
+                        <Skeleton className='h-12 w-12 rounded-lg' /> {/* Skeleton for product image */}
                         <div>
-                          <h4 className='font-medium'>{product.title}</h4>
-                          <p className='text-sm text-muted-foreground'>
-                            Số lượng còn lại : {product.quantity} sản phẩm
-                          </p>
+                          <Skeleton className='h-5 w-40 mb-2' /> {/* Skeleton for product title */}
+                          <Skeleton className='h-4 w-48' /> {/* Skeleton for quantity text */}
                         </div>
                       </div>
-                      <span className='inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold bg-red-100 text-red-700'>
-                        thấp
-                      </span>
+                      <Skeleton className='h-6 w-14 rounded-full' /> {/* Skeleton for badge */}
                     </div>
                   ))}
-                </div>
-              </CardContent>
-            </Card>
-          </>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card>
+            <CardHeader className='flex flex-row items-center justify-between'>
+              <CardTitle>Số lượng hàng tồn kho thấp ({shopOverview?.lowStockProducts.length})</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className='space-y-4'>
+                {shopOverview?.lowStockProducts.map((product) => (
+                  <div key={product._id} className='flex items-center justify-between'>
+                    <div className='flex items-center space-x-4'>
+                      <div className='h-12 w-12 rounded-lg overflow-hidden'>
+                        <img
+                          src={product.mainImage}
+                          alt={product.title}
+                          width={48}
+                          height={48}
+                          className='h-full w-full object-cover'
+                        />
+                      </div>
+                      <div>
+                        <h4 className='font-medium'>{product.title}</h4>
+                        <p className='text-sm text-muted-foreground'>Số lượng còn lại : {product.quantity} sản phẩm</p>
+                      </div>
+                    </div>
+                    <span className='inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold bg-red-100 text-red-700'>
+                      thấp
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         )}
       </div>
     </main>

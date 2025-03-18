@@ -13,6 +13,15 @@ import {
   QrCode,
   BanknoteIcon
 } from 'lucide-react'
+import About1 from '@/assets/about1.jpg'
+import About2 from '@/assets/about2.jpg'
+import About3 from '@/assets/about3.jpg'
+import BietThuQuan9 from '@/assets/bietthuquan9.jpg'
+import BietThuTanPhu from '@/assets/bietthutanphu.jpg'
+import CafeThaoDien from '@/assets/cafethaodien.jpg'
+import DaiHocRmit from '@/assets/daihocrmit.jpg'
+import KhachSanDaLat from '@/assets/khachsandalat.jpg'
+import VinHomeGrandPark from '@/assets/vinhomegrandpark.jpg'
 
 export const errorMessages: Record<string, string> = {
   'Not authorized to perform this action': 'Không có quyền thực hiện hành động này.',
@@ -48,19 +57,42 @@ export const errorMessages: Record<string, string> = {
 
 export const features = [
   {
-    image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-min.jpg',
+    image: About1,
     description:
-      'At urna cras augue nisi neque lauinis in aliquam. Odio pellentesque sed ultricies dolor amet nunc habitusse grave conec. Eur feugiat egestas eget.'
+      'Với hệ thống máy móc hiện đại và đội ngũ thợ lành nghề, chúng tôi cam kết mang đến những sản phẩm nội thất chất lượng cao, đảm bảo độ bền và tính thẩm mỹ.'
   },
   {
-    image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-copy-2-min.jpg',
-    description:
-      'Arcu volutpat sollicitudin sapien sit justo tellus eu fames senect. Faucibus et eu nulla adipiscing. Ipsum a morbi urtor ullamcorper sit semper.'
+    image: About2,
+    description: 'Để đảm bảo chất lượng và độ bền của sản phẩm nội thất, chúng tôi sử dụng hệ thống xử lý gỗ tiên tiến.'
   },
   {
-    image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-copy-min.jpg',
+    image: About3,
     description:
-      'Nibh luctus eu dignissim sit. Lorem netue ultrices neque elementum. Et convallis consectetur lacus luctus iaculis quisque sed.'
+      'Tại đây, các sản phẩm được gia công tỉ mỉ từ khâu xử lý gỗ, cắt ghép, mài dũa cho đến hoàn thiện, đảm bảo chất lượng cao và độ bền vượt trội.'
+  },
+  {
+    image: BietThuQuan9,
+    description: 'Biệt thự Quận 9'
+  },
+  {
+    image: BietThuTanPhu,
+    description: 'Biệt thự Tân Phú'
+  },
+  {
+    image: CafeThaoDien,
+    description: 'Cafe Thảo Điền'
+  },
+  {
+    image: DaiHocRmit,
+    description: 'Đại học RMIT'
+  },
+  {
+    image: KhachSanDaLat,
+    description: 'Khách sạn Đà Lạt'
+  },
+  {
+    image: VinHomeGrandPark,
+    description: 'VinHome Grand Park'
   }
 ]
 
@@ -175,7 +207,7 @@ export const adminNavItems = [
 export const orderPaymentMethodOptions = ['COD', 'ZALO', 'MOMO', 'PAYOS']
 
 const orderPaymentMethodMap: Record<string, string> = {
-  COD: 'Thanh toán khi nhận hàng',
+  COD: 'COD',
   ZALO: 'Zalo Pay',
   MOMO: 'Momo',
   PAYOS: 'PayOs'
@@ -186,3 +218,17 @@ export const getPaymentMethodLabel = (method: string): string => {
 }
 
 export const orderStatusOptions = ['Pending', 'Processing', 'Delivering', 'Delivered', 'Cancelled']
+
+export const orderTimeOptions = ['today', 'yesterday', 'thisWeek', 'thisMonth', 'thisYear']
+
+const orderTimeMap: Record<string, string> = {
+  today: 'Hôm nay',
+  yesterday: 'Hôm qua',
+  thisWeek: 'Tuần này',
+  thisMonth: 'Tháng này',
+  thisYear: 'Năm nay'
+}
+
+export const getOrderTimeLabel = (time: string): string => {
+  return orderTimeMap[time] || 'Không xác định'
+}

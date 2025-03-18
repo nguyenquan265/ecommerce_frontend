@@ -30,7 +30,9 @@ const Sidebar = () => {
     <ShadcnSidebar>
       <SidebarHeader>
         <div className='p-2 h-12 flex items-center justify-center'>
-          <h1 className='text-2xl font-serif'>PlusHouse</h1>
+          <Link to='/admin' className='text-3xl font-serif'>
+            PlusHouse
+          </Link>
         </div>
       </SidebarHeader>
 

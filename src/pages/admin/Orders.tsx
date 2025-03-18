@@ -4,6 +4,7 @@ import lodash from 'lodash'
 import { ChevronDown, Filter } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -16,7 +17,7 @@ import { useGetAdminOrders } from '@/apis/orderApi'
 
 import { SortOption, cn, currencyFormatter, getSortLabel } from '@/lib/utils'
 import { Order } from '@/types'
-import { getPaymentMethodLabel, getStatusLabel } from '@/lib/constants'
+import { getPaymentMethodLabel, getStatusLabel, orderPaymentMethodOptions } from '@/lib/constants'
 
 const sortOptions: SortOption[] = ['desc', 'asc', 'a-z', 'z-a']
 
@@ -25,12 +26,14 @@ const Orders = () => {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
   const [page, setPage] = useState(1)
   const [sortBy, setSortBy] = useState<SortOption>('desc')
+  const [paymentMethod, setPaymentMethod] = useState<string>('all')
   const [searchString, setSearchString] = useState('')
   const { orders, pagination, isLoading } = useGetAdminOrders({
     page,
     limit: 10,
     searchString,
-    sortBy
+    sortBy,
+    paymentMethod
   })
 
   useEffect(() => {
@@ -53,15 +56,34 @@ const Orders = () => {
       <OrderMetrics />
 
       <div className='space-y-4'>
-        <div className='flex items-center justify-between'>
+        <div className='flex flex-wrap items-center justify-between'>
           <h2 className='text-2xl font-semibold'>Đơn hàng ({pagination?.totalOrders || 0})</h2>
 
-          <div className='flex items-center gap-2'>
+          <div className='flex flex-wrap items-center gap-2'>
+            <Select
+              disabled={isLoading}
+              value={paymentMethod}
+              defaultValue='all'
+              onValueChange={(val: string) => setPaymentMethod(val)}
+            >
+              <SelectTrigger className='w-[120px]'>
+                <SelectValue placeholder='Lọc theo phương thức' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='all'>tất cả</SelectItem>
+                {orderPaymentMethodOptions.map((item, index) => (
+                  <SelectItem key={index} value={item}>
+                    {getPaymentMethodLabel(item)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+              <DropdownMenuTrigger asChild disabled={isLoading}>
                 <Button variant='outline'>
                   <Filter className='mr-2 h-4 w-4' />
-                  Sắp Xếp
+                  <p className='font-normal'>Sắp Xếp</p>
                   <ChevronDown className='ml-2 h-4 w-4' />
                 </Button>
               </DropdownMenuTrigger>

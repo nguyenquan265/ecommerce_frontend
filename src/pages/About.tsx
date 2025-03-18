@@ -17,13 +17,36 @@ const About = () => {
           <span className='text-sm text-muted-foreground uppercase tracking-wider'>
             CHÚNG TÔI CỐ GẮNG HẾT MÌNH VÌ BẠN
           </span>
-          <h1 className='text-3xl font-medium mt-4 mb-12'>Chào mừng đến với Cửa hàng Marseille04</h1>
+          <h1 className='text-3xl font-medium mt-4 mb-12'>Chào mừng đến với Cửa hàng PlusHouse</h1>
 
           <div className='grid md:grid-cols-3 gap-8 mb-16'>
-            {features.map((feature, index) => (
+            {features.slice(0, 3).map((feature, index) => (
               <div key={index} className='text-center'>
                 <div className='relative aspect-square mb-6 bg-zinc-100'>
-                  <img src={feature.image} alt={`Feature ${index + 1}`} className='object-cover' loading='lazy' />
+                  <img
+                    src={feature.image}
+                    alt={`Feature ${index + 1}`}
+                    className='object-cover h-full'
+                    loading='lazy'
+                  />
+                </div>
+                <p className='text-muted-foreground leading-relaxed'>{feature.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <h1 className='text-3xl font-medium mt-4 mb-12'>Dự án đã thực hiện</h1>
+
+          <div className='grid md:grid-cols-3 gap-8 mb-16'>
+            {features.slice(3, 9).map((feature, index) => (
+              <div key={index} className='text-center'>
+                <div className='relative aspect-square mb-6 bg-zinc-100'>
+                  <img
+                    src={feature.image}
+                    alt={`Feature ${index + 1}`}
+                    className='object-cover h-full'
+                    loading='lazy'
+                  />
                 </div>
                 <p className='text-muted-foreground leading-relaxed'>{feature.description}</p>
               </div>
