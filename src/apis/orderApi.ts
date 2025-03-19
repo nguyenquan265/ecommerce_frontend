@@ -32,6 +32,7 @@ export const useCreateOrder = () => {
       queryClient.invalidateQueries({ queryKey: ['cart'] })
       queryClient.invalidateQueries({ queryKey: ['shopOverview'] })
       queryClient.invalidateQueries({ queryKey: ['ordersOverview'] })
+      queryClient.invalidateQueries({ queryKey: ['products'] })
     }
   })
 
@@ -74,6 +75,7 @@ export const useCancelOrder = () => {
       queryClient.invalidateQueries({ queryKey: ['orders'] })
       queryClient.invalidateQueries({ queryKey: ['shopOverview'] })
       queryClient.invalidateQueries({ queryKey: ['ordersOverview'] })
+      queryClient.invalidateQueries({ queryKey: ['products'] })
       toast.success('Đã hủy đơn hàng')
     }
   })

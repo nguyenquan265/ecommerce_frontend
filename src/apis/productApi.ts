@@ -29,7 +29,7 @@ export const useGetAllProducts = (params: {
   }
 
   const { data, isLoading } = useQuery({
-    queryKey: ['products', params],
+    queryKey: ['products', 'user', params],
     queryFn: createGetProductsRequest
   })
 
@@ -75,7 +75,7 @@ export const useGetAllAdminProducts = (params: {
   }
 
   const { data, isLoading } = useQuery({
-    queryKey: ['products', params],
+    queryKey: ['products', 'admin', params],
     queryFn: createGetProductsRequest
   })
 

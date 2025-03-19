@@ -267,7 +267,7 @@ const PaymentMethodForm: React.FC<PaymentMethodFormProps> = ({ setCartStep }) =>
 
                       <FormItem className='flex items-center space-x-3 space-y-0 border rounded-lg p-4 transition-all hover:border-blue-300 hover:bg-blue-50'>
                         <FormControl>
-                          <RadioGroupItem value='SEPAY' />
+                          <RadioGroupItem value='SEPAY' disabled />
                         </FormControl>
                         <FormLabel className='font-normal flex items-center gap-2 cursor-pointer w-full'>
                           <QrCode className='h-5 w-5 text-blue-500' />

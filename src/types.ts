@@ -39,6 +39,7 @@ export type Product = {
   price: number
   priceDiscount: number
   quantity: number
+  sold: number
   mainImage: string
   subImages: {
     url: string
