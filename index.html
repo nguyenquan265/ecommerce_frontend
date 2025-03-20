@@ -6,10 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Plus House</title>
     <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
+    <script>
+      window.addEventListener('dfMessengerLoaded', function (event) {
+        const dfMessenger = document.querySelector('df-messenger')
+        const style = document.createElement('style')
+
+        const nonMobileMinWidth = 501
+
+        style.textContent =
+          '@media screen and (min-width: ' + nonMobileMinWidth + 'px) { .chat-wrapper { max-height: 65% } }'
+
+        dfMessenger.shadowRoot.querySelector('df-messenger-chat').shadowRoot.appendChild(style)
+      })
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+      intent="WELCOME"
+      chat-title="Plus_House_Bot"
+      agent-id="6cebc39d-0bb2-4f28-8365-2e222bd74b94"
+      language-code="vi"
+    ></df-messenger>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
