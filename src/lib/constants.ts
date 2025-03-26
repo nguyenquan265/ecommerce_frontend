@@ -52,7 +52,8 @@ export const errorMessages: Record<string, string> = {
   'Quantity cannot be negative': 'Số lượng không thể âm.',
   'You are not allowed to cancel this order': 'Bạn không được phép hủy đơn hàng này.',
   'Order is already paid': 'Đơn hàng đã được thanh toán. Không thể hủy.',
-  'Order not found': 'Đơn hàng không tồn tại.'
+  'Order not found': 'Đơn hàng không tồn tại.',
+  'Please reset password with Google': 'Vui lòng đặt lại mật khẩu bằng Google.'
 }
 
 export const features = [
