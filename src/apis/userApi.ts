@@ -202,9 +202,9 @@ export const useForgotPassword = () => {
   return { forgotPassword, isPending }
 }
 
-export const useResetPassword = () => {
+export const useResetPassword = (token: string = '') => {
   const createResetPasswordRequest = async (data: ResetPasswordFormValues) => {
-    await authorizedAxios.post('/auth/reset-password', data)
+    await authorizedAxios.post(`/auth/reset-password/${token}`, data)
   }
 
   const { mutateAsync: resetPassword, isPending } = useMutation({

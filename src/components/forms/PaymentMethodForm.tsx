@@ -102,6 +102,9 @@ const PaymentMethodForm: React.FC<PaymentMethodFormProps> = ({ setCartStep }) =>
                   <li>
                     <span className='font-medium'>Mã CVV:</span> 123
                   </li>
+                  <li>
+                    <span className='font-medium'>OTP:</span> 111111
+                  </li>
                 </ul>
               </div>
 

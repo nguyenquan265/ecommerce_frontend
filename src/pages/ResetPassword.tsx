@@ -28,7 +28,7 @@ export type ResetPasswordFormValues = z.infer<typeof formSchema>
 const ResetPassword = () => {
   const { token } = useParams()
   const { currentUser, isUserLoading } = useUserContext()
-  const { resetPassword, isPending } = useResetPassword()
+  const { resetPassword, isPending } = useResetPassword(token)
   const navigate = useNavigate()
 
   const form = useForm<ResetPasswordFormValues>({
