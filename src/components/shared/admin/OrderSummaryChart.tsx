@@ -80,7 +80,7 @@ const OrderSummaryChart: React.FC<OrderSummaryChartProps> = ({ isLoading, data }
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Tổng quan đơn hàng</CardTitle>
+        <CardTitle>Tổng quan đơn hàng (trong tháng)</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='h-[300px]'>

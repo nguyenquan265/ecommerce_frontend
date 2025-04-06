@@ -117,7 +117,8 @@ const PaymentMethodForm: React.FC<PaymentMethodFormProps> = ({ setCartStep }) =>
                         <th className='text-left pr-2'>STT</th>
                         <th className='text-left pr-2'>Số thẻ</th>
                         <th className='text-left pr-2'>Tên chủ thẻ</th>
-                        <th className='text-left'>Ngày phát hành</th>
+                        <th className='text-left pr-2'>Ngày phát hành</th>
+                        <th className='text-left'>OTP</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -125,7 +126,8 @@ const PaymentMethodForm: React.FC<PaymentMethodFormProps> = ({ setCartStep }) =>
                         <td className='pr-2'>1</td>
                         <td className='pr-2'>9704540000000062</td>
                         <td className='pr-2'>NGUYEN VAN A</td>
-                        <td>10/18</td>
+                        <td className='pr-2'>10/18</td>
+                        <td>111111</td>
                       </tr>
                     </tbody>
                   </table>
