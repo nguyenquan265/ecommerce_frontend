@@ -161,7 +161,7 @@ const Inventory = () => {
                       ? currencyFormatter(product.price - (product.price * product.priceDiscount) / 100)
                       : '-'}
                   </TableCell>
-                  <TableCell>{product.sold}</TableCell>
+                  <TableCell>{product.quantitySold}</TableCell>
                   <TableCell>{product.quantity}</TableCell>
                   <TableCell>
                     <Badge

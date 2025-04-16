@@ -347,7 +347,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ onOpenChange, selectedOrder }) =>
                 <FormItem>
                   <FormLabel>Đã thanh toán</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value.toString()}>
+                    <Select onValueChange={(value) => field.onChange(value === 'true')} value={field.value.toString()}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder='Chọn trạng thái thanh toán' />
@@ -371,7 +371,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ onOpenChange, selectedOrder }) =>
                 <FormItem>
                   <FormLabel>Đã giao hàng</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value.toString()}>
+                    <Select onValueChange={(value) => field.onChange(value === 'true')} value={field.value.toString()}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder='Chọn trạng thái giao hàng' />

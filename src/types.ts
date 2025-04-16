@@ -39,7 +39,7 @@ export type Product = {
   price: number
   priceDiscount: number
   quantity: number
-  sold: number
+  quantitySold: number
   mainImage: string
   subImages: {
     url: string

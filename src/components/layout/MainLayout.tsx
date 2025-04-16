@@ -11,6 +11,7 @@ import MobileSidebar from '../shared/MobileSidebar'
 import ScrollToTop from '../shared/ScrollToTop'
 import PreviewModal from '../shared/PreviewModal'
 import Messenger from '../shared/Messenger'
+import ChatInterface from '../chat-bot/ChatInterface'
 
 const MainLayout = () => {
   return (
@@ -30,6 +31,8 @@ const MainLayout = () => {
               <Footer />
 
               <Messenger />
+
+              <ChatInterface />
             </div>
           </SidebarProvider>
 

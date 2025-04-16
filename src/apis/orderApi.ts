@@ -172,16 +172,19 @@ export const useGetShopOverview = () => {
 
 export const useGetOrderOverview = (params: { orderTimeOption: string }) => {
   const createGetOrderOverviewRequest = async (): Promise<{
-    totalRevenue: number
-    cancelledOrders: number
-    onTheWayOrders: number
-    processingOrders: number
-    deliveredOrders: number
-    pendingOrders: number
+    orders: Order[]
+    data: {
+      totalRevenue: number
+      cancelledOrders: number
+      onTheWayOrders: number
+      processingOrders: number
+      deliveredOrders: number
+      pendingOrders: number
+    }
   }> => {
     const res = await authorizedAxios.get('/orders/overview', { params })
 
-    return res.data.data
+    return res.data
   }
 
   const { data, isLoading } = useQuery({
@@ -189,7 +192,7 @@ export const useGetOrderOverview = (params: { orderTimeOption: string }) => {
     queryFn: createGetOrderOverviewRequest
   })
 
-  return { orderOverview: data, isLoading }
+  return { orderOverview: data?.data, orders: data?.orders, isLoading }
 }
 
 export const useGetSingleOrder = (orderId: string = '') => {
