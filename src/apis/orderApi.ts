@@ -127,7 +127,8 @@ export const useGetAdminOrders = (params: {
 
   const { data, isLoading } = useQuery({
     queryKey: ['orders', params],
-    queryFn: createGetOrdersRequest
+    queryFn: createGetOrdersRequest,
+    refetchInterval: 5000
   })
 
   return { orders: data?.orders, pagination: data?.pagination, isLoading }
@@ -164,7 +165,8 @@ export const useGetShopOverview = () => {
 
   const { data, isLoading } = useQuery({
     queryKey: ['shopOverview'],
-    queryFn: createGetShopOverviewRequest
+    queryFn: createGetShopOverviewRequest,
+    refetchInterval: 5000
   })
 
   return { shopOverview: data, isLoading }
@@ -189,7 +191,8 @@ export const useGetOrderOverview = (params: { orderTimeOption: string }) => {
 
   const { data, isLoading } = useQuery({
     queryKey: ['ordersOverview', params],
-    queryFn: createGetOrderOverviewRequest
+    queryFn: createGetOrderOverviewRequest,
+    refetchInterval: 5000
   })
 
   return { orderOverview: data?.data, orders: data?.orders, isLoading }
