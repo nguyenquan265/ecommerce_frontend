@@ -143,7 +143,6 @@ export const useGetShopOverview = () => {
     cancelledOrders: number
     totalRevenue: number
     totalProductInStock: number
-    totalCategories: number
     isPaidOrders: number
     lowStockProducts: Product[]
     paymentMethodArr: {

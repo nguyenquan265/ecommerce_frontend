@@ -36,7 +36,6 @@ export const useCreateCategory = () => {
     mutationFn: createuseCreateCategoryRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] })
-      queryClient.invalidateQueries({ queryKey: ['shopOverview'] })
       toast.success('Danh mục đã được tạo.')
     }
   })
@@ -93,7 +92,6 @@ export const useDeleteCategory = (categoryId: string = '') => {
     mutationFn: createDeleteCategoryRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] })
-      queryClient.invalidateQueries({ queryKey: ['shopOverview'] })
       toast.success('Danh mục đã được xóa.')
     }
   })

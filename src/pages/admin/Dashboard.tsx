@@ -22,10 +22,12 @@ import OrderSummaryChart from '@/components/shared/admin/OrderSummaryChart'
 import { useGetShopOverview } from '@/apis/orderApi'
 import { currencyFormatter } from '@/lib/utils'
 import PaymentSummaryChart from '@/components/shared/admin/PaymentSummaryChart'
+import { useGetAllCategories } from '@/apis/categoryApi'
 
 const Dashboard = () => {
   const [date, setDate] = useState<Date | undefined>(new Date())
   const { shopOverview, isLoading } = useGetShopOverview()
+  const { categories } = useGetAllCategories()
 
   return (
     <main className='flex-1 space-y-6'>
@@ -56,7 +58,7 @@ const Dashboard = () => {
         <MetricsCard
           isLoading={isLoading}
           label='Danh mục'
-          value={shopOverview?.totalCategories}
+          value={categories?.length}
           icon={Folder}
           iconColor='text-green-500'
         />
