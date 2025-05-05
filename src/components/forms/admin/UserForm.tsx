@@ -44,7 +44,7 @@ interface UserFormProps {
 
 const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
   const [open, setOpen] = useState(false)
-  const { provinces, districts, wards, fetchDistricts, fetchWards } = useAddressData()
+  const { provinces, districts, wards, fetchProvinces, fetchDistricts, fetchWards } = useAddressData()
   const { createUser, isPending: isCreating } = useCreateUser()
   const { updateUser, isPending: isUpdating } = useUpdateUser(initialData?._id)
   const { deleteUser, isPending: isDeleting } = useDeleteUser(initialData?._id)
@@ -89,16 +89,18 @@ const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
   }
 
   useEffect(() => {
+    fetchProvinces()
+  }, [])
+
+  useEffect(() => {
     if (initialData?.shippingAddress?.province) {
       fetchDistricts(initialData.shippingAddress.province)
     }
-  }, [initialData, fetchDistricts])
 
-  useEffect(() => {
     if (initialData?.shippingAddress?.district) {
       fetchWards(initialData.shippingAddress.district)
     }
-  }, [initialData, fetchWards])
+  }, [initialData?.shippingAddress])
 
   return (
     <>
