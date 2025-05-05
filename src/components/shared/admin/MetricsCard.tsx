@@ -30,7 +30,7 @@ const MetricsCard: React.FC<MetricsCardProps> = ({ label, value, icon: Icon, ico
   }
 
   return (
-    <Card>
+    <Card className='flex items-center justify-center'>
       <CardContent className='p-6'>
         <div className='flex items-center space-x-4'>
           <div className={cn('p-2 rounded-lg', iconColor ? `${iconColor} bg-opacity-10` : 'bg-gray-100')}>

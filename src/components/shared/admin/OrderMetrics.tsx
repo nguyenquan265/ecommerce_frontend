@@ -120,20 +120,14 @@ const OrderMetrics = () => {
         <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
           {isLoading &&
             [...Array(6)].map((_, index) => (
-              <Card key={index}>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+              <Card key={index} className='h-[128.5px]'>
+                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-4'>
                   <Skeleton className='h-6 w-24' />
                 </CardHeader>
 
                 <CardContent className='flex justify-between items-center'>
                   <div className='flex flex-col gap-2'>
                     <Skeleton className='h-8 w-20' />
-                    <Skeleton className='h-3 w-16' />
-                  </div>
-
-                  <div className='flex flex-col gap-2'>
-                    <Skeleton className='h-7 w-16' />
-                    <Skeleton className='h-3 w-24' />
                   </div>
                 </CardContent>
               </Card>
@@ -143,7 +137,9 @@ const OrderMetrics = () => {
             <>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium text-orange-500'>Doanh thu</CardTitle>
+                  <CardTitle className='text-sm font-medium min-h-[2rem] leading-snug text-orange-500'>
+                    Doanh thu
+                  </CardTitle>
                 </CardHeader>
 
                 <CardContent className='flex justify-between items-center'>
@@ -155,7 +151,9 @@ const OrderMetrics = () => {
 
               <Card className='cursor-pointer' onClick={() => handleCardClick('Pending')}>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Số đơn hàng chưa giải quyết</CardTitle>
+                  <CardTitle className='text-sm font-medium min-h-[2rem] leading-snug'>
+                    Số đơn hàng chưa giải quyết
+                  </CardTitle>
                 </CardHeader>
 
                 <CardContent className='flex justify-between items-center'>
@@ -167,7 +165,9 @@ const OrderMetrics = () => {
 
               <Card className='cursor-pointer' onClick={() => handleCardClick('Processing')}>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium text-yellow-500'>Số đơn hàng đang được xử lý</CardTitle>
+                  <CardTitle className='text-sm font-medium min-h-[2rem] leading-snug text-yellow-500'>
+                    Số đơn hàng đang được xử lý
+                  </CardTitle>
                 </CardHeader>
 
                 <CardContent className='flex justify-between items-center'>
@@ -179,7 +179,9 @@ const OrderMetrics = () => {
 
               <Card className='cursor-pointer' onClick={() => handleCardClick('Delivering')}>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium text-purple-500'>Số đơn hàng đang vận chuyển</CardTitle>
+                  <CardTitle className='text-sm font-medium min-h-[2rem] leading-snug text-purple-500'>
+                    Số đơn hàng đang vận chuyển
+                  </CardTitle>
                 </CardHeader>
 
                 <CardContent className='flex justify-between items-center'>
@@ -191,7 +193,9 @@ const OrderMetrics = () => {
 
               <Card className='cursor-pointer' onClick={() => handleCardClick('Delivered')}>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium text-pink-500'>Số đơn hàng thành công</CardTitle>
+                  <CardTitle className='text-sm font-medium min-h-[2rem] leading-snug text-pink-500'>
+                    Số đơn hàng thành công
+                  </CardTitle>
                 </CardHeader>
 
                 <CardContent className='flex justify-between items-center'>
@@ -203,7 +207,9 @@ const OrderMetrics = () => {
 
               <Card className='cursor-pointer' onClick={() => handleCardClick('Cancelled')}>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium text-red-500'>Số đơn hàng đã hủy</CardTitle>
+                  <CardTitle className='text-sm font-medium min-h-[2rem] leading-snug text-red-500'>
+                    Số đơn hàng đã hủy
+                  </CardTitle>
                 </CardHeader>
 
                 <CardContent className='flex justify-between items-center'>

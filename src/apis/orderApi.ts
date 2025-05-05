@@ -136,22 +136,16 @@ export const useGetAdminOrders = (params: {
 
 export const useGetShopOverview = () => {
   const createGetShopOverviewRequest = async (): Promise<{
-    totalProducts: number
-    totalUsers: number
     totalOrders: number
     deliveredOrders: number
     cancelledOrders: number
     totalRevenue: number
-    totalProductInStock: number
     isPaidOrders: number
     lowStockProducts: Product[]
     paymentMethodArr: {
       method: string
       count: number
     }[]
-    totalEmailUsers: number
-    totalGoogleUsers: number
-    totalDeletedProducts: number
     orderChartData: {
       month: string
       totalRevenue: number

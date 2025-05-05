@@ -8,10 +8,10 @@ import {
   LayoutDashboard,
   Package,
   Users,
-  Store,
   Wallet,
   QrCode,
-  BanknoteIcon
+  BanknoteIcon,
+  CornerUpLeft
 } from 'lucide-react'
 import About1 from '@/assets/about1.jpg'
 import About2 from '@/assets/about2.jpg'
@@ -199,9 +199,9 @@ export const adminNavItems = [
     icon: Package
   },
   {
-    title: 'Trang bán hàng',
+    title: 'Quay lại',
     href: '/',
-    icon: Store
+    icon: CornerUpLeft
   }
 ]
 

@@ -1,18 +1,6 @@
 import { useState } from 'react'
 
-import {
-  Package2,
-  TrendingUp,
-  Wallet,
-  Home,
-  XCircle,
-  Package,
-  Clock,
-  User2,
-  Folder,
-  Mail,
-  MailMinus
-} from 'lucide-react'
+import { Package2, TrendingUp, Wallet, Home, XCircle, Package, User2, Folder } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Calendar } from '@/components/ui/calendar'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -23,49 +11,22 @@ import { useGetShopOverview } from '@/apis/orderApi'
 import { currencyFormatter } from '@/lib/utils'
 import PaymentSummaryChart from '@/components/shared/admin/PaymentSummaryChart'
 import { useGetAllCategories } from '@/apis/categoryApi'
+import { useGetAllAdminProducts } from '@/apis/productApi'
+import { useGetAllUsers } from '@/apis/userApi'
 
 const Dashboard = () => {
   const [date, setDate] = useState<Date | undefined>(new Date())
-  const { shopOverview, isLoading } = useGetShopOverview()
-  const { categories } = useGetAllCategories()
+  const { shopOverview, isLoading: isShopLoading } = useGetShopOverview()
+  const { categories, isLoading: isCategoriesLoading } = useGetAllCategories()
+  const { pagination: productsPagination, isLoading: isProductsLoading } = useGetAllAdminProducts({})
+  const { pagination: usersPagiantion, isLoading: isUsersLoading } = useGetAllUsers({})
 
   return (
     <main className='flex-1 space-y-6'>
       <h2 className='text-2xl font-semibold'>Trang chủ</h2>
 
-      <div className='grid gap-4 md:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-8'>
-        <MetricsCard
-          isLoading={isLoading}
-          label='Loại sản phẩm'
-          value={shopOverview?.totalProducts}
-          icon={Package2}
-          iconColor='text-blue-500'
-        />
-        <MetricsCard
-          isLoading={isLoading}
-          label='Đơn hàng'
-          value={shopOverview?.totalOrders}
-          icon={Package}
-          iconColor='text-purple-500'
-        />
-        <MetricsCard
-          isLoading={isLoading}
-          label='Người dùng'
-          value={shopOverview?.totalUsers}
-          icon={User2}
-          iconColor='text-orange-500'
-        />
-        <MetricsCard
-          isLoading={isLoading}
-          label='Danh mục'
-          value={categories?.length}
-          icon={Folder}
-          iconColor='text-green-500'
-        />
-      </div>
-
       <div className='grid gap-4 md:gap-8 grid-cols-1 lg:grid-cols-2 mb-8'>
-        {isLoading ? (
+        {isShopLoading ? (
           <Card>
             <CardHeader>
               <Skeleton className='h-7 w-48' /> {/* Skeleton for the title */}
@@ -158,85 +119,40 @@ const Dashboard = () => {
           </Card>
         )}
 
-        <div className='grid gap-4 grid-cols-1'>
-          <div className='grid gap-4 grid-cols-2'>
-            <MetricsCard
-              isLoading={isLoading}
-              label='Số sản phẩm tồn kho'
-              value={shopOverview?.totalProductInStock}
-              icon={Package}
-              iconColor='text-orange-500'
-            />
-            <MetricsCard
-              isLoading={isLoading}
-              label='Số sản phẩm đã xóa'
-              value={shopOverview?.totalDeletedProducts}
-              icon={Clock}
-              iconColor='text-purple-500'
-            />
-          </div>
-
-          {isLoading ? (
-            <Card>
-              <CardHeader>
-                <Skeleton className='h-7 w-48' /> {/* Skeleton for the title */}
-              </CardHeader>
-              <CardContent>
-                <div className='grid gap-4 grid-cols-2'>
-                  {/* First metric skeleton */}
-                  <div className='flex items-center space-x-4'>
-                    <Skeleton className='h-9 w-9 rounded-lg' /> {/* Skeleton for icon container */}
-                    <div className='space-y-2'>
-                      <Skeleton className='h-4 w-32' /> {/* Skeleton for label */}
-                      <Skeleton className='h-7 w-16' /> {/* Skeleton for value */}
-                    </div>
-                  </div>
-
-                  {/* Second metric skeleton */}
-                  <div className='flex items-center space-x-4'>
-                    <Skeleton className='h-9 w-9 rounded-lg' />
-                    <div className='space-y-2'>
-                      <Skeleton className='h-4 w-36' /> {/* Wider for longer text */}
-                      <Skeleton className='h-7 w-16' />
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <Card>
-              <CardHeader>
-                <CardTitle>Tổng quan người dùng</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className='grid gap-4 grid-cols-2'>
-                  <div className='flex items-center space-x-4'>
-                    <div className='p-2 rounded-lg bg-blue-500 bg-opacity-10'>
-                      <Mail className='h-5 w-5 text-blue-500' />
-                    </div>
-                    <div>
-                      <p className='text-sm font-medium text-muted-foreground'>Số người dùng email</p>
-                      <h3 className='text-2xl font-bold'>{shopOverview?.totalEmailUsers}</h3>
-                    </div>
-                  </div>
-                  <div className='flex items-center space-x-4'>
-                    <div className='p-2 rounded-lg bg-purple-500 bg-opacity-10'>
-                      <MailMinus className='h-5 w-5 text-purple-500' />
-                    </div>
-                    <div>
-                      <p className='text-sm font-medium text-muted-foreground'>Số người dùng google</p>
-                      <h3 className='text-2xl font-bold'>{shopOverview?.totalGoogleUsers}</h3>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
+        <div className='grid gap-4 grid-cols-2'>
+          <MetricsCard
+            isLoading={isProductsLoading}
+            label='Loại sản phẩm'
+            value={productsPagination?.totalProducts}
+            icon={Package2}
+            iconColor='text-blue-500'
+          />
+          <MetricsCard
+            isLoading={isShopLoading}
+            label='Đơn hàng'
+            value={shopOverview?.totalOrders}
+            icon={Package}
+            iconColor='text-purple-500'
+          />
+          <MetricsCard
+            isLoading={isUsersLoading}
+            label='Người dùng'
+            value={usersPagiantion?.totalUsers}
+            icon={User2}
+            iconColor='text-orange-500'
+          />
+          <MetricsCard
+            isLoading={isCategoriesLoading}
+            label='Danh mục'
+            value={categories?.length}
+            icon={Folder}
+            iconColor='text-green-500'
+          />
         </div>
       </div>
 
       <div className='grid gap-4 md:gap-8 grid-cols-1 lg:grid-cols-2 mb-8'>
-        {isLoading ? (
+        {isShopLoading ? (
           <Card>
             <CardHeader>
               <Skeleton className='h-7 w-24' /> {/* Skeleton for the title */}
@@ -302,13 +218,13 @@ const Dashboard = () => {
           </Card>
         )}
 
-        <OrderSummaryChart isLoading={isLoading} data={shopOverview?.orderChartData} />
+        <OrderSummaryChart isLoading={isShopLoading} data={shopOverview?.orderChartData} />
       </div>
 
       <div className='grid gap-4 md:gap-8 grid-cols-1 lg:grid-cols-2 mb-8'>
-        <PaymentSummaryChart isLoading={isLoading} data={shopOverview?.paymentMethodArr} />
+        <PaymentSummaryChart isLoading={isShopLoading} data={shopOverview?.paymentMethodArr} />
 
-        {isLoading ? (
+        {isShopLoading ? (
           <Card>
             <CardHeader className='flex flex-row items-center justify-between'>
               <Skeleton className='h-7 w-72' /> {/* Skeleton for the title */}
