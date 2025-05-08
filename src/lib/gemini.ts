@@ -115,11 +115,12 @@ Be concise, friendly, and helpful.
 If you don't know something, admit it rather than making up information.
 If product has "priceDiscount" field, calculate the price by multiplying the "price" field by (1 - priceDiscount).
 Do not multiply the price by 1000.
+The price is in VND.
 Do not include any disclaimers or unnecessary information.
 Do not include any links in your response.
 Do not include any code snippets in your response.
-Do not include any data field like "priceDiscount" in your response.
 Use the "priceDiscount" field of products data to determine the percent discount.
+Payment methods are: "Cash on delivery", "Zalo Pay", "Momo".
 `
 
     // Send the message to the model
