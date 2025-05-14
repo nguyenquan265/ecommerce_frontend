@@ -99,7 +99,7 @@ const ChatInterface = () => {
   }
 
   return (
-    <div className='fixed bottom-4 right-4 md:right-8 z-50 flex flex-col items-end'>
+    <div className='fixed bottom-4 right-8 z-50 flex flex-col items-end'>
       {isOpen && (
         <div className='flex flex-col w-[90vw] sm:w-[350px] h-[450px] bg-white rounded-lg shadow-lg overflow-hidden mb-4 transition-all'>
           {/* Header */}
