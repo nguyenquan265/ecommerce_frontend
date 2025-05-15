@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card'
 import { Form, FormField, FormItem, FormLabel, FormControl } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Wallet, QrCode, CreditCard, BanknoteIcon, TruckIcon, Smartphone, ShieldCheck, Clock } from 'lucide-react'
+import { Wallet, CreditCard, BanknoteIcon, TruckIcon, Smartphone, ShieldCheck, Clock } from 'lucide-react'
 
 import { useCreateOrder } from '@/apis/orderApi'
 
