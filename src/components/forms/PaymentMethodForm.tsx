@@ -167,7 +167,7 @@ const PaymentMethodForm: React.FC<PaymentMethodFormProps> = ({ setCartStep }) =>
                     <span className='font-medium'>Ngày hết hạn:</span> 05/25
                   </li>
                   <li>
-                    <span className='font-medium'>Mã CVV:</span> 111
+                    <span className='font-medium'>Mã CVC:</span> 111
                   </li>
                   <li>
                     <span className='font-medium'>OTP:</span> OTP
