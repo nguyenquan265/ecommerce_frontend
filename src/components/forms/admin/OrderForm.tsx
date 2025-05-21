@@ -39,7 +39,7 @@ interface OrderFormProps {
 }
 
 const OrderForm: React.FC<OrderFormProps> = ({ onOpenChange, selectedOrder }) => {
-  const { provinces, districts, wards, fetchDistricts, fetchWards } = useAddressData()
+  const { provinces, districts, wards, fetchProvinces, fetchDistricts, fetchWards } = useAddressData()
   const { updateOrder, isPending } = useUpdateOrder(selectedOrder?._id)
 
   const form = useForm<OrderFormValues>({
@@ -68,16 +68,18 @@ const OrderForm: React.FC<OrderFormProps> = ({ onOpenChange, selectedOrder }) =>
   }
 
   useEffect(() => {
+    fetchProvinces()
+  }, [])
+
+  useEffect(() => {
     if (selectedOrder?.shippingAddress?.province) {
       fetchDistricts(selectedOrder.shippingAddress.province)
     }
-  }, [selectedOrder, fetchDistricts])
 
-  useEffect(() => {
     if (selectedOrder?.shippingAddress?.district) {
       fetchWards(selectedOrder.shippingAddress.district)
     }
-  }, [selectedOrder, fetchWards])
+  }, [selectedOrder?.shippingAddress])
 
   return (
     <Form {...form}>

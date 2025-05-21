@@ -210,63 +210,6 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ setCartStep, isFromCh
                 )}
               />
 
-              {/* {provinces?.length > 0 ? (
-                <FormField
-                  control={form.control}
-                  name='province'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tỉnh/Thành phố</FormLabel>
-                      <Select
-                        onValueChange={(value) => {
-                          const selectedProvince = provinces.find((p) => p.code.toString() === value)
-                          field.onChange(value)
-                          form.setValue('provinceName', selectedProvince?.name || '')
-                          fetchDistricts(value)
-                          form.setValue('district', '')
-                          form.setValue('districtName', '')
-                          form.setValue('ward', '')
-                          form.setValue('wardName', '')
-                        }}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder='Chọn Tỉnh/Thành' />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {provinces.map((province: any) => (
-                            <SelectItem key={province.code} value={province.code.toString()}>
-                              {province.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ) : (
-                <FormField
-                  control={form.control}
-                  name='province'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tỉnh/Thành phố</FormLabel>
-                      <Select value={field.value}>
-                        <FormControl>
-                          <SelectTrigger disabled>
-                            <SelectValue placeholder='Chọn Tỉnh/Thành' />
-                          </SelectTrigger>
-                        </FormControl>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )} */}
-
               <FormField
                 control={form.control}
                 name='district'
@@ -302,61 +245,6 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ setCartStep, isFromCh
                 )}
               />
 
-              {/* {districts?.length > 0 || user?.shippingAddress?.district ? (
-                <FormField
-                  control={form.control}
-                  name='district'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Quận/Huyện</FormLabel>
-                      <Select
-                        onValueChange={(value) => {
-                          const selectedDistrict = districts.find((d) => d.code.toString() === value)
-                          field.onChange(value)
-                          form.setValue('districtName', selectedDistrict?.name || '')
-                          fetchWards(value)
-                          form.setValue('ward', '')
-                          form.setValue('wardName', '')
-                        }}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder='Chọn Quận/Huyện' />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {districts.map((district) => (
-                            <SelectItem key={district.code} value={district.code.toString()}>
-                              {district.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ) : (
-                <FormField
-                  control={form.control}
-                  name='district'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Quận/Huyện</FormLabel>
-                      <Select value={field.value}>
-                        <FormControl>
-                          <SelectTrigger disabled>
-                            <SelectValue placeholder='Chọn Quận/Huyện' />
-                          </SelectTrigger>
-                        </FormControl>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )} */}
-
               <FormField
                 control={form.control}
                 name='ward'
@@ -388,58 +276,6 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ setCartStep, isFromCh
                   </FormItem>
                 )}
               />
-
-              {/* {wards?.length > 0 || user?.shippingAddress?.ward ? (
-                <FormField
-                  control={form.control}
-                  name='ward'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Phường/Xã</FormLabel>
-                      <Select
-                        onValueChange={(value) => {
-                          const selectedWard = wards.find((w) => w.code.toString() === value)
-                          field.onChange(value)
-                          form.setValue('wardName', selectedWard?.name || '')
-                        }}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder='Chọn Phường/Xã' />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {wards.map((ward) => (
-                            <SelectItem key={ward.code} value={ward.code.toString()}>
-                              {ward.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ) : (
-                <FormField
-                  control={form.control}
-                  name='ward'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Phường/Xã</FormLabel>
-                      <Select value={field.value}>
-                        <FormControl>
-                          <SelectTrigger disabled>
-                            <SelectValue placeholder='Chọn Phường/Xã' />
-                          </SelectTrigger>
-                        </FormControl>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )} */}
 
               <FormField
                 control={form.control}
