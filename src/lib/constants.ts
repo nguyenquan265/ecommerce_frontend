@@ -9,7 +9,6 @@ import {
   Package,
   Users,
   Wallet,
-  QrCode,
   BanknoteIcon,
   CornerUpLeft
 } from 'lucide-react'
@@ -141,8 +140,7 @@ export const faqs = [
 export const paymentMethods = [
   { name: 'COD', icon: BanknoteIcon },
   { name: 'ZALO', icon: Wallet },
-  { name: 'MOMO', icon: CreditCard },
-  { name: 'SEPAY', icon: QrCode }
+  { name: 'MOMO', icon: CreditCard }
 ]
 
 export const navigateItems = [

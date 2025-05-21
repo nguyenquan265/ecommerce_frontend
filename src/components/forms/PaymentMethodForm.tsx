@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card'
 import { Form, FormField, FormItem, FormLabel, FormControl } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Wallet, CreditCard, BanknoteIcon, TruckIcon, Smartphone, ShieldCheck, Clock } from 'lucide-react'
+import { Wallet, CreditCard, BanknoteIcon, TruckIcon, Smartphone, Clock } from 'lucide-react'
 
 import { useCreateOrder } from '@/apis/orderApi'
 
@@ -204,13 +204,6 @@ const PaymentMethodForm: React.FC<PaymentMethodFormProps> = ({ setCartStep }) =>
           ),
           icon: <Smartphone className='h-6 w-6 text-pink-600' />
         }
-      case 'SEPAY':
-        return {
-          title: 'Thanh toán qua Sepay',
-          description:
-            'Thanh toán an toàn qua cổng thanh toán Sepay. Bạn sẽ được chuyển đến trang thanh toán của Sepay.',
-          icon: <ShieldCheck className='h-6 w-6 text-green-600' />
-        }
       default:
         return {
           title: '',
@@ -269,16 +262,6 @@ const PaymentMethodForm: React.FC<PaymentMethodFormProps> = ({ setCartStep }) =>
                           <span>Thanh toán bằng Momo</span>
                         </FormLabel>
                       </FormItem>
-
-                      {/* <FormItem className='flex items-center space-x-3 space-y-0 border rounded-lg p-4 transition-all hover:border-blue-300 hover:bg-blue-50'>
-                        <FormControl>
-                          <RadioGroupItem value='SEPAY' disabled />
-                        </FormControl>
-                        <FormLabel className='font-normal flex items-center gap-2 cursor-pointer w-full'>
-                          <QrCode className='h-5 w-5 text-blue-500' />
-                          <span>Thanh toán bằng Sepay</span>
-                        </FormLabel>
-                      </FormItem> */}
                     </RadioGroup>
                   </FormControl>
                 </FormItem>
